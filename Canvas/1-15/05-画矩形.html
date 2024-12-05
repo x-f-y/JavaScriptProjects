@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        /**
+         * 画矩形有以下三种方法：
+         * 1. ctx.rect(x, y, width, height) 绘制一个普通矩形（既可以使用stroke()方法描边，也可以使用fill()方法填充）
+         * 2. ctx.fillRect(x, y, width, height) 绘制一个填充矩形，当前渲染上下文中的fillStyle属性决定了对这个矩形的填充样式
+         * 3. ctx.strokeRect(x, y, width, height) 绘制一个描边矩形，当前渲染上下文中的描边属性（如strokeStyle和lineWidth）决定
+         *  了对这个矩形的描边样式
+         */
+
+        /* 注意：如果同时需要描边和填充时，先填充再描边！！！ */
+        ctx.rect(100, 100, 300, 200)
+        // 设置填充颜色
+        ctx.fillStyle = 'green'
+        // 填充（该方法的作用是根据当前的填充样式，填充当前或已存在的路径）
+        ctx.fill()
+        ctx.lineWidth = 5
+        ctx.strokeStyle = 'red'
+        // 描边
+        ctx.stroke()
+
+        ctx.fillStyle = 'pink'
+        ctx.fillRect(100, 350, 100, 100)
+
+        ctx.strokeStyle = 'gold'
+        ctx.lineWidth = 2
+        ctx.strokeRect(300, 350, 100, 100)
+    </script>
+</body>
+</html>

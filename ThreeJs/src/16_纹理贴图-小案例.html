@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>16_纹理贴图-小案例</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        // 创建一个网格辅助对象，参数分别是网格尺寸、网格细分次数、中线颜色和网格线颜色
+        const gridHelper = new THREE.GridHelper(20, 40, 0x777777, 0x444444);
+        gridHelper.position.y = 0.1;
+        // 将网格辅助对象添加到场景中
+        scene.add(gridHelper);
+
+        const textureLoader = new THREE.TextureLoader();
+        // 案例一
+        const geometry_arrow = new THREE.PlaneGeometry(3, 3);
+        const material_arrow = new THREE.MeshBasicMaterial({
+            map: textureLoader.load('../resources/image/arrow.png'),
+            transparent: true
+        });
+        const mesh_arrow = new THREE.Mesh(geometry_arrow, material_arrow);
+        mesh_arrow.rotateX(-Math.PI / 2);
+        mesh_arrow.position.set(0, 0.2, -1);
+        scene.add(mesh_arrow);
+        // 案例二
+        const geometry_stripes = new THREE.PlaneGeometry(3, 1);
+        const texture_stripes = textureLoader.load('../resources/image/stripes.png');
+        texture_stripes.wrapS = THREE.RepeatWrapping;
+        const material_stripes = new THREE.MeshBasicMaterial({
+            map: texture_stripes
+        });
+        const mesh_stripes = new THREE.Mesh(geometry_stripes, material_stripes);
+        mesh_stripes.rotateX(-Math.PI / 2);
+        mesh_stripes.position.set(0, 0.2, 1.5);
+        scene.add(mesh_stripes);
+
+        requestAnimationFrame(function animate(){
+            texture_stripes.offset.x += 0.003; // 修改纹理贴图在水平方向上的偏移量（本质上相当于修改了顶点的UV坐标）
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        })
+    </script>
+</body>
+</html>

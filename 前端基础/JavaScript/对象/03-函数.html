@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				函数 function
+					函数也是一个对象 也可以封装一些属性
+					函数中可以封装一些功能（代码），在需要时可以执行这些功能（代码）
+					使用typeof检查一个函数对象时会返回function
+			 */
+			
+			/* 
+				使用构造函数创建一个函数对象 不推荐
+				在实际开发中很少使用构造函数来创建一个函数对象
+				可以将要封装的代码以字符串的形式传递给函数 
+			*/
+
+			var fun = new Function("console.log('hello,这是我的第一个函数');");
+			fun.hello = "xfy";
+			console.log(typeof fun); // 'function'
+			console.log(fun.hello); // 'xfy'
+			console.log(fun.name); // 'anonymous'
+
+			//函数调用
+			fun(); // 'hello,这是我的第一个函数'
+			var fn = new Function('a', 'b', 'console.log(a+b)')
+			fn(1) // NaN
+			fn(1, 2) // 3
+			
+			/* 
+				使用函数声明来创建一个函数 
+				语法：
+				function 函数名(形参1,形参2,...,形参n){
+					语法...
+				}
+			*/
+
+			function fun2(a,b){
+				var c = a + b;
+				return c;
+				//如果return语句后不跟任何值就相当于返回一个undefined
+				//如果函数中不写return，则会隐式的加上一个return；也相当于返回undefined
+				//return后的语句不会执行
+				alert("hello");
+			}
+
+			//调用函数时解析器不会检查实参的类型
+			//所以要注意，是否有可能会接收到非法的参数，如果有可能则需要对参数进行类型检查
+			//函数的实参可以是任意的数据类型
+			var result = fun2(123,445); 
+			console.log(result); // 568
+			console.log(fun2(123,"hello")); // '123hello'
+			console.log(fun2(true,false)); // 1
+			
+			//调用函数时，解析器也不会检查实参的数量 多余实参不会被赋值
+			//如果实参的数量少于形参的数量，则没有对应实参的形参将是undefined
+			console.log(fun2(123,456,"he11o",true)); // 579
+			console.log(fun2(123)); // NaN
+			console.log(fun2.name) // 'fun2'
+			
+			/* 
+				使用函数表达式来创建一个函数
+				语法：
+				var 函数名 = function(形参1,形参2,...,形参n){
+					语句...
+				};
+			*/
+			
+		   	var fun3 = function(){
+				console.log("我是匿名函数中的代码");
+		   	};
+		   	fun3(); // '我是匿名函数中的代码'
+			console.log(fun3.name) // 'fun3'
+
+			var fun4 = function abc(){}
+			console.log(fun4.name) // 'abc'
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

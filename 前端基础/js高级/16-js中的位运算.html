@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * JavaScript 将数字存储为 64 位浮点数，但是在进行位运算（&、|、~、^、<<、>>、>>>）时，都会先将其转化为 32 位有符号整型
+         *  - 超过 32 位的数字将丢弃其最高有效位，即取低位的 32 bits
+         *  - 对于小数，先舍弃小数部分，再转化为 32 位有符号整型
+         *  - 对于 NaN、Infinity 和 -Infinity，直接当做 0
+         * 注意：
+         *  - 如果对非数值类型进行位运算，会先将其转换成数值类型
+         *  - 位运算符的优先级很低，最好加上括号增加优先级
+         */ 
+
+        var a = 0b100000000000000000000000000000011 // 转化为 32 位有符号整型时，会丢弃最高位的 1
+        var b = 0b0011111111111111111111111111111101 // 转化为 32 位有符号整型时，会丢弃最高位的 00
+        console.log(~~a) // 3
+        console.log(~~b) // -3
+        console.log(~~3.1, ~~3.9, ~~(-3.1), ~~(-3.9)) // 3 3 -3 -3
+        console.log(~~NaN, ~~Infinity, ~~(-Infinity)) // 0 0 0
+
+        /**
+         * 位运算的一些应用举例
+         */ 
+
+        // 1. 按位与——判断奇偶
+        function judgeOddOrEven(num){
+            if((num & 1) === 1){
+                return '奇'
+            }else if((num & 1) === 0){
+                return '偶'
+            }
+        }
+        console.log(judgeOddOrEven(3), judgeOddOrEven(6)) // 奇 偶
+        console.log(judgeOddOrEven(-3), judgeOddOrEven(-6)) // 奇 偶
+        console.log(judgeOddOrEven(0)) // 偶
+        
+        // 2. 按位异或——变量交换
+        let num1 = 10, num2 = 5
+        num1 = num1 ^ num2
+        num2 = num1 ^ num2
+        num1 = num1 ^ num2
+        console.log(num1, num2) // 5 10
+
+        // 3. 按位非——取相反数（~x + 1 === -x）
+        console.log(~5 + 1, ~(-5) + 1) // -5 5
+        console.log(~0 + 1) // 0
+        
+        // 4. 打印一个整数的 32 位二进制形式
+        function print32(num){
+            let res = ''
+            for (let i = 31; i >= 0; i--) {
+                res += ((num & (1 << i)) === 0) ? '0' : '1'
+            }
+            console.log(res)
+        }
+        print32(2 ** 31) // '10000000000000000000000000000000'
+        print32(-(2 ** 31)) // '10000000000000000000000000000000'
+        print32(+0) // '00000000000000000000000000000000'
+        print32(-0) // '00000000000000000000000000000000'
+
+        // 5. 权限设计
+        const perm = {
+            read: 0b0001,
+            write: 0b0010,
+            add: 0b0100,
+            delete: 0b1000
+        }
+        // 表达权限（添加权限）
+        let permission = perm.read | perm.write; // 有 read 和 write 权限，没有 add 和 delete 权限
+        // 判断有无某种权限
+        (permission & perm.read) === 0 ? console.log('没有read权限') : console.log('有read权限'); // 有read权限
+        (permission & perm.add) === 0 ? console.log('没有add权限') : console.log('有add权限'); // 没有add权限
+        // 删除权限
+        if(permission & perm.read !== 0){
+            permission = permission ^ perm.read;
+        }
+        (permission & perm.read) === 0 ? console.log('没有read权限') : console.log('有read权限'); // 没有read权限
+
+        /**
+         * 补充1：原码、反码和补码
+         *  - 原码：最高位为符号位，0表示正数，1表示负数。其它位存放的是该数的绝对值
+         *  - 反码：正数的反码和原码相同，负数的反码是原码除符号位之外其它位按位取反
+         *  - 补码：正数的补码和原码相同，负数的补码是其反码加 1
+         * 补充2：左移 <<、右移 >> 和 无符号右移 >>>
+         *  - 左移 <<：抛弃左边移出的位，右边空出的位用 0 补齐
+         *  - 右移 >>：抛弃右边移出的位，左边空出的位用符号位补齐
+         *  - 无符号右移 >>>：抛弃右边移出的位，左边空出的位用 0 补齐
+         */ 
+    </script>
+</body>
+</html>

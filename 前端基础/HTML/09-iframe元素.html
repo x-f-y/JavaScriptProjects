@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            text-align: center;
+        }
+        .box a {
+            padding: 0 10px;
+            color: #f40;
+            text-decoration: none;
+        }
+        .container {
+            margin-top: 1em;
+            text-align: center;
+        }
+        .container iframe {
+            width: 750px;
+            height: 430px;
+            border: 3px solid #008c8c;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        iframe元素 是一个可替换元素，通常用于将另一个HTML页面嵌入到当前页面中，常见属性如下：
+            - width 指定宽度，默认值是300
+            - height 指定高度，默认值是150
+            - src 被嵌入页面的url地址
+            - name 用于定位嵌入的浏览上下文的名称，该名称可以用作<a>标签的target属性值
+            - allowfullscreen 设置为true时，可以通过调用<iframe>的requestFullscreen()方法激活全屏模式
+            - scrolling 不建议使用，控制是否要在框架内显示滚动条，允许的值有：
+                1. auto 仅当框架的内容超出框架的范围时才显示滚动条
+                2. yes 始终显示滚动条
+                3. no 从不显示滚动条
+     -->
+
+    <div class="box">
+        <a href="https://www.taobao.com" target="myFrame">淘宝</a>
+        <a href="https://www.bilibili.com/" target="myFrame">B站</a>
+        <a href="https://www.huya.com/" target="myFrame">虎牙</a>
+    </div>
+    <div class="container">
+        <iframe name="myFrame" src="https://www.taobao.com" frameborder="0"></iframe>
+    </div>
+    <div class="container">
+        <iframe src="https://player.bilibili.com/player.html?aid=563409966&bvid=BV1cv4y1R7Mf&cid=915323655&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+    </div>
+</body>
+</html>

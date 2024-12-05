@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .box1 {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            padding: 50px;
+            border: 20px dashed red;
+        }
+        .box2 {
+            width: 500px;
+            height: 300px;
+            padding: 50px;
+            border: 20px dashed green;
+        }
+        .box3 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+        .box {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        包含块
+            1. 如果position值为static、relative、sticky，包含块为离该元素最近的祖先块级元素的内容区
+            2. 如果position值为absolute，包含块为离该元素最近的position值不是static的祖先元素的填充区（padding-box），
+            若祖先元素都未开启定位，则包含块是整个网页（初始包含块）
+            3. 如果position值为fixed，包含块为视口（viewport，浏览器的可视窗口）
+            备注：根元素 (<html>) 所在的包含块是一个被称为初始包含块的矩形，它的尺寸是视口
+            
+     -->
+    
+    <!-- 
+        绝对定位（absolute）和固定定位（fixed）的视觉格式化模型（排列方式）
+            规则一：开启了绝对定位或者固定定位的元素都为块盒（display属性为block）
+            规则二：关于auto值
+                1. width和height取值为auto，表示适应内容的宽度和高度
+                2. margin-top/right/bottom/left和top/right/bottom/left取值为auto，表示吸收掉剩余空间，
+                二者同时存在时，top/right/bottom/left吸收能力强于margin-top/right/bottom/left
+                3. 备注：
+                    - 同时设置了left和right时，left优先；同时设置了top和bottom时，top优先
+                    - left、right、top、bottom的默认值为auto
+                    - 根据上面第二条规则，可以总结出一种元素在其包含块中水平/垂直居中的方式：
+                        step1：添加绝对定位或者固定定位
+                        step1：定宽/高
+                        step3：将左右（left、right）/上下（top、bottom）偏移量设置为0
+                        step4：将左右（margin-left/right）/上下（margin-top/bottom）margin设置为auto
+            规则三：关于百分比（与常规流基本一致，这里仅列举不同的地方）
+                1. left、right设置为百分比是相对于其包含块的宽度
+                2. top、bottom设置为百分比是相对于其包含块的高度
+     -->
+
+    <div class="box1">
+        <div class="box2">
+            <div class="box3"></div>
+        </div>
+    </div>
+    <span>
+        today is a good day
+    </span>
+    <div>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, asperiores.
+    </div>
+    <div class="box"></div>
+</body>
+</html>

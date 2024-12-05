@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- this is a comment --><div name="abc">day day up</div>
+    <script>
+        var div = document.getElementsByTagName('div')[0]
+        var attr = div.getAttributeNode('name')
+        var text = div.firstChild
+        var comment = div.previousSibling
+
+        console.log(div.__proto__ === HTMLDivElement.prototype) // true
+        console.log(attr.__proto__ === Attr.prototype) // true
+        console.log(text.__proto__ === Text.prototype) // true
+        console.log(comment.__proto__ === Comment.prototype) // true
+        console.log(document.__proto__ === HTMLDocument.prototype) // true
+
+        console.log(HTMLDocument.prototype.__proto__ === Document.prototype) // true
+        console.log(XMLDocument.prototype.__proto__ === Document.prototype) // true
+
+        console.log(Text.prototype.__proto__ === CharacterData.prototype) // true
+        console.log(Comment.prototype.__proto__ === CharacterData.prototype) // true
+        
+        console.log(HTMLParagraphElement.prototype.__proto__ === HTMLElement.prototype) // true
+        console.log(HTMLDivElement.prototype.__proto__ === HTMLElement.prototype) // true
+        console.log(HTMLElement.prototype.__proto__ === Element.prototype) // true
+
+        console.log(Document.prototype.__proto__ === Node.prototype) // true
+        console.log(CharacterData.prototype.__proto__ === Node.prototype) // true
+        console.log(Element.prototype.__proto__ === Node.prototype) // true
+        console.log(Attr.prototype.__proto__ === Node.prototype) // true
+        console.log(DocumentFragment.prototype.__proto__ === Node.prototype) // true
+
+        console.log(Node.prototype.__proto__ === EventTarget.prototype) // true
+        console.log(EventTarget.prototype.__proto__ === Object.prototype) // true
+        </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 
+            新增的多媒体标签主要包含两个：
+                - 音频  <audio>
+                    - 当前<audio>元素支持三种音频格式：mp3、wav、ogg，但尽量使用mp3格式（兼容性好）
+                    - 常用属性：
+                        - autoplay 自动播放（谷歌浏览器和火狐浏览器无法自动播放，需后期配合使用js解决这个问题）
+                        - controls 向用户显示播放控件
+                        - loop 循环播放
+                        - src 源地址
+                - 视频  <video>
+                    - 当前<video>元素支持三种视频格式：mp4、webm、ogg，但尽量使用mp4格式（兼容性好）
+                    - 常用属性：
+                        - autoplay 自动播放（谷歌浏览器需要添加muted来解决自动播放问题）
+                        - controls 向用户显示播放控件
+                        - width height
+                        - loop 循环播放
+                        - preload（auto（预先加载视频）|none）（如果有了autoplay，就忽略该属性）
+                        - src 源地址
+                        - poster 加载等待的画面图片
+                        - muted 静音播放
+         */
+    </style>
+</head>
+
+<body>
+    <!-- 
+        插语：布尔属性
+            - 对于某些属性，只有两种状态：1.不写，2.取值为属性名。像这样的属性叫做布尔属性
+            - 在html5中，对于布尔属性，可以不用书写属性值，例如<video src="xxx" controls="controls"></video>
+            可以简写为<video src="xxx" controls></video>
+            - 常见的布尔属性：controls、autoplay、loop、muted、reversed、checked、selected、disabled、required、readonly、multiple
+     -->
+    <video autoplay muted controls loop style="width: 100%;" poster="../../CSS/images/mi9.jpg">
+        <!-- 解决兼容性问题 -->
+        <source src="../../CSS/medias/mi.mp4" type="video/mp4">
+        <source src="../../CSS/medias/mi.ogg" type="video/ogg">
+        您的浏览器不支持video标签
+    </video>
+    <audio controls autoplay loop>
+        <source src="../../CSS/medias/music.mp3" type="audio/mpeg">
+        <source src="../../CSS/medias/music.mp3" type="audio/ogg">
+        您的浏览器不支持audio标签
+    </audio>
+</body>
+
+</html>

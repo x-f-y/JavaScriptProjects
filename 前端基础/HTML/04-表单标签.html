@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单标签</title>
+</head>
+
+<body>
+    <!-- 在HTML中，一个完整的表单通常由表单域、表单控件（表单元素）和提示信息3个部分构成 -->
+    <!-- 
+        表单域标签 form 它会把它范围内的表单元素信息提交给服务器
+        - action属性 用于指定接受并处理表单数据的服务器程序的url地址
+        - method属性 用于设置表单数据的提交方式，其取值为get或post
+        - name属性 用于指定表单的名称，以区分同一个页面中的多个表单域
+    -->
+    <!-- 
+        表单控件（表单元素）分为：
+        - input 输入表单元素
+        - select 下拉表单元素
+        - textarea 文本域元素
+        - button 按钮元素
+     -->
+    <!-- 
+        input标签 单标签 属性如下：
+        - 1、type（text、password、radio、checkbox、submit、reset、button)
+        - 2、name 规定input元素的名称
+        - 3、value 规定input元素的值
+        - 4、checked 规定此input元素首次加载时应当被选中
+        - 5、maxlength 规定输入字段中的字符的最大长度
+        - 6、placeholder
+        注意：
+        1、name和value是每个表单元素都有的属性值，主要给后台人员使用
+        2、对于单选框radio和复选框checkbox，必须要有相同的name值
+      -->
+    <!-- 
+        label标签
+        label标签为input元素定义标注（标签），用于绑定一个表单元素，当点击<label>标签内的文本时，浏览器就会
+        自动将焦点（光标）转到或者选择对应的表单元素上，用来增加用户体验
+        使用方法：
+            1、使用for属性将label绑定到一个元素，for属性值应当与相关元素的id属性值相同（显示关联）
+            2、直接在label元素内部放置元素（隐式关联）
+     -->
+    <h1>收集用户信息</h1>
+    <form action="" method="get" name="userInfo">
+        <fieldset>
+            <legend>用户信息</legend>
+            <label for="username">账名</label>
+            <input id="username" type="text" name="username" value="xfy2632243159" readonly><br>
+            <!-- 备注：给普通文本框添加布尔属性readonly表示该内容是只读的，不可修改 -->
+            <label for="password">密码</label>
+            <input id="password" type="password" name="password"><br>
+            <label for="nickname">昵称</label>
+            <input id="nickname" type="text" name="nickname" placeholder="请输入昵称" maxlength="10"><br>
+            <!-- 
+                插语：fieldset元素
+                    用于将表单中的内容进行分组，在fieldset元素中可以书写legend元素用来指定分组的标题
+             -->
+        </fieldset>
+        <fieldset>
+            <legend>基本信息</legend>
+            性别<br>
+            <label>
+                男<input type="radio" name="sex" value="female" checked="checked">
+            </label>
+            <label>
+                女<input type="radio" name="sex" value="male">
+            </label><br>
+            爱好<br>
+            <label>
+                抽烟<input type="checkbox" name="hobby" value="smoke">
+            </label>
+            <label>
+                喝酒<input type="checkbox" name="hobby" value="drink">
+            </label>
+            <label>
+                学习<input type="checkbox" name="hobby" value="study" checked>
+            </label><br>
+            籍贯<br>
+            <select name="jiguan">
+                <option disabled>--请选择--</option>
+                <option value="beijing" selected>北京</option>
+                <option value="shanghai">上海</option>
+                <option value="guangzhou">广州</option>
+                <option value="shenzhen">深圳</option>
+            </select><br>
+            个人简介<br>
+            <textarea style="resize: none;" placeholder="请输入个人简介" name="introduction" cols="30" rows="4"></textarea><br>
+        </fieldset>
+        <fieldset>
+            <legend>其他信息</legend>
+            请输入您最常用的浏览器<br>
+            <input type="text" name="favourBrowser" list="userAgent"><br>
+            <datalist id="userAgent">
+                <option value="Chrome">谷歌浏览器</option>
+                <option value="FireFox">火狐浏览器</option>
+                <option value="IE">IE浏览器</option>
+                <option value="Safari">苹果浏览器</option>
+                <option value="Opera">欧鹏浏览器</option>
+                <option>360 浏览器</option>
+                <option value="UC browser"></option>
+            </datalist>
+            <!-- 
+                插语：datalist数据列表元素
+                    该元素本身不会显示到页面上，它通常和普通文本框配合使用，表示其可选值
+                    用法：给datalist元素添加id属性，其属性值作为与其配合使用的input元素的list属性值
+            -->
+            喜欢的主播<br>
+            <select name="zhubo" multiple>
+                <optgroup label="才艺主播">
+                    <option>冯提莫</option>
+                    <option value="zyxxz">紫颜小仙子</option>
+                    <option>周淑怡</option>
+                </optgroup>
+                <optgroup label="游戏主播">
+                    <option>Q9战舞</option>
+                    <option value="epdm">EP大梦</option>
+                    <option>ES街寂</option>
+                </optgroup>
+                <optgroup label="其他主播">
+                    <option>芜湖大司马</option>
+                    <option value="llg">力量哥</option>>
+                    <option>朝阳冬泳怪鸽</option>
+                </optgroup>
+            </select><br>
+            <!-- 
+                插语：
+                    1.option元素的value属性值表示该选项被选中时提交给表单的值。如果省略了这个属性，值就从选项元素的文本内容中获取
+                    2.可以为select元素添加布尔属性multiple以实现多选功能（按住Ctrl）
+                    3.可以使用optgroup元素为select元素中的选项创建分组，其label属性用来指定分组的名称，注意：使用optgroup
+                        元素时必须加上label属性
+            -->
+        </fieldset>
+        <!-- <input type="submit" value="提交注册"> -->
+        <!-- <input type="reset" value="重新填写"> -->
+        <!-- <input type="button" value="普通按钮"> -->
+        <button type="submit">提交注册</button>
+        <button type="reset">重新填写</button>
+        <button type="button">普通按钮</button>
+        <!-- 
+            插语：button元素的type属性有submit、reset、button三种取值，默认值是submit，
+                所以写普通按钮时推荐写上 type="button"
+         -->
+    </form>
+</body>
+
+</html>

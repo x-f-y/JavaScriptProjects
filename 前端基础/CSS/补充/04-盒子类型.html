@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        p, span {
+            background-color: lightblue;
+            border: 2px solid;
+            line-height: 3;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        盒子类型：
+            - 块盒（display属性为block的元素）
+                1. 在页面中独占一行
+                2. 可以设置宽度和高度
+                3. 盒模型中所有尺寸都有效
+            - 行盒（display属性为inline的元素）
+                1. 在页面中不换行，盒子大小沿着内容延伸
+                2. 不能设置宽度和高度，调整行盒的大小，应该使用font-size、line-height、font-family间接调整
+                3. 对于margin、border和padding，水平方向上有效，垂直方向上不会实际占据空间
+            - 行块盒（display属性为inline-block的元素）
+                1. 在页面中不换行
+                2. 盒模型中所有尺寸都有效
+     -->
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor incidunt molestias delectus, enim tempora id dignissimos praesentium. Enim, est? Laboriosam vitae similique rem sapiente? Numquam velit neque possimus dolor hic.
+    </p>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Id unde excepturi quos veritatis voluptatem voluptas laboriosam dolorum, quam sint, quia nemo tempore, possimus a veniam accusamus fugit voluptatibus vel? Iure.
+    </p>
+    <span>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus impedit nobis molestias. Ut aperiam consectetur odit id nulla totam, laboriosam vitae aspernatur in sed voluptatibus voluptates officia nihil ullam blanditiis?
+    </span>
+    <span>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae ipsum ducimus qui molestias consequuntur, vero cupiditate quos soluta dolor quibusdam ullam. Assumenda magnam suscipit rerum tenetur modi corporis voluptatum deleniti.
+    </span>
+</body>
+</html>

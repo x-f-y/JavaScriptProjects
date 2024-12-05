@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/echarts.min.js"></script>
+</head>
+<body>
+    <div id="echarts" style="width: 600px; height: 400px;"></div>
+    <script>
+        const myChart = echarts.init(document.querySelector('#echarts'));
+        const xDataArr = ['张三', '李四', '王五', '闰土', '小明', '茅台', '二妞', '大强'];
+        const yDataArr_yuwen = [88, 92, 63, 77, 94, 80, 72, 86];
+        const yDataArr_shuxue = [93, 60, 61, 62, 85, 79, 92, 30];
+        const option = {
+            /*title、tooltip、toolbox、legend是通用配置，不管什么类型的图表（柱状图、折线图...），都可以使用*/
+            title: { // 标题组件，包含主标题和副标题
+                text: '成绩展示',
+                textStyle: {
+                    color: 'red'
+                },
+                borderWidth: 5,
+                borderColor: 'blue',
+                borderRadius: 5,
+                top: 10,
+                left: 50
+            },
+            tooltip: { // 提示框组件
+                trigger: 'item', // 触发类型，可选值：'item'、'axis'、'none'
+                triggerOn: 'click', // 提示框触发的条件，可选值：'mousemove'、'click'、'mousemove|click'、'none'
+                // formatter: '{b} 的成绩是 {c}', // 提示框浮层内容格式器，支持字符串模板和回调函数两种形式
+                formatter: arg => arg.name + '的分数是：' + arg.data
+            },
+            toolbox: { // 工具栏，内置有导出图片，数据视图，动态类型切换，数据区域缩放，重置五个工具
+                feature: {
+                    saveAsImage: {}, // 保存为图片
+                    dataView: {}, // 数据视图工具，可以展现当前图表所用的数据，编辑后可以动态更新
+                    restore: {}, // 配置项还原
+                    dataZoom: {}, // 数据区域缩放，目前只支持直角坐标系的缩放
+                    magicType: { // 动态类型切换
+                        type: ['bar', 'line']
+                    }
+                }
+            },
+            legend: { // 图例组件，用于筛选图例，需要和series配合使用
+                data: ['语文', '数学'] // 数组data中的每一项需要和已声明系列的name属性值保持一致
+            },
+            // 普通柱状图
+            xAxis: {
+                type: 'category',
+                data: xDataArr
+            },
+            yAxis: {
+                type: 'value'
+            },
+            // 横向柱状图
+            /*xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                data: xDataArr
+            },*/
+            series: [
+                {
+                    name: '语文',
+                    type: 'bar', // 柱状图
+                    data: yDataArr_yuwen,
+                    markPoint: { // 图表标注
+                        data: [
+                            {name: '最大值', type: 'max'},
+                            {name: '最小值', type: 'min'}
+                        ]
+                    },
+                    markLine: { // 图表标线
+                        data: [
+                            {name: '平均值', type: 'average'}
+                        ]
+                    },
+                    label: { // 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等
+                        show: true,
+                        rotate: 60,
+                        position: 'top'
+                    },
+                    // barWidth: '60%' // 柱条的宽度
+                },
+                {
+                    name: '数学',
+                    type: 'bar',
+                    data: yDataArr_shuxue,
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

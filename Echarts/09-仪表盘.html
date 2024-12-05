@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/echarts.min.js"></script>
+</head>
+<body>
+    <div id="echarts" style="width: 600px; height: 400px;"></div>
+    <script>
+        const myChart = echarts.init(document.querySelector('#echarts'));
+        const option = {
+            series: [
+                {
+                    type: 'gauge', // 仪表盘
+                    data: [
+                        {
+                            value: 97,
+                            itemStyle: {
+                                color: 'pink'
+                            }
+                        },
+                        // {value: 136},
+                    ],
+                    min: 50,
+                    max: 150
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

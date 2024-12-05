@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./index.css">
+  <style>
+    .clock {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="tss_container clock" id="tss">
+    <!-- 游戏区域 -->
+    <div class="stage" id="stage">
+      <div class="snake" id="snake">
+        <!-- 蛇头 -->
+        <div class="head"></div>
+        <!-- 蛇身体，示例结构如下： -->
+        <!-- <div class="body"></div> -->
+        <!-- <div class="body"></div> -->
+      </div>
+      <div class="food" id="food">
+        <div class="food-item"></div>
+        <div class="food-item"></div>
+        <div class="food-item"></div>
+        <div class="food-item"></div>
+      </div>
+    </div>
+    <!-- 积分区域 -->
+    <div class="score">
+      <div>
+        SCORE: <span id="score"></span>
+      </div>
+      <div>
+        LEVEL: <span id="level"></span>
+      </div>
+      <div>
+        MAX: <span id="record"></span>
+      </div>
+    </div>
+  </div>
+  
+  <script type="module" src="./index.js"></script>
+</body>
+</html>

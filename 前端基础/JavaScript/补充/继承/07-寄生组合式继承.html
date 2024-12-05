@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 原始写法
+        function inherit1(Target, Origin){
+            function F(){}
+            F.prototype = Origin.prototype
+            Target.prototype = new F()
+            // 修正子类型原型constructor属性的指向
+            Target.prototype.constructor = Target
+        }
+
+        // 更好的写法
+        var inherit2 = (function(){
+            var F = function(){}
+            return function(Target, Origin){
+                F.prototype = Origin.prototype
+                Target.prototype = new F()
+                Target.prototype.constructor = Target
+            }
+        })()
+
+        // ES6的写法
+        function inherit3(Target, Origin){
+            Target.prototype = Object.create(Origin.prototype)
+            // 修正子类型原型constructor属性的指向
+            Target.prototype.constructor = Target
+        }
+
+        function Father(name){
+            this.name = name
+            this.hobbies = ['game', 'basketball']
+        }
+        Father.prototype.sayName = function(){
+            console.log('My name is ' + this.name + '.')
+        }
+        function Son(name){
+            Father.call(this, name)
+            this.age = 24
+        }
+        // inherit1(Son, Father)
+        // inherit2(Son, Father)
+        inherit3(Son, Father)
+        // 为子类型原型上添加属性或者方法应该写在继承之后
+        Son.prototype.sayAge = function(){
+            console.log('I\'m ' + this.age + " years old.")
+        }
+
+        var son = new Son('joker')
+        console.log(son.age) // 24
+        son.sayAge() // I'm 24 years old.
+        console.log(son.name) // joker
+        son.sayName() // My name is joker.
+        console.log(son.constructor) // f Son(name){ ... }
+
+        son.hobbies.push('football')
+        console.log(son.hobbies) // ['game', 'basketball', 'football']
+        var newSon = new Son('john')
+        console.log(newSon.hobbies) // ['game', 'basketball']
+
+        /**
+         * 寄生组合式继承的优点：
+         *  1. 不存在父类型构造函数执行两次的问题
+         *  2. 不存在引用值共享的问题
+         *  3. 既可以继承父类型原型上的属性和方法，也可以继承父类型构造函数里书写的属性和方法
+         * 综上所述：在ES6之前，寄生组合式继承是最理想的继承方式
+         */ 
+    </script>
+</body>
+</html>

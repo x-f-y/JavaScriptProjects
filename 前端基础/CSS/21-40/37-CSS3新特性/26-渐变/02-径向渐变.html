@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div[class^=box] {
+            margin: 10px auto;
+            width: 300px;
+            height: 200px;
+        }
+        .box1 {
+            /* 使用radial-gradient函数可以创建一个径向渐变，默认情况下，渐变的中心点是50% 50%，且渐变是椭圆的，以匹配盒的比例 */
+            background: radial-gradient(red, green);
+            background: radial-gradient(red, green, blue);
+        }   
+        .box2 {
+            /* 可以改变渐变的中心点（从哪个位置径向渐变开来） */
+            background: radial-gradient(at 0% 50%, red, green, blue);
+            background: radial-gradient(at right bottom, red, green, blue);
+        }
+        .box3 {
+            /* 可以改变渐变的大小（类似于圆的半径） */
+            background: radial-gradient(100px 100px, red, green, blue);
+            background: radial-gradient(150px 200px at right top, red, green, blue);
+        }
+        div.box4 {
+            width: 200px;   
+            height: 200px;
+            /* 可以改变渐变的范围 */
+            background: radial-gradient(100px 100px, red, red 10%, yellow 40%, black 80%);
+        }
+        .box5 {
+            /* 可以改变渐变的中心点（阈值） */
+            background: radial-gradient(red, 70%, green);
+            /* 纯绿 */
+            background: radial-gradient(red, 0, green);
+            /* 纯红 */
+            background: radial-gradient(red, 100%, green);
+        }
+    </style>
+</head>
+<body>
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+    <div class="box4"></div>
+    <div class="box5"></div>
+</body>
+</html>

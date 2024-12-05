@@ -1,0 +1,126 @@
+.w {
+    width: 1200px;
+    margin: 0 auto;
+}
+header {
+    height: 84px;
+    border-bottom: 2px solid #c81523;
+}
+.logo {
+    padding-top: 18px;
+}
+.registerarea {
+    height: 522px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
+.registerarea h3 {
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px solid #ccc;
+    padding: 0 10px;
+    background-color: #ececec;
+    font-weight: 400;
+}
+.registerarea h3 .reg {
+    float: left;
+    font-size: 18px;
+}
+.registerarea h3 .log {
+    float: right;
+    font-size: 14px;
+}
+.registerarea h3 .log a {
+    color: #c81523;
+}
+.reg_form {
+    width: 600px;
+    margin: 50px auto 0;
+}
+.reg_form ul li {
+    margin-bottom: 20px;
+}
+.reg_form ul li label {
+    display: inline-block;
+    width: 88px;
+    /* 右对齐 */
+    text-align: right;
+}
+.reg_form ul li input[type="tel"],
+.reg_form ul li input[type="text"],
+.reg_form ul li input[type="password"] {
+    width: 242px;
+    height: 37px;
+    border: 1px solid #ccc;
+}
+.safe {
+    padding-left: 162px;
+}
+.safe span {
+    margin-right: 5px;
+}
+.safe em {
+    padding: 0 12px;
+    color: #fff;
+}
+.safe em:nth-of-type(1) {
+    background-color: #de1111;
+}
+.safe em:nth-of-type(2) {
+    background-color: #f79100;
+}
+.safe em:nth-of-type(3) {
+    background-color: #40b83f;
+}
+.error {
+    color: #c81523;
+}
+.success {
+    color: green;
+}
+.error::before,
+.success::before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    margin: -3px 4px 0;
+}
+.error::before {
+    background: url("../images/error.png") no-repeat;
+}
+.success::before {
+    background: url("../images/success.png") no-repeat;
+}
+.agree {
+    padding-left: 95px;
+}
+.agree input {
+    vertical-align: middle;
+    margin-top: -1px;
+}
+.agree a {
+    color: #1ba1e6;
+}
+.btn input {
+    width: 200px;
+    height: 34px;
+    margin: 30px 0 0 110px;
+    background-color: #c81623;
+    font-size: 14px;
+    color: #fff;
+}
+.mod_copyright {
+    text-align: center;
+    padding-top: 20px;
+}
+.mod_copyright .link {
+    margin-bottom: 15px;
+}
+.mod_copyright .link a {
+    padding: 0 10px;
+}
+.mod_copyright .copyright {
+    line-height: 20px;
+}

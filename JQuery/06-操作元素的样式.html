@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			div{
+				padding: 8px;
+				width: 180px;
+			}
+			.blue{
+				background-color: blue;
+			}
+			.larger{
+				font-size: 30px;
+			}
+			.pink{
+				background-color: pink;
+			}
+			.green{
+				background-color: green;
+			}
+		</style>
+		<script src="../js/jquery-3.6.0.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			/**
+			 * 操作元素的样式
+			 * 	attr('class')			获取元素的样式名
+			 * 	attr('class','样式名')	设置元素的样式(原本的样式会被覆盖)
+			 * 	addClass('样式名')		添加样式(在原本的样式上添加样式，原本的样式会保留，如果出现相同样式，则以样式中后定义的为准)
+			 * 	css()					添加具体的样式(添加的是行内样式，优先级高)
+			 * 		css('具体样式名','样式值')   设置单个样式
+			 * 		css({'具体样式名':'样式值','具体样式名':'样式值'})   设置多个样式
+			 * 	removeClass('样式名')	移除样式
+			 */
+			window.onload = function() {
+				let cla = $('#conBlue').attr('class');
+				console.log(cla);//blue larger
+				
+				$('#conBlue').attr('class','green');
+				
+				$('#conBlue').addClass('larger');
+				$('#conBlue').addClass('pink');
+				
+				$('#conRed').css('font-size','50px');
+				$('#conRed').css({'font-family':'楷体','color':'green'});
+				
+				$('#remove').removeClass('larger');
+			};
+		</script>
+	</head>
+	<body>
+		<h3>css()方法设置元素样式</h3>
+		<div id="conBlue" class="blue larger">天蓝色</div>
+		<div id="conRed">大红色</div>
+		<div id="remove" class="blue larger">天蓝色</div>
+	</body>
+</html>

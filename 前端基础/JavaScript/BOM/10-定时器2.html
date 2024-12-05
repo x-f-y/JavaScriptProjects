@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			/* 清除默认样式 */
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			#box1 {
+				width: 100px;
+				height: 100px;
+				background-color: red;
+				position: absolute;
+				left: 0;
+			}
+		</style>
+		<script type="text/javascript">
+			//定义一个变量用来保存定时器的标识
+			var timer;
+			//创建一个函数用来获取元素的样式
+			//obj为要获取样式的元素	name为要获取的样式名
+			function getStyle(obj, name) {
+				//找变量找不到报错，找一个对象的属性找不到返回undefined undefined-->boolean为false
+				if (window.getComputedStyle) {
+					return getComputedStyle(obj, null)[name];
+				} else {
+					return obj.currentStyle[name];
+				}
+			}
+			//创建一个函数用来执行简单动画
+			//obj为要执行动画的对象 target为动画执行的目标位置 speed为移动的速度
+			function move(obj, target, speed) {
+				//关闭上一个定时器
+				clearInterval(timer);
+				//获取obj当前的位置
+				var currentPos = parseInt(getStyle(obj, "left"));
+				//判断速度的正负
+				if (currentPos > target) {
+					speed = -speed;
+				}
+				//开启一个计时器用来执行动画效果
+				timer = setInterval(function() {
+					//获取obj原来的left值
+					var oldValue = parseInt(getStyle(obj, "left"));
+					var newValue = oldValue + speed;
+					if ((speed < 0 && newValue < target) || (speed > 0 && newValue > target)) {
+						newValue = target;
+					}
+					//将新值设置给obj
+					obj.style.left = newValue + "px";
+					//当元素移动到target时，使其停止执行动画
+					if (newValue == target) {
+						//到达目标，关闭定时器
+						clearInterval(timer);
+					}
+				}, 20);
+			}
+			window.onload = function() {
+				//获取btn01
+				var btn01 = document.getElementById("btn01");
+				//获取btn02
+				var btn02 = document.getElementById("btn02");
+				//获取box1
+				var box1 = document.getElementById("box1");
+				btn01.onclick = function() {
+					move(box1, 800, 9);
+				}
+				btn02.onclick = function() {
+					move(box1, 0, 9);
+				};
+			};
+		</script>
+	</head>
+	<body>
+		<button id="btn01">点击按钮box1向右移动</button>
+		<button id="btn02">点击按钮box1向左移动</button>
+		<br /><br />
+		<div id="box1"></div>
+		<div style="width: 0; height: 1000px; left: 800px; top: 0; position: absolute; border-left: 1px solid black;"></div>
+	</body>
+</html>

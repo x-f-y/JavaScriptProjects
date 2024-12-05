@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				prompt()函数可以弹出一个带文本框的提示框，用户在其中输入的内容（prompt是window对象的方法）
+					会作为该函数的返回值返回(返回值是String类型)，若用户点击取消，返回null
+			 */
+			
+			/* var score = +prompt("请输入小明的期末成绩（0-100）:");//转换为Number类型
+			console.log(score);
+			if(score > 100 || score < 0 || isNaN(score)){
+				alert("拉出去毙了~~~");
+			}else{
+				if(score == 100){
+					alert("宝马，拿去~~~");
+				}else if(score >= 80){
+					alert("手机，拿去玩~~~");
+				}else if(score >= 60){
+					alert("参考书，拿去看~~~");
+				}else{
+					alert("棍子，一根~~~");
+				}
+			} */
+			
+			//用户输入三个数，从小到大输出
+			/* var num1 = +prompt("请输入第一个数：");//String类型转换为Number类型
+			var num2 = +prompt("请输入第二个数：");
+			var num3 = +prompt("请输入第三个数：");
+			if(num1 < num2 && num1 < num3){
+				//num1最小
+				if(num2 < num3){
+					alert(num1+","+num2+","+num3);
+				}else{
+					alert(num1+","+num3+","+num2);
+				}
+			}else if(num2 < num1 && num2 < num3){
+				//num2最小
+				if(num1 < num3){
+					alert(num2+","+num1+","+num3);
+				}else{
+					alert(num2+","+num3+","+num1);
+				}
+			}else{
+				//num3最小
+				if(num1 < num2){
+					alert(num3+","+num1+","+num2);
+				}else{
+					alert(num3+","+num2+","+num1);
+				}
+			} */
+
+			/* var num1 = +prompt("请输入第一个数：");
+			var num2 = +prompt("请输入第二个数：");
+			var num3 = +prompt("请输入第三个数：");
+			switch(true) {
+				case (num1 < num2 && num1 < num3):
+					if (num2 < num3) {
+						alert(num1 + "," + num2 + "," + num3);
+					} else {
+						alert(num1 + "," + num3 + "," + num2);
+					}
+					break;
+				case (num2 < num1 && num2 < num3):
+					if (num1 < num3) {
+						alert(num2 + "," + num1 + "," + num3);
+					} else {
+						alert(num2 + "," + num3 + "," + num1);
+					}
+					break;
+				default:
+					if (num1 < num2) {
+						alert(num3 + "," + num1 + "," + num2);
+					} else {
+						alert(num3 + "," + num2 + "," + num1);
+					}
+					break;
+			} */
+			
+			/* 对于成绩大于60分的，输出‘合格’，低于60分的，输出‘不合格’ */
+			//方法一
+			/* var a = 23;
+			switch(parseInt(a/10)){
+				case 10:
+				case 9:
+				case 8:
+				case 7:
+				case 6:
+					console.log("合格~~~");
+					break;
+				default:
+					console.log("不合格~~~");
+					break;//此break可加可不加，为了养成良好的习惯还是加上
+			} */
+			//方法二(JS独有的)
+			var a = 31;
+			switch(true){
+				case (a >= 60):
+					console.log("合格~~~");
+					break;
+				default:
+					console.log("不合格~~~");
+					break;//此break可加可不加，为了养成良好的习惯还是加上
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

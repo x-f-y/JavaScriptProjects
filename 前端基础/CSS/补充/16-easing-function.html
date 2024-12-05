@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /*
+      CSS数据类型<easing-function>
+        表示描述某数值变化速率的数学函数
+        可以用于animation-timing-function和transition-timing-function属性
+        其值可以是：
+          1. linear()线性函数，举例：
+            - linear(0 0%, 0.25 75%, 1 100%)  用75%的时间从0过渡到0.25，余下25%的时间从0.25过渡到1，可简写为linear(0, 0.25 75%, 1)
+            - 备注：linear关键字等价于linear(0, 1)
+          2. cubic-bezier()三次贝塞尔函数，举例：
+            - cubic-bezier(0.3, 0.2, 0.2, 1.4)
+            - 备注：关键字ease、ease-in、ease-out和ease-in-out中的任意一个均等价于特定的cubic-bezier()值
+          3. steps()阶跃函数，举例：
+            - steps(2, jump-start)，同steps(2, start)
+            - steps(4, jump-end)，同steps(4, end)
+            - steps(5, jump-none)
+            - steps(3, jump-both)
+            - 备注：
+              1. 关键字step-start和step-end中的任意一个均等价于特定的steps()值
+              2. steps()如果不写第二个参数，其默认值是jump-end
+    */
+    @keyframes move {
+      to {
+        transform: translateX(calc(var(--w) - 100%));
+      }
+    }
+    .box {
+      box-sizing: border-box;
+      height: 250px;
+      margin: 30px;
+      border: 10px solid #008c8c;
+    }
+    [class^="ball"] {
+      width: 100px;
+      height: 100px;
+      margin: 10px 0;
+      background-color: lightcoral;
+      border-radius: 50%;
+      animation-name: move;
+      animation-duration: 5s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+    .ball-2 {
+      animation-timing-function: linear;
+      /* animation-timing-function: linear(0, 0.25 75%, 1); */
+      /* animation-timing-function: ease; */
+      /* animation-timing-function: ease-in; */
+      /* animation-timing-function: ease-out; */
+      /* animation-timing-function: ease-in-out; */
+      /* animation-timing-function: cubic-bezier(0.3, 0.2, 0.2, 1.4); */
+      /* animation-timing-function: step-start; */
+      /* animation-timing-function: step-end; */
+      /* animation-timing-function: steps(5, jump-start); */
+      /* animation-timing-function: steps(5, jump-end); */
+      /* animation-timing-function: steps(5, jump-none); */
+      /* animation-timing-function: steps(5, jump-both); */
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="ball-1"></div>
+    <div class="ball-2"></div>
+  </div>
+  <script>
+    const box = document.querySelector('.box');
+    const paddingWidth = parseInt(getComputedStyle(box).paddingLeft) * 2;
+    const contentWidth = box.clientWidth - paddingWidth;
+    box.style.setProperty('--w', `${contentWidth}px`);
+  </script>
+</body>
+</html>

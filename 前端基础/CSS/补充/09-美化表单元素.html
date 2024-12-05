@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="meyer.css">
+    <title>Document</title>
+    <style>
+        p {
+            margin: 2em auto;
+        }
+        input:checked+label {
+            /* :checked伪类选择器可以选择处于选中状态下的单选框或多选框 */
+            color: red;
+        }
+        input[type="text"], textarea, select {
+            border: 2px solid #999;
+        }
+        input[type="text"]:focus, textarea:focus, select:focus {
+            /* :foucs伪类选择器可以选择处于聚焦状态下的表单元素（tips：除普通文本框之外，其它表单元素可以按tab键进行聚焦） */
+            border: 2px solid #008c8c;
+        }
+        button {
+            border: 2px solid #008c8c;
+            border-radius: 3px;
+        }
+        textarea {
+            /* 设置textarea不允许调整尺寸 */
+            resize: none;
+            /* 
+                插语：CSS属性 可选值有：
+                    - both 默认值，两个方向上都可以调整尺寸
+                    - none 不能调整尺寸
+                    - horizontal 仅在水平方向上可以调整尺寸
+                    - vertical 仅在垂直方向上可以调整尺寸
+             */
+        }
+        input[type="text"], textarea {
+            /* 设置文本框边缘到内容的距离 */
+            /* 方式一 */
+            padding-left: 1em;
+            /* 方式二 */
+            text-indent: 1em;
+        }
+        /* 控制单选框和多选框的样式 */
+        .radio-item, .checkbox-item {
+            margin: 0 10px;
+        }
+        .radio-item span:nth-of-type(1), .checkbox-item span:nth-of-type(1){
+            display: inline-block;
+            margin-right: 3px;
+            border: 1px solid #767676;
+            /* 解决单选框和多选框与文字对齐的问题 */
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.15em;
+        }
+        .radio-item span:nth-of-type(1) {
+            border-radius: 50%;
+        }
+        .checkbox-item span:nth-of-type(1) {
+            border-radius: 3px;
+        }
+        .radio-item input:checked + span, .checkbox-item input:checked + span {
+            background-color: #008c8c;
+        }
+        .radio-item input:checked ~ span, .checkbox-item input:checked ~ span {
+            color: #008c8c;
+        }
+        .radio-item input:checked + span::after {
+            content: "";
+            display: block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            margin: 3px;
+            background-color: #fff;
+        }
+        .checkbox-item input:checked + span::after {
+            content: "";
+            display: block;
+            width: 5px;
+            height: 5px;
+            border-radius: 1px;
+            margin: 3px;
+            background-color: #fff;
+        }
+        .radio-item input[type="radio"], .checkbox-item input[type="checkbox"]{
+            display: none;
+        }
+    </style>
+</head>
+<body style="text-align: center;">
+    <p>
+        <input type="text">
+    </p>
+    <p>
+        <input id="male" type="radio" name="gender">
+        <label for="male">男</label>
+        <input id="female" type="radio" name="gender">
+        <label for="female">女</label>
+    </p>
+    <p>
+        <input id="smoke" type="checkbox" name="hobby">
+        <label for="smoke">抽烟</label>
+        <input id="drink" type="checkbox" name="hobby">
+        <label for="drink">喝酒</label>
+        <input id="haircut" type="checkbox" name="hobby">
+        <label for="haircut">烫头</label>
+    </p>
+    <p>
+        <label class="radio-item">
+            <input type="radio" name="myRadio">
+            <span></span>
+            <span>备选项</span>
+        </label>
+        <label class="radio-item">
+            <input type="radio" name="myRadio">
+            <span></span>
+            <span>备选项</span>
+        </label>
+        <label class="radio-item">
+            <input type="radio" name="myRadio">
+            <span></span>
+            <span>备选项</span>
+        </label>
+    </p>
+    <p>
+        <label class="checkbox-item">
+            <input type="checkbox" name="myCheckbox">
+            <span></span>
+            <span>备选项</span>
+        </label>
+        <label class="checkbox-item">
+            <input type="checkbox" name="myCheckbox">
+            <span></span>
+            <span>备选项</span>
+        </label>
+        <label class="checkbox-item">
+            <input type="checkbox" name="myCheckbox">
+            <span></span>
+            <span>备选项</span>
+        </label>
+    </p>
+    <p>
+        <select name="province">
+            <option value="sichuan">四川</option>
+            <option value="beijing">北京</option>
+            <option value="shanghai">上海</option>
+            <option value="hunan">湖南</option>
+        </select>
+    </p>
+    <p>
+        <textarea name="intro" cols="30" rows="10"></textarea>
+    </p>
+    <p>
+        <button type="button">按钮</button>
+    </p>
+</body>
+</html>

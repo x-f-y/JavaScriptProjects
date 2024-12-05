@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			document.write(1+"<br/>");
+			document.write(2+"<br/>");
+			document.write(3+"<br/>");
+			
+			/* 假如投资的年利率为5%，试求从1000块增长到5000块，需要花费多少年 */
+			/* var year = 0;
+			var a = 1000;
+			while(a < 5000){
+				year++;
+				a *= 1.05;
+			}
+			console.log("year = " + year); */
+			
+			var flag = false;
+			do{
+				if(flag){
+					alert("请输入有效的数字!");
+				}
+				var score = +prompt("请输入小明的期末成绩（0-100）:");
+				if(score > 100 || score < 0 || isNaN(score)){
+					flag = true;
+				}else{
+					break;
+				}
+			}while(true)
+			console.log(window.score)
+			if(score == 100){
+				alert("宝马，拿去~~~");
+			}else if(score >= 80){
+				alert("手机，拿去玩~~~");
+			}else if(score >= 60){
+				alert("参考书，拿去看~~~");
+			}else{
+				alert("棍子，一根~~~");
+			}
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

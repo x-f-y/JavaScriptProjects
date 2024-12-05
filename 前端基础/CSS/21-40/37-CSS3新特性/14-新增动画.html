@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+		animation 属性用来指定一组或多组动画，每组之间用逗号相隔
+        动画（animation）是CSS3中具有颠覆性的特征之一，可通过设置多个节点来精确控制一个或一组动画，常用来实现复杂的动画效果
+        制作动画分为两步：1、定义动画（使用keyframes定义动画）(keyframes是关键帧的意思) 2、使用（调用）动画
+     -->
+    <!-- 
+        动画常见属性：
+        @keyframes 规定动画
+        animation 所有动画属性的简写属性，除了animation-play-state属性
+        animation-name 规定@keyframes动画的名称（必需），默认值是none
+        animation-duration 规定动画完成一个周期所花费的秒或毫秒，默认是0s（必需）
+        animation-timing-function 规定动画的速度曲线，默认是ease,其他可选值有ease-in,ease-out,ease-in-out,linear,step-start,
+			step-end,steps()等
+        animation-delay 规定动画的延迟开始时间，默认是0s
+        animation-iteration-count 规定动画被播放的次数，默认是1，还有无限播放infinite
+        animation-direction 规定是否循环交替反向播放动画，默认是normal，可选值还有alternate（在下一周期逆向播放）、reverse（反向播放）、
+			alternate-reverse（反向播放，并在下一周期逆向播放动画）
+		animation-fill-mode 属性规定动画在播放之前或之后，其动画效果是否可见。默认值是none（不改变默认行为），可选值还有forwards（当动画
+			完成后，保持最后一个属性值（在最后一个关键帧中定义））、backwards（在animation-delay所指定的一段时间内，在动画显示之前，
+			应用开始属性值（在第一个关键帧中定义））、both（向前和向后填充模式都被应用）
+        animation-play-state 规定动画是否正在运行或暂停，默认是running，paused暂停播放
+     -->
+    <!-- 
+        动画简写
+        animation:name duration timing-function delay iteration-count direction fill-mode
+     -->
+    <style>
+        /* 1、定义动画 move是动画的名称 */
+        @keyframes move {
+
+            /* 开始状态 或者用关键词from */
+            0% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(1000px, 0);
+            }
+
+            50% {
+                transform: translate(1000px, 500px);
+            }
+
+            75% {
+                transform: translate(0, 500px);
+            }
+
+            /* 结束状态 或者用关键词to */
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        .box1 {
+            width: 100px;
+            height: 100px;
+            background-color: skyblue;
+            /* 2、调用动画 */
+            animation: move 8s linear;
+            /* 动画名称 */
+            /* animation-name: move; */
+            /* 动画持续时间 */
+            /* animation-duration: 8s; */
+            /* 动画速度曲线 */
+            /* animation-timing-function: linear; */
+            /* 动画无限播放 */
+            /* animation-iteration-count: infinite; */
+            /* 动画在下一周期逆向播放 */
+            /* animation-direction: alternate; */
+            /* 动画执行结束后保持最后一个关键帧中所定义的属性值 */
+            /* animation-fill-mode: forwards; */
+        }
+
+        .box1:hover {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box1"></div>
+</body>
+
+</html>

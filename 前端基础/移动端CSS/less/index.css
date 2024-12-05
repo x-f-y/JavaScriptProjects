@@ -1,0 +1,130 @@
+/* less变量 */
+.box1 {
+  width: 30%;
+  height: 50px;
+  margin: 10px auto;
+  border: 1px solid #ccc;
+  background-color: #bfa;
+  font-size: 12px;
+}
+#wrap {
+  width: 30%;
+  height: 50px;
+  margin: 10px auto;
+  background-color: pink;
+}
+.wrap {
+  font-size: 30px;
+}
+#wrap {
+  border: 2px solid red;
+}
+.box2 {
+  width: 30%;
+  height: 50px;
+  margin: 10px auto;
+  background-color: skyblue;
+}
+.box2 {
+  background: url("../images/dog.jpg") no-repeat;
+  background-size: 100% 100%;
+}
+.box3 {
+  background-color: aqua;
+  width: 30%;
+  height: 50px;
+  margin: 10px auto;
+}
+.box4 {
+  width: 30%;
+}
+.box4::after {
+  content: "I am fnord.";
+}
+/* 
+    less运算
+        - 习惯：最好在运算符（+ - * /）的左右两侧各加一个空格
+        - 单位问题
+            - 如果两个数都没有单位，则结果没有单位
+            - 如果两个数一个有单位，一个没有单位，则结果的单位取决于有单位的那个数
+            - 如果两个数都有单位
+                - 两个数单位相同，则结果的单位就是该单位
+                - 两个数单位不同，则结果的单位取决于第一个数的单位
+        - 除法要加括号
+*/
+.box4 {
+  width: 350px;
+  height: 80px;
+  margin: 25px auto;
+  padding: 20px;
+  font-size: 30px;
+  color: #555555;
+  background-color: #cccccc;
+}
+/*
+    less嵌套
+        - &代表的上一层选择器的名字
+*/
+.box5 {
+  width: 30%;
+  height: 70px;
+  margin: 10px auto;
+  background-color: hotpink;
+}
+.box5 a {
+  text-decoration: none;
+  color: #666;
+}
+.box5 a:hover {
+  color: blue;
+}
+.box5 a:first-of-type {
+  font-size: 25px;
+}
+.box5 p::after {
+  content: 'this is a paragraph';
+}
+/*
+    less导入
+        - 语法：@import "相对路径";
+        - @import语句可以放在任意位置
+        - 如果不写文件扩展名，默认是.less文件
+*/
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #fff;
+  height: 100vh;
+}
+em,
+i {
+  font-style: normal;
+}
+li {
+  list-style: none;
+}
+img {
+  border: 0;
+  vertical-align: middle;
+}
+button {
+  cursor: pointer;
+}
+a {
+  color: #222;
+  text-decoration: none;
+}
+a:hover {
+  color: #c81623;
+}
+button,
+input {
+  border: 0;
+  outline: none;
+}
+textarea {
+  resize: none;
+}

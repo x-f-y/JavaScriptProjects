@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#box1{
+				width: 100px;
+				height: 200px;
+				background-color: red;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function(){
+				/**
+				 * 当鼠标滚轮向下滚动时，box1变长 当滚轮向上滚动时，box1变短
+				 */
+				var box1 = document.getElementById("box1");
+				//为box1绑定一个鼠标滚轮滚动的事件
+				/**
+				 * 鼠标滚轮滚动的事件
+				 * onmousewheel	支持chrome和ie 不支持firefox
+				 * onwheel	支持	chrome和firefox 不支持ie
+				 * DOMMouseScroll	仅支持firefox
+				 * 	注意DOMMouseScroll需要通过addEventListener()函数来绑定
+				 */
+				/* box1.onmousewheel = function(){
+					alert("滚了~~~");
+				}; */
+				/* box1.onwheel = function(){
+					alert("滚了~~~");
+				}; */
+				/* bind(box1,"DOMMouseScroll",function(){
+					alert("滚了~~~");
+				}); */
+				
+				/**
+				 * 如果分别为onmousewheel和DOMMouseScroll写一个函数，则chrome和ie触发的是onmousewheel
+				 * 	而firefox触发的是DOMMouseScroll，为了解决这个问题，可以参考下面的思路
+				 */
+				//方式一
+				/* function fun(){
+					alert("滚了~~~");
+				}
+				box1.onmousewheel = fun;
+				bind(box1,"DOMMouseScroll",fun); */
+				//方式二
+				box1.onmousewheel = function(event){
+					//处理兼容性
+					event = event || window.event;
+					/**
+					 * 判断鼠标滚轮滚动的方向
+					 * 	event.wheelDelta在chrome中 向上滚 150	向下滚 -150
+					 * 	event.wheelDelta在ie中 向上滚 120	向下滚 -120
+					 * 	event.wheelDelta在firefox中	向上滚 undefined	向下滚 undefined
+					 * 	event.wheelDelta这个值我们不看大小，只看正负
+					 * 	在firefox中使用event.detail来获取滚轮滚动的方向	向上滚 -3	向下滚 3
+					 */
+					if(event.wheelDelta > 0 || event.detail < 0){
+						//box1变短
+						this.style.height = this.clientHeight - 10 + "px";
+					}else{
+						//box1变长
+						this.style.height = this.clientHeight + 10 + "px";
+					}
+					
+					/**
+					 * 使用addEventListener()方法绑定的响应函数，取消默认行为时不能使用return false
+					 * 	需要使用event.preventDefault来取消默认行为
+					 * 	但是ie不支持preventDefault这个方法
+					 */
+					event.preventDefault && event.preventDefault();
+					/**
+					 * 当滚轮滚动时，如果浏览器有滚动条，那么滚动条也会随之滚动，
+					 * 	这是浏览器的默认行为，如果不希望发生，则可以取消默认行为 return false
+					 */
+					return false;
+				}; 
+				bind(box1,"DOMMouseScroll",box1.onmousewheel);
+			};
+			
+			//定义一个函数，用来为指定元素绑定响应函数
+			/* 
+				参数：
+				 obj 要绑定事件的对象
+				 eventStr 事件的字符串（不要on）
+				 callback 回调函数
+			 */
+			/* 
+				addEventListener()中的this，是绑定的对象 
+				attachEvent()中的this，是window
+				需要统一两个方法的this
+			 */
+			function bind(obj,eventStr,callback){
+				if(obj.addEventListener){
+					//大部分浏览器的方式
+					obj.addEventListener(eventStr,callback,false);
+				}else{
+					/* this是谁由调用方式决定 */
+					//IE8及以下的方式
+					obj.attachEvent("on"+eventStr,function(){
+						//在匿名函数中调用回调函数来统一this
+						callback.call(obj);
+					});
+				}
+			}
+		</script>
+	</head>
+	<body style="height: 2000px;">
+		<div id="box1"></div>
+	</body>
+</html>

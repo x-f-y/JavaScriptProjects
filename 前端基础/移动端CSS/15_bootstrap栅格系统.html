@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 使用cdn引入bootstrap -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入本地的bootstrap -->
+    <!-- <link rel="stylesheet" href="./bootstrap-3.4.1/css/bootstrap.min.css"> -->
+    <style>
+        .container, .container-fluid {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .container [class^="col"], .container-fluid [class^="col"] {
+            border: 1px solid purple;
+        }
+        .box1 .row > div {
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        1. 布局容器
+            - .container -> 该类用于固定宽度并支持响应式布局的容器
+                - 大屏(>=1200px) 宽度定为1170px
+                - 中屏(>=992px) 宽度定为970px
+                - 小屏(>=768px) 宽度定为750px
+                - 超小屏 未设置宽度（可理解为100%，因为块级元素默认独占一行）
+            - .container-fluid -> 该类用于100%宽度，占据全部视口（viewport）的容器
+            - 注意：
+                - 在bootstrap里面，将container和container-fluid的宽度划分为了12等份
+                - container适合响应式布局，container-fluid适合移动端布局
+                - 这两个类都有左右的padding值（15px）和左右的margin值（auto）
+        2. 栅格系统 -> 通过一系列行（row）与列（column）的组合来创建布局
+            - 基本概念
+                - 行（row）必须包含在.container（固定宽度）或.container-fluid（100%宽度）中
+                - 通过行（row）在水平方向创建一组列（column）
+                - 所有列（column）必须放在行（row）中
+                - 内容应当放置在列（column）中，并且，只有列（column）可以作为行（row）的直接子元素
+                - 每一列（column）都有左右15px的padding值（因此槽宽为30px）
+                - xs（extra small）超小屏   sm（small）小屏   md（medium）中屏   lg（large）大屏 
+                - 可以同时为一列（column）指定多个设备的类名，以便划分不同份数，例如class="col-md-4 col-sm-6"
+                - 如果在一行中包含的列等于12个，则所有列刚好能占满整个.container的宽度
+                - 如果在一行中包含的列小于12个，则所有列占不满整个.container的宽度，会留有空白
+                - 如果在一行中包含的列大于12个，包含多余列的元素将作为一个整体单元被另起一行排列
+            - 列嵌套
+                - 列嵌套最好嵌套一层row，这样可以取消父元素（col）的左右padding值，并且高度自动和
+                  父元素（col）一样高（这一点在基本概念的第三条也有提到）
+            - 列偏移
+                - 使用.col-xs|sm|md|lg-offset-[0-12]类可以将列向右侧偏移，实际上是为当前元素增加了左侧的外边距
+            - 列排序
+                - 使用.col-xs|sm|md|lg-push|pull-[0-12]类可以改变列的顺序
+            - 显示与隐藏
+                - 使用.visible-xs|sm|md|lg类和.hidden-xs|sm|md|lg类可以控制元素在不同屏幕下的显示与隐藏
+        3. 具体细节可参照源码./bootstrap-3.4.1/css/bootstrap.css或官网
+     -->
+
+    <div class="container" style="border: 1px solid skyblue;">container</div>
+    <div class="container-fluid" style="border: 1px solid skyblue;">container-fluid</div>
+
+    <div class="container">
+        <div class="row">
+            <!-- 超小屏和小屏下占6份，中屏和大屏下占3份 -->
+            <div class="col-xs-6 col-md-3">col-xs-6|col-md-3</div>
+            <div class="col-xs-6 col-md-3">col-xs-6|col-md-3</div>
+            <div class="col-xs-6 col-md-3">col-xs-6|col-md-3</div>
+            <div class="col-xs-6 col-md-3">col-xs-6|col-md-3</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- 刚好填满.container的宽度 -->
+            <div class="col-md-6">col-md-6</div>
+            <div class="col-md-2">col-md-2</div>
+            <div class="col-md-2">col-md-2</div>
+            <div class="col-md-2">col-md-2</div>
+        </div>
+        <div class="row">
+            <!-- 填不满.container的宽度，留有空白 -->
+            <div class="col-lg-3">col-lg-3</div>
+            <div class="col-lg-2">col-lg-2</div>
+            <div class="col-lg-3">col-lg-3</div>
+            <div class="col-lg-3">col-lg-3</div>
+        </div>
+        <div class="row">
+            <!-- 最后一列另起一行显示 -->
+            <div class="col-lg-3">col-lg-3</div>
+            <div class="col-lg-4">col-lg-4</div>
+            <div class="col-lg-3">col-lg-3</div>
+            <div class="col-lg-3">col-lg-3</div>
+        </div>
+    </div>
+
+    <div class="container box1">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="col-md-6">col-md-6</div>
+                <div class="col-md-6">col-md-6</div>
+            </div>
+            <div class="col-md-4">col-md-4</div>
+            <div class="col-md-4">col-md-4</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- 列嵌套最好嵌套一层row，这样可以取消父元素（col）的左右padding值，并且高度自动和父元素（col）一样高 -->
+                <div class="row">
+                    <div class="col-md-6">col-md-6</div>
+                    <div class="col-md-6">col-md-6</div>
+                </div>
+            </div>
+            <div class="col-md-4">col-md-4</div>
+            <div class="col-md-4">col-md-4</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">左侧</div>
+            <!-- 偏移的份数是12-3-3=6 -->
+            <div class="col-md-3 col-md-offset-6">右侧</div>
+        </div>
+        <div class="row">
+            <!-- 偏移的份数是(12-8)/2=2  -->
+            <div class="col-md-8 col-md-offset-2">中间盒子</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- 向右侧推（push）8份 -->
+            <div class="col-md-4 col-md-push-8">左侧</div>
+            <!-- 向左侧拉（pull）4份 -->
+            <div class="col-md-8 col-md-pull-4">右侧</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                <!-- 在大屏下显示，在中屏、小屏和超小屏下隐藏 -->
+                <span class="visible-lg">visible-lg</span>
+            </div>
+            <div class="col-xs-3">col-xs-3</div>
+            <!-- 在超小屏和中屏下隐藏，在小屏和大屏下显示 -->
+            <div class="col-xs-3 hidden-md hidden-xs">col-xs-3 hidden-md hidden-xs</div>
+            <div class="col-xs-3">col-xs-3</div>
+        </div>
+    </div>
+</body>
+</html>

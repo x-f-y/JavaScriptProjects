@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * Symbol.prototype.description -> 返回 Symbol 对象的可选描述的字符串
+         */ 
+        let sb = Symbol('xfy')
+        console.log(sb.description) // xfy
+        let sb2 = Symbol.for('xyc')
+        console.log(sb2.description) // xyc
+
+        /**
+         * 可选链操作符 ?.
+         *  语法：obj.val?.prop  obj.val?.[expr]  obj.func?.(args)
+         */ 
+        function main(config) {
+            // 获取db中的host属性 传统方法
+            // const dbHost = config && config.db && config.db.host
+            // 获取db中的host属性 使用可选链操作符
+            const dbHost = config ?. db ?. host
+            console.log(dbHost)
+        }
+        main({
+            db: {
+                host: '192.168.1.100',
+                username: 'root'
+            },
+            cache: {
+                host: '192.168.1.200',
+                username: 'admin'
+            }
+        }) // 192.168.1.100
+
+        /**
+         * 绝对全局变量globalThis
+         *  该变量在不同的环境下，始终指向该环境的全局对象
+         */ 
+        console.log(globalThis) // Window
+
+        /**
+         * 空值合并运算符 ??
+         *  语法：leftExpr ?? rightExpr
+         *  当左侧的操作数为null或者undefined时，返回其右侧操作数，否则返回左侧操作数（尽量使用这个??，而不是||）
+         */ 
+        const foo = null ?? 'default string';
+        console.log(foo); // default string
+        const bar = 0 ?? 42;
+        console.log(bar); // 0
+
+        /**
+         * 逻辑空赋值运算符 ??=
+         *  语法：expr1 ??= expr2
+         *  仅在expr1为空值（null或者undefined）时对其进行赋值
+         */ 
+        const a = {duration: 50};
+        a.speed ??= 25;
+        console.log(a.speed); // 25
+        a.duration ??= 10;
+        console.log(a.duration); // 50
+    </script>
+</body>
+</html>

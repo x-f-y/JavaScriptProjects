@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* ES6中引入了新的声明字符串的方式 ``(反引号) */
+			// 声明一个模板字符串
+			let str = `我也是一个字符串哦！`;
+			console.log(str,typeof str); // 我也是一个字符串哦！ string
+			
+			// 内容中可以直接出现换行符
+			let str1 = `<ul>
+							<li>沈腾<li>
+							<li>玛丽<li>
+							<li>魏翔<li>
+							<li>艾伦<li>
+						<ul>`;
+			console.log(str1);
+			
+			// 变量拼接
+			// ${}中的内容可以是js表达式  什么是js表示式？-->简单的理解：有返回值的就是js表达式，例如常量，变量，函数调用，算术运算等
+			let lovest = '魏翔';
+			let out = `${lovest}是我心目中最搞笑的演员！！`;
+			console.log(out); // 魏翔是我心目中最搞笑的演员！！
+
+			function fun(){
+				return 'hello'
+			}
+			const str2 = `你好啊${fun()}`
+			console.log(str2) // 你好啊hello
+		</script>
+	</head>
+	<body>
+		<script>
+			/**
+			 * 带标签的模板字符串
+			 * 	标签使得可以用函数解析模板字符串，标签函数的第一个参数是使用模板字符串分割的字符串数组，其余的参数
+			 * 	则是模板字符串中表达式的值，例如：如下代码打印 ['', ' is ', ' years old.']    Lydia    21
+			 */
+
+			function getPersonInfo(one, two, three) {
+				console.log(one)
+				console.log(two)
+				console.log(three)
+			}
+			const person = 'Lydia'
+			const age = 21
+			getPersonInfo`${person} is ${age} years old.`
+		</script>
+	</body>
+</html>

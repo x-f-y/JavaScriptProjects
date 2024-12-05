@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>19_PBR材质-物理网格材质</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import GUI from 'three/addons/libs/lil-gui.module.min.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        container.appendChild(renderer.domElement);
+
+        const scene = new THREE.Scene();
+
+        // 加载立方体纹理
+        const cubeTexture = new THREE.CubeTextureLoader()
+            .setPath('../resources/envMap/1/')
+            .load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
+
+        // 加载轿车模型
+        const loader = new GLTFLoader();
+        loader.load('../resources/model/car.glb', gltf => {
+            scene.add(gltf.scene);
+
+            // 修改外壳和玻璃的材质
+            const shell = gltf.scene.getObjectByName('外壳01');
+            const glass = gltf.scene.getObjectByName('玻璃01');
+            // MeshPhysicalMaterial是MeshStandardMaterial的扩展，提供了一些更高级的基于物理的渲染属性
+            shell.material = new THREE.MeshPhysicalMaterial({
+                color: shell.material.color,
+                metalness: 0.9,
+                roughness: 0.5,
+                envMap: cubeTexture,
+                envMapIntensity: 2.5,
+                clearcoat: 1, // 清漆层属性.clearcoat可以用来模拟物体表面一层透明图层，就好比在物体表面刷了一层透明清漆，范围从0.0到1.0
+                clearcoatRoughness: 0.01, // 清漆层粗糙度，范围从0.0到1.0
+            });
+            glass.material = new THREE.MeshPhysicalMaterial({
+                metalness: 0,
+                roughness: 0,
+                envMap:cubeTexture,
+                envMapIntensity: 1.0,
+                transmission: 1.0, // 透光率，范围从0.0到1.0（当透光率不为0的时候，opacity透明度应设置为1）
+                ior: 1.5, // 折射率（为非金属材质设置的），范围从1.0到2.333
+            });
+
+            // gui可视化调试外壳和玻璃的参数
+            const gui = new GUI();
+            const shellFolder = gui.addFolder('外壳');
+            shellFolder.add(shell.material, 'clearcoat', 0, 1, 0.01);
+            shellFolder.add(shell.material, 'clearcoatRoughness', 0, 1, 0.01);
+            const glassFolder = gui.addFolder('玻璃');
+            glassFolder.add(glass.material, 'transmission', 0, 1, 0.01);
+            glassFolder.add(glass.material, 'ior', 1, 2.3, 0.01);
+        });
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 2000);
+        camera.position.set(-662, 534, 418);
+        camera.lookAt(42, 17, 38);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(42, 17, 38);
+        controls.update();
+
+        const axesHelper = new THREE.AxesHelper(100);
+        scene.add(axesHelper);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(400, 200, 300);
+        scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+
+        requestAnimationFrame(function animate(){
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        });
+    </script>
+</body>
+</html>

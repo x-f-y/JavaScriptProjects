@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /*
+      - :is() --> 以选择器列表作为参数，并选择该列表中任意一个选择器可以选择的元素。可以用来简化选择器的书写，例如，
+        .header div:hover, .main div:hover, .footer div:hover {} 可以简写为 :is(.header, .main, .footer) div:hover {}
+      - :where() --> 该选择器与:is()选择器的使用方法以及元素的选中范围完全相同。唯一的不同之处在于，:is()的优先级是
+        由它的选择器列表中优先级最高的选择器决定的，而:where()的优先级总是为0
+      - :has() --> 选择有特定子元素或者相邻兄弟元素的元素，可以用来选择父元素或先前兄弟元素
+      - :not() --> 用来匹配不符合一组选择器的元素，其作用是防止特定的元素被选中，也被称为反选伪类
+      - 注意：
+        1. 伪元素在:is()和:where()的选择器列表中无效
+        2. :has()的选择器列表中不得包含伪元素和:has()选择器，:not()的选择器列表中不得包含伪元素和:not()选择器
+    */
+  </style>
+  <style>
+    section {
+      display: flex;
+      align-items: start;
+      justify-content: space-around;
+    }
+    article {
+      display: inline-block;
+      box-sizing: border-box;
+      width: 30%;
+    }
+    /* 匹配其后紧跟h2、h3或h4的h1、h2和h3元素 */
+    :is(h1, h2, h3):has(+h2, +h3, +h4) {
+      background: lightcoral;
+    }
+    /* 匹配直接子元素中有span的article元素 */
+    article:has(>span) {
+      border: 2px solid #008c8c;
+    }
+    /* 匹配所有子元素中有strong或者em的article元素 */
+    article:has(strong, em) {
+      border: 2px solid #fcc;
+    }
+    /* 匹配article元素中的所有子元素，h1、h2、h3和p元素除外（备注：不写 * 效果也是一样的） */
+    article *:not(h1, h2, h3, p) {
+      color: wheat;
+    }
+    /* 匹配div中类名不是demo-2、demo-4和demo-6的p元素 */
+    div p:not(.demo-2, .demo-4, .demo-6) {
+      background-color: hotpink;
+    }
+    table a {
+      all: unset; /* 这一行代码的意思是清除浏览器对于a元素的所有默认样式 */
+    }
+    /*
+      一个小坑：:not()与后代选择器一起使用时，可能会出现意想不到的结果。例如对于如下选择器，可以发现，table中的a元素
+      也被选中了，这是因为有多种路径可以选择到目标元素a，比如<caption>、<thead>、<tbody>、<tfoot>、<tr>、<th>、<td>
+      都可以是匹配选择器:not(table)的那部分
+    */
+    body :not(table) a {
+      font-style: italic;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <article>
+      <h1>Morning Times</h1>
+      <h2>Delivering you news every morning</h2>
+      <strong>Lorem, ipsum dolor.</strong>
+      <p>
+        <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est vero facilis, eum atque non sequi?</span>
+      </p>
+    </article>
+    <article>
+      <h1>Morning Times</h1>
+      <h2>Delivering you news every morning</h2>
+      <h3>8:00 am</h3>
+      <p>
+        <em>Lorem, ipsum dolor.</em>
+        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo quidem laboriosam consequatur consequuntur ex commodi.</span>
+      </p>
+    </article>
+    <article>
+      <h1>Morning Times</h1>
+      <h2>Delivering you news every morning</h2>
+      <span>Lorem ipsum dolor sit amet.</span>
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur quam atque soluta commodi deserunt rem.</p>
+    </article>
+  </section>
+  <div>
+    <p class="demo-1">
+      <a href="javascript:void(0);">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, commodi.</a>
+    </p>
+    <p class="demo-2">
+      <a href="javascript:void(0);">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint, iure?</a>
+    </p>
+    <p class="demo-3">
+      <a href="javascript:void(0);">Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, accusamus.</a>
+    </p>
+    <p class="demo-4">
+      <a href="javascript:void(0);">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, obcaecati.</a>
+    </p>
+    <p class="demo-5">
+      <a href="javascript:void(0);">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur, quas.</a>
+    </p>
+    <p class="demo-6">
+      <a href="javascript:void(0);">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, quisquam.</a>
+    </p>
+    <p class="demo-7">
+      <a href="javascript:void(0);">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat, voluptates!</a>
+    </p>
+  </div>
+  <table>
+    <caption><a href="javascript:void(0);">this is a table title</a></caption>
+    <thead>
+      <tr>
+        <th><a href="javascript:void(0);">column 1</a></th>
+        <th><a href="javascript:void(0);">column 2</a></th>
+        <th><a href="javascript:void(0);">column 3</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="javascript:void(0);">1</a></td>
+        <td><a href="javascript:void(0);">2</a></td>
+        <td><a href="javascript:void(0);">3</a></td>
+      </tr>
+      <tr>
+        <td><a href="javascript:void(0);">4</a></td>
+        <td><a href="javascript:void(0);">5</a></td>
+        <td><a href="javascript:void(0);">6</a></td>
+      </tr>
+        <td><a href="javascript:void(0);">7</a></td>
+        <td><a href="javascript:void(0);">8</a></td>
+        <td><a href="javascript:void(0);">9</a></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3"><a href="javascript:void(0);">summary : xxx</a></td>
+      </tr>
+    </tfoot>
+  </table>
+</body>
+</html>

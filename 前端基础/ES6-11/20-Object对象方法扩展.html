@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        /**
+         * Object.keys(obj)->返回一个由给定对象自身的可枚举属性组成的数组，数组中属性名的排列顺序和正常循环遍历该对象时返回的顺序一致
+         * Object.values(obj)->返回一个由给定对象自身的可枚举属性值组成的数组，值的顺序与使用for...in循环的顺序相同
+         * Object.entries(obj)->返回一个由给定对象自身的可枚举属性的键值对组成的数组，其排列与使用for...in循环遍历该对象时返回的顺序一致
+         */ 
+        const school = {
+            name: '尚硅谷',
+            cities: ['北京', '上海', '深圳'],
+            xueke: ['前端', 'Java', '大数据', '运维']
+        };
+        console.log(Object.keys(school)) // ['name', 'cities', 'xueke']
+        console.log(Object.values(school)) // ['尚硅谷', Array(3), Array(4)]
+        console.log(Object.entries(school)) // [['name', '尚硅谷'], ['cities', Array(3)], ['xueke', Array(4)]]
+        // Object.entries()方法可以方便地创建一个map
+        const m = new Map(Object.entries(school))
+        console.log(m) // Map(3) {'name' => '尚硅谷', 'cities' => Array(3), 'xueke' => Array(4)}
+        console.log(m.get('cities')) // (3) ['北京', '上海', '深圳']
+
+        /**
+         * Object.fromEntries(iterable)->把键值对列表转换为一个对象，参数可以接收一个二维数组或者map
+         */ 
+        // 1 参数为二维数组
+        const result1 = Object.fromEntries([
+            ['name', '尚硅谷'],
+            ['xueke', 'java,大数据,前端,云计算']
+        ])
+        console.log(result1) // {name: '尚硅谷', xueke: 'java,大数据,前端,云计算'}
+        // 2 参数为map
+        const map = new Map()
+        map.set('name', 'zs')
+        map.set('age', 20)
+        map.set('gender', '男')
+        const result2 = Object.fromEntries(map)
+        console.log(result2) // {name: 'zs', age: 20, gender: '男'}
+
+        /**
+         * 总结：
+         *  - Object.fromEntries()方法可以将一个二维数组转化为对象
+         *  - Object.entries()方法可以将一个对象转化为二维数组
+         */
+
+        /**
+         * Object.getOwnPropertyDescriptor(obj, prop) -> 返回指定对象上一个自有属性对应的属性描述符
+         *  用处：对对象进行深层次的克隆
+         *  注意：自有属性指的是直接赋予该对象的属性，不需要从原型链上进行查找的属性
+         * Object.getOwnPropertyDescriptors(obj) -> 用来获取一个对象的所有自身属性的描述符
+         */  
+        const object1 = {
+            name: 'zs'
+        }
+        Object.defineProperties(object1, {
+            age: {
+                value: 18,
+                writable: true,
+                configurable: true,
+                enumerable: true
+            },
+            gender: {
+                get(){
+                    return '男'
+                }
+            }
+        })
+        console.log(Object.getOwnPropertyDescriptor(object1, 'gender')) // {set: undefined, enumerable: false, configurable: false, get: ƒ}
+        console.log(Object.getOwnPropertyDescriptor(object1, 'age')) // {value: 18, writable: true, enumerable: true, configurable: true}
+        console.log(Object.getOwnPropertyDescriptor(object1, 'name')) // {value: 'zs', writable: true, enumerable: true, configurable: true}
+        console.log(Object.getOwnPropertyDescriptors(object1)) // {name: {…}, age: {…}, gender: {…}}
+
+        /**
+         * Object.is(value1, value2)方法->判断两个值是否为同一个值
+         *  和 === 类似，但不完全一样
+         */ 
+        console.log(Object.is(null, null)) // true
+        console.log(Object.is(undefined, undefined)) // true
+        console.log(Object.is({ a: 1 }, { a: 1 })) // false
+        console.log(Object.is(NaN, NaN)) // true
+        console.log(NaN === NaN) // false
+        console.log(Object.is(+0, -0)) // false
+        console.log(+0 === -0) // true
+
+        /**
+         * Object.assign(target, ...sources)方法->将所有可枚举和自有属性从一个或多个源对象复制到目标对象，返回修改后的对象
+         *  参数一：目标对象，接收源对象属性的对象，也是修改后的返回值
+         *  参数二：源对象
+         */ 
+        const config1 = {
+            host: 'localhost',
+            port: 3306,
+            name: 'root',
+            pass: 'root',
+            test: 'test'
+        };
+        const config2 = {
+            host: 'http://atguigu.com',
+            port: 33060,
+            name: 'atguigu',
+            pass: 'iloveyou',
+            test2: 'test2'
+        };
+        let newObj = Object.assign(config1, config2)
+        console.log(newObj); // {host: 'http://atguigu.com', port: 33060, name: 'atguigu', pass: 'iloveyou', test: 'test', test2: 'test2'}
+        console.log(config1) // {host: 'http://atguigu.com', port: 33060, name: 'atguigu', pass: 'iloveyou', test: 'test', test2: 'test2'}
+        console.log(config2) // {host: 'http://atguigu.com', port: 33060, name: 'atguigu', pass: 'iloveyou', test2: 'test2'}
+        console.log(Object.assign(config1, config2) === config1) // true
+
+        /**
+         * Object.create()方法->用于创建一个新对象，使用现有的对象来作为新创建对象的原型，返回该新对象
+         *  参数一：新创建对象的原型对象 参数二（可选）：属性描述符对象
+         *      - 第一个参数为null时，创建的对象的隐式原型就是undefined
+         *      - 不传第二个参数时，创建的对象是空对象
+         *      - 如果一个描述符同时拥有 value 或 writable 和 get 或 set 键，则会产生一个异常
+         */ 
+        const obj = Object.create(Object.prototype, {
+            name: {
+                value: '尚硅谷',
+                writable: true, // 是否可写 默认值是false
+                configurable: true, // 是否可删除 默认值是false 
+                enumerable: true, // 是否可枚举 默认值是false
+            },
+            address: {
+                // 设置了 set 或 get ，则该属性描述符不可以再使用 value 或 writable
+                configurable: true,
+                enumerable: true,
+                get() { // 属性的 getter 函数。当访问该属性时，会调用此函数，该函数的返回值会被用作属性的值
+                    console.log('getter函数被调用了')
+                    return '上海'
+                },
+                set(newValue) { // 属性的 setter 函数。当属性值被修改时，会调用此函数。该方法接受一个参数（也就是被赋予的新值）
+                    console.log('setter函数被调用了')
+                    console.log(newValue)
+                }
+            },
+            [Symbol.for('year')]: {
+                value: '1999'
+            }
+        })
+        console.log(obj) // {name: '尚硅谷', Symbol(year): '1999'}
+        console.log(obj.address) // getter函数被调用了 上海
+        obj.address = '北京' // setter函数被调用了 北京
+        const obj2 = Object.create(null)
+        console.log(obj2) // {}
+        console.log(obj2.__proto__) // undefined
+
+        /**
+         * Object.defineProperty()方法->用于在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象
+         *  参数一：要定义属性的对象 参数二：要定义或修改的属性的名称或 Symbol 参数三：要定义或修改的属性描述符
+         *      - 如果指定的属性名在对象中不存在，则执行添加操作，如果在对象中存在同名属性，则执行修改操作
+         *      - 如果一个描述符同时拥有 [value 或 writable] 和 [get 或 set] 键，则会抛出一个异常
+         *      - 通过该方法为属性执行修改操作时，修改后的属性是可写、可枚举、可删除的
+         */
+        const obj3 = {name: 'zs'}
+        Object.defineProperty(obj3, 'sex', {
+            value: '男', // 与属性关联的值，默认值是undefined
+            writable: true, // 是否可重写，默认值是false
+            configurable: true, // configurable的值为false时，属性描述符本身不能被修改且该属性不可被删除，默认值是false
+            enumerable: true // 是否可枚举，默认值是false
+        })
+        console.log(obj3) // {name: 'zs', sex: '男'}
+        Object.defineProperty(obj3, 'name', {
+            value: 'ls'
+        })
+        // 修改后的obj3的name属性为ls，是可写、可枚举、可删除的
+        console.log(obj3) // {name: 'ls', sex: '男'}
+        const obj4 = {}
+        Object.defineProperty(obj4, Symbol.for('name'), {
+            get(){
+                console.log('getter函数被调用了')
+                return 'xfy'
+            },
+            set(newValue){
+                console.log('setter函数被调用了')
+                console.log(newValue)
+            }
+        })
+        console.log(obj4[Symbol.for('name')]) // getter函数被调用了 xfy
+        obj4[Symbol.for('name')] = 'syc' // setter函数被调用了 syc
+
+        /**
+         * Object.defineProperties()方法->用于在一个对象上定义新的属性或修改现有属性，并返回该对象
+         *  使用方法与Object.defineProperty()类似
+         */ 
+        const obj5 = {sex: '男'}
+        Object.defineProperties(obj5, {
+            name: {
+                value: 'zs',
+                enumerable:true,
+                configurable: true,
+                writable: true
+            },
+            age: {
+                get(){
+                    return '18'
+                },
+                set(newValue){
+                    console.log(this)
+                    this.value = newValue
+                }
+            },
+            sex: {
+                value: '女'
+            },
+            [Symbol.for('grades')]: {
+                value: 99
+            }
+        })
+        console.log(obj5) // {sex: '女', name: 'zs', Symbol(grades): 99}
+
+        /**
+         * Object.getOwnPropertySymbols()方法->返回一个给定对象自身的所有 Symbol 属性的数组
+         */ 
+        let symbolObj = {
+            [Symbol('name')]: '张三',
+            [Symbol.for('age')]: 18
+        }
+        console.log(Object.getOwnPropertySymbols(symbolObj)) // [Symbol(name), Symbol(age)]
+
+        /**
+         * Object.getOwnPropertyNames(obj)方法->返回一个由指定对象的所有自身属性的属性名
+         * （包括不可枚举属性但不包括 Symbol 值作为名称的属性）组成的数组
+         *  备注：数组中枚举属性的顺序与通过 for...in 循环（或 Object.keys）迭代该对象属性时一致。数组中不可枚举属性的顺序未定义
+         */
+        const obj1 = {
+            a: 1,
+            b: 2,
+            [Symbol('c')]: 3
+        }
+        Object.defineProperty(obj1, 'd', {
+            value: 4,
+            enumerable: false
+        })
+        console.log(Object.getOwnPropertyNames(obj1)) // ['a', 'b', 'd']
+        console.log(Object.getOwnPropertyNames(['a', 'b', 'c'])) // ['0', '1', '2', 'length']
+
+        /**
+         * Object.setPrototypeOf(obj, prototype)方法->设置对象的原型
+         * Object.getPrototypeOf(obj)方法->获取对象的原型
+         * Object.prototype.isPrototypeOf()方法
+         *  用于测试一个对象是否存在于另一个对象的原型链上（注意与instanceof运算符相区别）
+         *  语法：prototypeObj.isPrototypeOf(object)
+         */ 
+        const sch = {
+            name: '尚硅谷'
+        };
+        const cities = {
+            area: ['北京', '上海', '深圳']
+        };
+        Object.setPrototypeOf(sch, cities);
+        console.log(sch);
+        console.log(Object.getPrototypeOf(sch));
+        console.log(cities.isPrototypeOf(sch)) // true
+        console.log(Object.prototype.isPrototypeOf(sch)) // true
+
+        /**
+         * Object.freeze()方法与Object.seal()方法
+         *  1. 作用：
+         *      - Object.freeze() -> 可以冻结一个对象。一个被冻结的对象再也不能被修改了；冻结了一个对象则不能向
+         *      这个对象添加新的属性，不能删除已有属性，不能修改该对象已有属性的可枚举性、可配置性、可写性，以及不能修改
+         *      已有属性的值。此外，冻结一个对象后该对象的原型也不能被修改
+         *      - Object.seal() -> 可以封闭一个对象，阻止添加新属性并将所有现有属性标记为不可配置，当前属性的值只要原来
+         *      是可写的就可以改变。此外，封闭一个对象后该对象的原型也不能被修改
+         *  2. 用法：Object.freeze(obj)    Object.seal(obj)
+         *  3. 备注：
+         *      - 这两个函数返回和传入的参数相同的对象
+         *      - 被冻结|封闭对象的原型不能被修改指的是不能将被冻结|封闭对象的原型整个替换掉，但可以进行属性的增删改查
+         *      - 这种冻结|封闭是浅层次的，只会冻结|封闭第一层，深层次的属性依旧如常，能正常增删改查
+         */ 
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

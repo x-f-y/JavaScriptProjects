@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			/**
+			 * 练习一：1s后控制台输出111 2s后输出222 3s后输出333
+			 */ 
+
+			// 传统方法 回调函数（容易出现回调地狱）
+			/* setTimeout(() => {
+				console.log(111);
+				setTimeout(() => {
+					console.log(222);
+					setTimeout(() => {
+						console.log(333);
+					},3000);
+				},2000);
+			},1000); */
+
+			// 使用生成器的方式
+			function one(){
+				setTimeout(() => {
+					console.log(111);
+					iterator.next();
+				},1000);
+			}
+			function two(){
+				setTimeout(() => {
+					console.log(222);
+					iterator.next();
+				},2000);
+			}
+			function three(){
+				setTimeout(() => {
+					console.log(333);
+					iterator.next();
+				},3000);
+			}
+			//定义一个生成器
+			function* gen(){
+				yield one();
+				yield two();
+				yield three();
+			}
+			const iterator = gen();
+			iterator.next(); // 111 222 333
+			
+			/**
+			 * 练习二：模拟获取 用户数据=>订单数据=>商品数据
+			 */ 
+
+			function getUsers(){
+				setTimeout(() => {
+					let data = "用户数据";
+					//调用next函数，并将数据传入
+					iterator1.next(data);
+				},1000);
+			}
+			function getOrders(){
+				setTimeout(() => {
+					let data = "订单数据";
+					iterator1.next(data);
+				},1000);
+			}
+			function getGoods(){
+				setTimeout(() => {
+					let data = "商品数据";
+					iterator1.next(data);
+				},1000);
+			}
+			function* gen1(){
+				let users = yield getUsers();
+				console.log(users);
+				let orders = yield getOrders();
+				console.log(orders);
+				let goods = yield getGoods();
+				console.log(goods);
+			}
+			let iterator1 = gen1();
+			iterator1.next(); // 用户数据 订单数据 商品数据
+		</script>
+	</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * with语句
+         *  作用：能扩展一个语句的作用域链
+         *  语法：
+         *      with(expression){
+         *          statment
+         *      }
+         *  应用场景：
+         *      1. 命名空间
+         *      2. 简化代码
+         *  备注：在 ECMAScript 5 严格模式中，已禁止使用with语句
+         */ 
+
+        var obj = { name: 'obj' }
+        var name = 'window'
+        function test(){
+            var age = 123
+            var name = 'scope'
+            with(obj){ // 将obj对象放在该代码块作用域链的最顶端
+                console.log(name) // obj
+                console.log(age) // 123
+            }
+        }
+        test()
+
+        // 应用场景1：命名空间
+        var namespace = {
+            department1: {
+                'zs': {
+                    name: 'zs',
+                    age: 19
+                },
+                'ls': {
+                    name: 'ls',
+                    age: 22
+                }
+            },
+            department2: {
+                'ww': {
+                    name: 'ww',
+                    age: 20
+                },
+                'zl': {
+                    name: 'zl',
+                    age: 21
+                }
+            }
+        }
+        with(namespace.department1.zs){
+            console.log(name) // zs
+        }
+        with(namespace.department2.zl){
+            console.log(name) // zl
+        }
+
+        // 应用场景2：简化代码
+        with(window.console){
+            log('1')
+            warn('hello')
+            error('a is not defined')
+            table({name: 'deng'})
+        }
+    </script>
+</body>
+</html>

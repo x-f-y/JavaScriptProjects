@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/webgl-utils.js"></script>
+</head>
+<body onload="main()">
+    <canvas id="canvas" width="400" height="400">please select a browser that supports canvas</canvas>
+    <script>
+        /**
+         * 顶点着色器和片元着色器之间发生了光栅化过程，一个顶点被光栅化成了多个片元，每一个片元都会经过片元着色器的处理。如果直接
+         * 进行绘制，画出的就是方形的点；而如果在片元着色器中稍作改动，只绘制圆圈以内的片元，这样就可以绘制出圆形的点了
+         */
+
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            void main(){
+                gl_Position = a_Position;
+                gl_PointSize = 10.0;
+            }
+        `;
+
+        const FSHADER_SOURCE = `
+            #ifdef GL_ES
+            precision mediump float;
+            #endif
+            void main(){
+                // 内置变量vec2 gl_PointCoord表示片元在被绘制的点内的坐标（从0.0到1.0）
+                float d = distance(gl_PointCoord, vec2(0.5, 0.5));
+                if(d < 0.5){
+                    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+                }else{
+                    discard; // 表示舍弃当前片元，直接处理下一个片元
+                }
+            }
+        `;
+
+        function initVertexBuffers(gl){
+            const n = 3;
+            const vertices = new Float32Array([
+                0, 0.5,   -0.5, -0.5,   0.5, -0.5
+            ]);
+
+            const vertexBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(a_Position);
+
+            return n;
+        }
+
+        function main(){
+            const canvas = document.getElementById('canvas');
+            const gl = canvas.getContext('webgl');
+            initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+            const n = initVertexBuffers(gl);
+
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.POINTS, 0, n);
+        }
+    </script>
+</body>
+</html>

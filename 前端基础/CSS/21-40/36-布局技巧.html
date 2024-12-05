@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>布局技巧</title>
+    <style>
+        /* 
+            - margin负值的巧妙运用
+            - 文字围绕浮动元素(巧妙运用浮动元素不会压住文字的特性)
+            - 行内块的巧妙运用
+            - CSS三角强化
+         */
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+			/* 设置为相对定位保留当前位置 */
+            position: relative;
+            float: left;
+            width: 150px;
+            height: 200px;
+            border: 2px solid gray;
+            /* 让每个盒子往左侧移动2px正好压住相邻盒子边框 */
+            margin-left: -2px;
+            list-style: none;
+        }
+
+        /* 鼠标经过li时，让其边框变为红色 */
+        li:hover {
+            /* 如何每个li没有定位，则添加相对定位(保留位置)即可 */
+            /* position: relative; */
+            /* 如何每个li有定位，则为其添加z-index提高层级 */
+            z-index: 1;
+            border: 2px solid red;
+        }
+
+        .box {
+            width: 300px;
+            height: 60px;
+            padding: 5px;
+            background-color: #bfa;
+            margin-left: 900px;
+        }
+
+        .box img {
+            float: left;
+            width: 120px;
+            height: 60px;
+            margin-right: 5px;
+        }
+
+        .box2 {
+            margin: 20px 0 0 810px;
+        }
+
+        .box2 a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            text-align: center;
+            line-height: 36px;
+            border: 1px solid #ccc;
+            color: #333;
+            font-size: 14px;
+            background-color: #f7f7f7;
+            text-decoration: none;
+        }
+
+        .box2 .prev,
+        .box2 .next {
+            width: 85px;
+        }
+
+        .box2 .current,
+        .box2 .ell {
+            border: none;
+            background-color: transparent;
+        }
+
+        .box2 input {
+            width: 36px;
+            height: 36px;
+            outline: none;
+            border: 1px solid #ccc;
+			vertical-align: bottom;
+        }
+
+        .box2 button {
+            width: 60px;
+            height: 36px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            background-color: #f7f7f7;
+        }
+
+        .box3 {
+            width: 0;
+            height: 0;
+            margin: 100px auto 0 auto;
+            /* border-top: 90px solid transparent;
+            border-right: 50px solid pink;
+            border-bottom: 0 solid yellow;
+            border-left: 0 solid green; */
+            border-style: solid;
+            border-width: 90px 50px 0 0;
+            border-color: transparent pink transparent transparent;
+        }
+
+        .box4 {
+            width: 160px;
+            height: 24px;
+            margin: 20px auto;
+            border: 1px solid red;
+            line-height: 24px;
+        }
+
+        .box4 .left {
+            position: relative;
+            float: left;
+            width: 90px;
+            height: 100%;
+            text-align: center;
+            background-color: red;
+            color: #fff;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .box4 i {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent #fff transparent transparent;
+            border-width: 24px 10px 0 0;
+        }
+
+        .box4 .right {
+            font-size: 14px;
+            color: gray;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- margin负值的巧妙运用 -->
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <!-- 文字围绕浮动元素 -->
+    <div class="box">
+        <img src="../images/img.png" alt="">
+        <span>【集锦】热身赛-巴西0-1秘鲁内马尔替补
+            两人血染寒场</span>
+    </div>
+    <!-- 行内块的巧妙运用 -->
+    <div class="box2">
+        <a href="#" class="prev">&lt;&lt;上一页</a>
+        <a href="#" class="current">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#" class="ell">...</a>
+        <a href="#" class="next">&gt;&gt;下一页</a>
+        到第<input type="text">页
+        <button>确定</button>
+    </div>
+    <!-- CSS三角强化 -->
+    <div class="box3"></div>
+    <div class="box4">
+        <span class="left">
+            ￥1650
+            <i></i>
+        </span>
+        <span class="right">￥5650</span>
+    </div>
+</body>
+
+</html>

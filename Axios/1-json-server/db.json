@@ -1,0 +1,39 @@
+{
+  "posts": [
+    {
+      "title": "红楼梦",
+      "author": "曹雪芹",
+      "id": "1"
+    },
+    {
+      "title": "西游记",
+      "author": "吴承恩",
+      "id": "3"
+    },
+    {
+      "id": "0aee",
+      "title": "今天天气不错，还挺风和日丽的",
+      "author": "张三"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "body": "some comment",
+      "postId": 1
+    },
+    {
+      "body": "你今天真好看",
+      "postId": 2,
+      "id": "2"
+    },
+    {
+      "body": "今天天气真好",
+      "postId": 1,
+      "id": "3"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

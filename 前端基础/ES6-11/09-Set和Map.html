@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 新增数据结构 Set
+         *  - Set 中的元素只会出现一次，即 Set 中的元素是唯一的
+         *  - Set 本身是一个构造函数，用来生成 Set 数据结构
+         *  - Set实现了 iterator 接口（是可迭代对象），所以可以使用 for...of 遍历
+         *  - Set 的实例属性
+         *      - size，返回 Set 对象中的值的个数
+         *  - Set 的实例方法
+         *      - add(value)，在 Set 对象尾部添加一个元素，返回该 Set 对象
+         *      - delete(value)，移除值为 value 的元素，并返回一个布尔值来表示是否移除成功
+         *      - has(value)，返回一个布尔值，表示该值在 Set 中存在与否
+         *      - clear()，移除 Set 对象内的所有元素
+         *      - forEach(callback[, thisArg])，按照插入顺序，为 Set 对象中的每一个值调用一次 callBackFn
+         *        如果提供了 thisArg 参数，回调中的 this 会是这个参数
+         *      - keys()，与 values() 方法相同，返回一个新的迭代器对象，该对象包含 Set 对象中的按插入顺序排列的所有元素的值
+         *      - values()，返回一个新的迭代器对象，该对象包含 Set 对象中的按插入顺序排列的所有元素的值
+         *      - entries()，返回一个新的迭代器对象，该对象包含 Set 对象中的按插入顺序排列的所有元素的值的 [value, value] 数组
+         *          - 注意：为了使这个方法和 Map 对象保持相似，每个值的键和值相等
+         */
+        
+        let set = new Set()
+        set.add('hello')
+        set.add(true)
+        set.add(123)
+        set.add({ name: 'zs' })
+        console.log(set, set.size) // Set(4) {'hello', true, 123, {…}} 4
+        console.log(set.has(123)) // true
+        set.delete(123)
+        console.log(set.has(123)) // false
+        set.clear()
+        console.log(set, set.size) // Set(0) {size: 0} 0
+
+        let str = 'abcadbfecb'
+        let arr = [1, 2, 4, 1, 3, 5, 4, 2]
+        let strSet = new Set(str)
+        let arrSet = new Set(arr)
+        console.log(strSet, arrSet) // Set(6) {'a', 'b', 'c', 'd', 'f', …} Set(5) {1, 2, 4, 3, 5}
+        for(let v of strSet){
+            console.log(v) // a b c d f e
+        }
+        for(let v of arrSet){
+            console.log(v) // 1 2 4 3 5
+        }
+        strSet.forEach((item, index, arr) => {
+            console.log(item, index, arr) // item 和 index 一样，输出都是 a b c d f e
+        })
+        arrSet.forEach((item, index, arr) => {
+            console.log(item, index, arr) // item 和 index 一样，输出都是 1 2 4 3 5
+        })
+        for(let key of strSet.keys()){
+            console.log(key) // a b c d f e
+        }
+        for (let key of arrSet.keys()) {
+            console.log(key) // 1 2 4 3 5
+        }
+        for (let value of strSet.values()) {
+            console.log(value) // a b c d f e
+        }
+        for (let value of arrSet.values()) {
+            console.log(value) // 1 2 4 3 5
+        }
+        for(let [key, value] of strSet.entries()){
+            console.log(key, value) // a a  b b  c c  d d  f f  e e
+        }
+        for (let [key, value] of arrSet.entries()) {
+            console.log(key, value) // 1 1  2 2  4 4  3 3  5 5
+        }
+
+        /* 使用 Set 求交集、并集、差集 */
+        // 交集
+        let arr1 = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+        let arr2 = [4, 5, 6, 5, 6];
+        let jiaoji = [...new Set(arr1)].filter(item => new Set(arr2).has(item))
+        console.log(jiaoji) // [4 5]
+        // 并集
+        let bingji = [...new Set([...arr1, ...arr2])]
+        console.log(bingji) // [1, 2, 3, 4, 5, 6]
+        // 差集
+        let chaji = [...new Set(arr1)].filter(item => !new Set(arr2).has(item))
+        console.log(chaji) // [1, 2, 3]
+
+        /**
+         * 新增数据结构 Map
+         *  - Map 对象保存键值对，并且能够记住键的原始插入顺序（有序），任何值（对象或者基本类型）都可以作为一个键或一个值
+         *  - Map 实现了 iterator 接口（是可迭代对象），所以可以使用 for...of 遍历
+         *  - Map 的实例属性
+         *      - size，返回 Map 对象中的键值对数量
+         *  - Map 的实例方法
+         *      - get(key)，返回与 key 关联的值，若不存在关联的值，则返回 undefined
+         *      - set(key, value)，在 Map 对象中设置与指定的键 key 关联的值 value，并返回 Map 对象
+         *      - delete(key)，移除 Map 对象中指定的键值对，如果键值对存在并成功被移除，返回 true，否则返回 false
+         *      - has(key)，返回一个布尔值，用来表明 Map 对象中是否存在与 key 关联的值
+         *      - clear()，移除 Map 对象中所有的键值对
+         *      - forEach(callback[, thisArg])，以插入的顺序对 Map 对象中存在的键值对分别调用一次 callbackFn
+         *        如果给定了 thisArg 参数，这个参数将会是回调函数中 this 的值
+         *      - keys()，返回一个新的迭代对象，其中包含 Map 对象中所有的键，并以插入 Map 对象的顺序排列
+         *      - values()，返回一个新的迭代对象，其中包含 Map 对象中所有的值，并以插入 Map 对象的顺序排列
+         *      - entries()，返回一个新的迭代对象，其为一个包含 Map 对象中所有键值对的 [key, value] 数组，并以插入 Map 对象的顺序排列
+         */ 
+        
+        let map = new Map()
+        map.set('name', 'xfy');
+        map.set('year', 1977)
+        map.set('change', function () {
+            console.log('we can change you!');
+        });
+        let key = {
+            school: 'guigu'
+        };
+        map.set(key, ['北京', '上海', '深圳']);
+        console.log(map, map.size) // Map(4) {'name' => 'xfy', 'year' => 1977, 'change' => ƒ, {…} => Array(3)} 4
+        console.log(map.has('year')) // true
+        console.log(map.get('year')) // 1977
+        map.delete('year')
+        console.log(map.has('year')) // false
+        console.log(map.get('year')) // undefined
+        map.clear()
+        console.log(map, map.size) // Map(0) {size: 0} 0
+
+        let fun = function(){
+            console.log('i can sing')
+        }
+        let dance = function(){
+            console.log('i can dance')
+        }
+        let arrMap = new Map([
+            ['name', 'zs'],
+            ['age', 18],
+            [fun, true],
+            ['dance', dance]
+        ])
+        console.log(arrMap) // Map(4) {'name' => 'zs', 'age' => 18, ƒ => true, 'dance' => ƒ}
+        for(let [key, value] of arrMap){
+            console.log(key, value) // name zs  age 18  f true  dance f
+        }
+        arrMap.forEach((item, index, arr) => {
+            console.log(item, index, arr)
+        })
+        for(let key of arrMap.keys()){
+            console.log(key) // name age f dance
+        }
+        for (let value of arrMap.values()) {
+            console.log(value) // zs 18 true f
+        }
+        for(let [key, value] of arrMap.entries()){
+            console.log(key, value) // name zs  age 18  f true  dance f
+        }
+    </script>
+</body>
+</html>

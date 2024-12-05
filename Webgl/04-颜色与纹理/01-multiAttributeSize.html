@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
+</head>
+<body onload="main()">
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 顶点着色器
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            attribute float a_PointSize;
+            void main(){
+                gl_Position = a_Position;
+                gl_PointSize = a_PointSize;
+            }
+        `;
+
+        // 片元着色器
+        const FSHADER_SOURCE = `
+            void main(){
+                gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+            }
+        `;
+
+        function initVertexBuffers(gl){
+            const n = 3; // 顶点个数
+            const vertices = new Float32Array([0.0, 0.5, -0.5, -0.5, 0.5, -0.5]); // 顶点的（x，y）坐标
+            const sizes = new Float32Array([10.0, 20.0, 30.0]); // 顶点尺寸
+            // 创建缓冲区对象
+            const vertexBuffer = gl.createBuffer();
+            const sizeBuffer = gl.createBuffer();
+            // 将顶点坐标写入缓冲对象并开启
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(a_Position);
+            // 将顶点尺寸写入缓冲对象并开启
+            gl.bindBuffer(gl.ARRAY_BUFFER, sizeBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, sizes, gl.STATIC_DRAW);
+            const a_PointSize = gl.getAttribLocation(gl.program, 'a_PointSize');
+            gl.vertexAttribPointer(a_PointSize, 1, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(a_PointSize);
+            return n;
+        }
+
+        function main(){
+            const canvas = document.getElementById('canvas');
+            const gl = canvas.getContext('webgl');
+            initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+            // 设置顶点信息
+            const n = initVertexBuffers(gl);
+
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.POINTS, 0, n);
+        }
+    </script>
+</body>
+</html>

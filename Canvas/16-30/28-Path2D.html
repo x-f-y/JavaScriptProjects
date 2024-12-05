@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            /**
+             * Path2D()构造函数返回一个新的Path2D对象的实例，可以选择另一条路径作为参数（创建一个拷贝），或者选择SVG path数据构成的字符串
+             * 语法：
+             *  1. new Path2D()
+             *  2. new Path2D(path) path --> 当调用另一个Path2D对象时，会创建一个path变量的拷贝
+             *  3. new Path2D(d) d --> 当调用SVG path数据构成的字符串时，会根据描述创建一个新的路径
+             * Path2D有不少方法，先了解一下：
+             *  1. addPath()
+             *  2. closePath
+             *  3. moveTo()
+             *  4. lineTo()
+             *  5. bezierCurveTo()
+             *  6. quadraticCurveTo()
+             *  7. arc()
+             *  8. arcTo()
+             *  9. ellipse()
+             *  10. rect()
+             */
+
+            /**
+             * 插语：SVG路径
+             *  M = moveto
+             *  L = lineto
+             *  H = horizontal lineto
+             *  V = vertical lineto
+             *  C = curveto
+             *  S = smooth curveto
+             *  Q = quadratic Bézier curve
+             *  T = smooth quadratic Bézier curveto
+             *  A = elliptical arc
+             *  Z = closepath
+             * 注意：以上所有命令均允许小写字母。大写表示绝对定位，小写表示相对定位
+             * 举例：
+             *  - "M150 0 L75 200 L225 200 Z" --> 移动到点(150,0)，然后到达点(75,200)，接着再到达点(225,200)，最后回到起点
+             *  - "M10 10 h 80 v 80 h -80 Z" -->  移动到点(10,10)，然后向右侧移动80个点，然后向下移动80个点，接着再向左移动
+             *  80个点，最后回到起点
+             */
+
+            // 创建和拷贝路径
+            const path1 = new Path2D()
+            path1.rect(150, 100, 100, 100)
+            const path2 = new Path2D(path1)
+            path2.moveTo(360, 150)
+            path2.arc(310, 150, 50, 0, Math.PI * 2)
+            ctx.stroke(path2)
+
+            // 使用SVG路径
+            const path = new Path2D("M200 300 h 100 v 100 h -100 Z")
+            ctx.fill(path)
+        }
+    </script>
+</body>
+</html>

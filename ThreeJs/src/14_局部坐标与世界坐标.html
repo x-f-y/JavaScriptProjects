@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>14_局部坐标与世界坐标</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        /**
+         * 局部坐标：是指对象相对于其父对象的坐标系的坐标
+         * 世界坐标：是指对象相对于整个场景的坐标系的坐标
+         * 备注：当我们直接将一个对象添加到场景中，然后平移、旋转或缩放它时，该对象将相对于世界空间移动——即相对于场景的中心。
+         *  事实上，每当我们变换（平移、旋转、缩放）一个对象时，我们都是相对于它的父坐标系进行的
+         */
+
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        geometry.translate(0.6, 0.6, 0.6);
+        geometry.rotateZ(-Math.PI / 6);
+        geometry.scale(2, 2, 2);
+        const material = new THREE.MeshLambertMaterial({color: 0xffffff});
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(0, 0 ,1);
+
+        // 可以为mesh添加一个局部坐标系
+        const meshAxesHelper = new THREE.AxesHelper(1);
+        mesh.add(meshAxesHelper);
+
+        const group = new THREE.Group();
+        group.position.set(1, 1, 0);
+        group.add(mesh);
+        scene.add(group);
+
+        const v3 = new THREE.Vector3();
+        mesh.getWorldPosition(v3); // 获取mesh的世界坐标，并将结果复制到v3中
+        console.log(v3); // [1 1 0] + [0 0 1] = [1 1 1]
+
+        // 扩充1：Material类有一个visible属性，通过设置其值为true或false，可以控制该材质是否可见
+        // 扩充2：Object3D类有一个visible属性，通过设置其值为true或false，可以控制该物体是否被渲染
+        // material.visible = false;
+        // mesh.visible = false;
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.decay = 0;
+        pointLight.position.set(2.3, 4.0, 3.5);
+        scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.render(scene, camera);
+        container.appendChild(renderer.domElement);
+
+        requestAnimationFrame(function animate(){
+            mesh.rotateY(0.01);
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        });
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+    </script>
+</body>
+</html>

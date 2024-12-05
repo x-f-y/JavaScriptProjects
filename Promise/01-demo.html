@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript">
+		/**
+		 * 点击按钮，1s后显示是否中奖（30%概率中奖）
+		 * 	若中奖弹出	恭喜恭喜，奖品为10万 RMB 劳斯莱斯优惠券
+		 * 	若未中奖弹出	再接再厉
+		 */
+		//获取随机数
+		function rand(m, n) {
+			return Math.ceil(Math.random() * (n - m + 1)) + m - 1;
+		}
+		window.onload = function () {
+			var btn = document.querySelector("#btn");
+			btn.addEventListener("click", function () {
+				/* //传统方式
+				setTimeout(() => {
+					let n = rand(1,100);
+					if(n<=30){
+						alert("恭喜恭喜，奖品为10万 RMB 劳斯莱斯优惠券");
+					}else{
+						alert("再接再厉");
+					}
+				},1000) */
+				//Promise形式实现 Promise是一个构造函数
+				//resolve 和 reject 都是函数类型的数据
+				const p = new Promise((resolve, reject) => {
+					setTimeout(() => {
+						let n = rand(1, 100);
+						if (n <= 30) {
+							resolve(n);//将promise对象的状态设置为 成功
+						} else {
+							reject(n);//将promise对象的状态设置为 失败
+						}
+					}, 1000);//settimeout
+				});//promise
+				console.log(p);
+				//调用then方法 成功调用第一个回调函数的代码 失败调用第二个回调函数的代码
+				p.then((value) => {
+					alert("恭喜恭喜，奖品为10万 RMB 劳斯莱斯优惠券 你的中奖数字为" + value);
+				}, (reason) => {
+					alert("再接再厉 你的号码为" + reason);
+				});
+			});//addEventListener
+		}//onload
+	</script>
+</head>
+
+<body>
+	<div class="container">
+		<h2 class="page-header">Promise初体验</h2>
+		<button class="btn btn-primary" id="btn">点击抽奖</button>
+	</div>
+</body>
+
+</html>

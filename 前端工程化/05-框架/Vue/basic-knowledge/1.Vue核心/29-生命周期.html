@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../tools/vue.js"></script>
+</head>
+
+<body>
+    <!--
+        生命周期：
+            - 又名生命周期回调函数、生命周期函数、生命周期钩子
+            - 生命周期函数中的this指向是vm或组件实例对象
+        常用的生命周期钩子：
+            - mounted：发送ajax请求、启动定时器、绑定自定义事件、订阅消息等【初始化操作】
+            - beforeDestroy：清除定时器、解绑自定义事件、取消订阅等【收尾操作】
+        关于销毁Vue实例：
+            - 销毁后借助Vue开发者工具看不到任何信息
+            - 销毁后自定义事件会失效，但原生DOM事件依然有效
+            - 一般不会在beforeDestroy中操作数据，因为即便操作数据，也不会再触发更新流程了
+            - vm.$destroy()方法会完全销毁一个实例，清理它与其它组件实例对象的连接，解绑它的全部指令及自定义事件监听器（注意：$destroy是Vue.prototype上的方法）
+     -->
+    <div id="root">
+        <h2 :style="{opacity}">欢迎学习Vue</h2>
+        <button @click="stop">点我停止变换</button>
+    </div>
+    <script>
+        Vue.config.productionTip = false
+        new Vue({
+            el: '#root',
+            data: {
+                opacity: 1
+            },
+            methods: {
+                stop() {
+                    this.$destroy()
+                }
+            },
+            // Vue完成模板的解析并把初始的真实DOM元素放入页面后（挂载完毕）调用mounted，该函数只会被调用一次
+            mounted() {
+                // 给vm添加一个自定义timer属性，用于存放定时器
+                this.timer = setInterval(() => {
+                    this.opacity -= 0.01
+                    if (this.opacity <= 0) {
+                        this.opacity = 1
+                    }
+                }, 16);
+            },
+            beforeDestroy() {
+                // 关闭定时器
+                clearInterval(this.timer)
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 选择第一个字母 */
+    p::first-letter {
+      color: red;
+      font-size: 2em;
+      font-weight: bold;
+    }
+    /* 选择第一行 */
+    p::first-line {
+      color: green;
+    }
+    /* 选择被用户框选的部分 */
+    p::selection {
+      color: yellow;
+      background: #008c8c;
+    }
+    /* 选择input和textarea表单元素的占位文本 */
+    input::placeholder, textarea::placeholder {
+      color: #008c8c;
+      padding-left: 10px;
+    }
+    /* 选择type="file"的input元素的文件选择按钮 */
+    input[type="file"]::file-selector-button {
+      background-color: #008c8c;
+      color: #fff;
+    }
+    /* ::marker伪元素选择器匹配列表的标记框。它作用在任何设置了display:list-item的元素或伪元素上，例如<li>和<summary>元素 */
+    li::marker {
+      content: '✝ ';
+      font-size: 1.2em;
+      color: #008c8c;
+    }
+  </style>
+</head>
+<body>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae architecto temporibus ipsum quos. Quo officiis aperiam ducimus molestias accusantium! Magnam, dicta est maxime quidem corrupti a tenetur accusantium earum minima.</p>
+  <p>
+    <input type="text" placeholder="我是input元素">
+    <textarea placeholder="我是textarea元素"></textarea>
+    <input type="file">
+  </p>
+  <ul>
+    <li>Peaches</li>
+    <li>Apples</li>
+    <li>Plums</li>
+  </ul>
+</body>
+</html>

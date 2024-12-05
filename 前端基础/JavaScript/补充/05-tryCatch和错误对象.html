@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        try{
+            console.log(typeof a)
+            console.log('b')
+            console.log(c)
+        }catch(e){
+            console.error(e.name + ': ' + e.message) // ReferenceError: c is not defined
+            console.error(e.toString()) // ReferenceError: c is not defined
+        }finally{
+            console.log('done')
+        }
+
+        /**
+         * 代码运行时发生错误，会创建新的Error对象，并将其抛出，除了通用的Error构造函数外，js还有
+         * 其它类型的错误构造函数，以下是一些错误类型：
+         *  1. EvalError 与eval()有关
+         *  2. RangeError 数值变量或参数超出其有效范围
+         *  3. ReferenceError 无效引用
+         *  4. SyntaxError 语法错误
+         *  5. TypeError 变量或参数不属于有效类型
+         *  6. URIError 给encodeURI()或decodeURI()传递的参数无效
+         * 实例属性：
+         *  1. Error.prototype.message 错误消息，对于用户创建的Error对象，这是构造函数的第一个参数提供的字符串
+         *  2. Error.prototype.name 错误名称，这是由构造函数决定的
+         * 实例方法：
+         *  - Error.prototype.toString() 返回表示该对象的字符串
+         */ 
+
+        console.log(EvalError.prototype.__proto__ === Error.prototype) // true
+        console.log(RangeError.prototype.__proto__ === Error.prototype) // true
+        console.log(ReferenceError.prototype.__proto__ === Error.prototype) // true
+        console.log(SyntaxError.prototype.__proto__ === Error.prototype) // true
+        console.log(TypeError.prototype.__proto__ === Error.prototype) // true
+        console.log(URIError.prototype.__proto__ === Error.prototype) // true
+
+        try {
+            // 可以使用throw关键字来抛出异常，语法：throw expression;
+            // throw 'hello' // 抛出一个值为字符串的异常
+            // throw true // 抛出一个值为true的异常
+            throw 42 // 抛出一个值为整数42的异常
+        } catch (e) {
+            console.error(e.name + ': ' + e.message) // undefined: undefined
+        }
+        
+        try {
+            throw new Error('Whoops!')
+        } catch (e) {
+            console.error(e.name + ': ' + e.message) // Error: Whoops!
+        }
+
+        try {
+            throw new TypeError('fun is not a function!')
+        } catch (e) {
+            console.error(e.name + ": " + e.message) // TypeError: fun is not a function!
+        }
+    </script>
+</body>
+</html>

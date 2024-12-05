@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
+</head>
+<body onload="main()">
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <p id="nearFar"></p>
+    <script>
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            attribute vec4 a_Color;
+            uniform mat4 u_ProjMatrix; // 正射投影矩阵
+            varying vec4 v_Color;
+            void main(){
+                gl_Position = u_ProjMatrix * a_Position;
+                v_Color = a_Color;
+            }
+        `;
+
+        const FSHADER_SOURCE = `
+            #ifdef GL_ES
+            precision mediump float;
+            #endif
+            varying vec4 v_Color;
+            void main(){
+                gl_FragColor = v_Color;
+            }
+        `;
+
+        function initVertexBuffers(gl){
+            const n = 9;
+            const verticesColors = new Float32Array([
+                // 顶点坐标和颜色
+                0.0,  0.6,  -0.4,    0.4,  1.0,  0.4, // 后面的绿色三角形
+               -0.5, -0.4,  -0.4,    0.4,  1.0,  0.4,
+                0.5, -0.4,  -0.4,    1.0,  0.4,  0.4,
+
+                0.5,  0.4,  -0.2,    1.0,  0.4,  0.4, // 中间的黄色三角形
+               -0.5,  0.4,  -0.2,    1.0,  1.0,  0.4,
+                0.0, -0.6,  -0.2,    1.0,  1.0,  0.4,
+
+                0.0,  0.5,   0.0,    0.4,  0.4,  1.0, // 前面的蓝色三角形
+               -0.5, -0.5,   0.0,    0.4,  0.4,  1.0,
+                0.5, -0.5,   0.0,    1.0,  0.4,  0.4,
+            ]);
+
+            const vertexColorBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, verticesColors, gl.STATIC_DRAW);
+
+            const FSIZE = verticesColors.BYTES_PER_ELEMENT;
+
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, FSIZE * 6, 0);
+            gl.enableVertexAttribArray(a_Position);
+
+            const a_Color = gl.getAttribLocation(gl.program, 'a_Color');
+            gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 6, FSIZE * 3);
+            gl.enableVertexAttribArray(a_Color);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+            return n;
+        }
+
+        function draw(gl, n, near, far, nearFar, u_ProjMatrix, projMatrix){
+            gl.clear(gl.COLOR_BUFFER_BIT); // 清空canvas
+
+            // 重新计算正射投影矩阵并传递给顶点着色器
+            /**
+             * matrix4.setOrtho(left, right, bottom, top, near, far)
+             * 通过各参数计算正射投影矩阵，将其存储在matrix4中。注意，left不一定与right相等，bottom不一定与top相等，near不一定与far相等
+             *  left、right：指定近裁剪面（也是可视空间的，下同）的左边界和右边界
+             *  bottom、top：指定近裁剪面的上边界和下边界
+             *  near、far：指定近裁剪面和远裁剪面的位置，即可视空间的近边界和远边界
+             * 备注：<canvas>上显示的就是可视空间中物体在近裁剪面上的投影。如果裁剪面的宽高比和<canvas>不一样，
+             * 那么画面就会被按照<canvas>的宽高比进行压缩，物体会被扭曲
+             */
+            projMatrix.setOrtho(-1.0, 1.0, -1.0, 1.0, near, far);
+            // projMatrix.setOrtho(-0.5, 0.5, -0.5, 0.5, near, far);
+            // projMatrix.setOrtho(-0.3, 0.3, -1.0, 1.0, near, far);
+            gl.uniformMatrix4fv(u_ProjMatrix, false, projMatrix.elements);
+
+            // 显示当前的near和far值
+            nearFar.textContent = `near:${Math.round(near*100)/100}, far:${Math.round(far*100)/100}`;
+
+            gl.drawArrays(gl.TRIANGLES, 0, n); // 绘制
+        }
+
+        function main(){
+            const canvas = document.getElementById('canvas');
+            const nearFar = document.getElementById('nearFar');
+            const gl = canvas.getContext('webgl');
+            initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+            // 视点与近、远裁减面的距离
+            let near = 0.0, far = 0.5;
+
+            // 设置顶点坐标和颜色
+            const n = initVertexBuffers(gl);
+
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            const u_ProjMatrix = gl.getUniformLocation(gl.program, 'u_ProjMatrix');
+            const projMatrix = new Matrix4();
+            draw(gl, n, near, far, nearFar, u_ProjMatrix, projMatrix);
+
+            // 注册键盘事件响应函数
+            document.onkeydown = function(event){
+                switch (event.key){
+                    case 'ArrowUp': far += 0.01; break;
+                    case 'ArrowDown': far -= 0.01; break;
+                    case 'ArrowLeft': near -= 0.01; break;
+                    case 'ArrowRight': near += 0.01; break;
+                    default: return;
+                }
+                draw(gl, n, near, far, nearFar, u_ProjMatrix, projMatrix);
+            }
+        }
+    </script>
+</body>
+</html>

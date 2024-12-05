@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            /**
+             * ctx.save() 保存当前的状态到栈中
+             * ctx.restore() 在绘图状态栈中弹出顶端的状态，将canvas恢复到最近的保存状态。如果没有保存状态，此方法不做任何改变
+             * 备注：
+             *  1. save()和restore()可以理解为对canvas状态的快照进行保存和恢复
+             *  2. 保存到栈中的绘制状态由下面部分组成：
+             *      - 当前的变换矩阵
+             *      - 当前的剪切区域
+             *      - 当前的虚线列表
+             *      - 以下属性当前的值：strokeStyle、fillStyle、globalAlpha、lineWidth、lineCap、lineJoin、miterLimit、
+             *      lineDashOffset、shadowOffsetX、shadowOffsetY、shadowBlur、shadowColor、globalCompositeOperation、
+             *      font、textAlign、textBaseline、direction、imageSmoothingEnabled
+             */
+
+            ctx.save() // 保存默认的状态
+
+            ctx.fillStyle = 'green'
+            ctx.fillRect(10, 10, 100, 100)
+
+            ctx.restore() // 还原到上次保存的默认状态
+            ctx.fillRect(150, 75, 100, 100)
+        }
+    </script>
+</body>
+</html>

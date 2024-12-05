@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 打印普通信息
+    console.log('hello console');
+
+    // 打印警告信息
+    console.warn('Abandon Hope All Ye Who Enter');
+
+    // 打印错误信息
+    console.error('You has made a huge mistake!');
+
+    // 打印通知信息
+    console.info('night gathers');
+
+    // 打印调试信息
+    console.debug('God bless me!');
+
+    // 打印表格
+    console.table([
+      {first: 'Rene', last: 'Magritte'},
+      {first: 'Chaim', last: 'Soutine', birthday: '18930113'},
+      {first: 'Henri', last: 'Matisse'}
+    ]);
+
+    // 打印分组
+    const label = 'Package elephant';
+    console.group(label);
+    // console.groupCollapsed(label);
+    console.log('Open box');
+    console.log('Put elephant in');
+    console.log('Close box');
+    console.groupEnd(label);
+
+    // 打印对象结构
+    function fn(){
+      console.log(12);
+    }
+    fn.abc = 1;
+    console.dir(fn);
+    console.dir(document.body);
+
+    // 计时
+    console.time('loop-time');
+    const start = Date.now();
+    while(Date.now() - start < 2000){}
+    console.timeEnd('loop-time');
+
+    // 计数
+    const now = Date.now();
+    while(Date.now() - now < 5){
+      console.count('loop-count');
+    }
+    console.countReset('loop-count');
+    console.count('loop-count');
+
+    // 打印调用堆栈
+    function b(){
+      console.trace();
+    }
+    function a(){
+      b();
+    }
+    a();
+
+    // 断言
+    function sum(a ,b){
+      return a + b;
+    }
+    console.assert(sum(1, 2) === 3);
+
+    // 给消息添加样式
+    const styles = `
+      padding: 5px;
+      background-color: #98442e;
+      color: white;
+      font-style: italic;
+      border: 5px solid #e06e3c;
+      font-size: 2em;
+    `;
+    console.log('%cVariety is the spice of life', styles);
+
+    // 清空消息
+    console.log(1);
+    console.clear();
+    console.log(2);
+  </script>
+</body>
+</html>

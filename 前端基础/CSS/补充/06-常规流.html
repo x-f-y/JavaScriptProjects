@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .parent {
+            background-color: lightblue;
+            height: 200px;
+            border: 2px solid;
+            padding: 30px;
+        }
+        .child {
+            border: 2px solid;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        包含块（containing block）
+            一个元素的尺寸和位置经常受其包含块的影响。大多数情况下，包含块就是这个元素最近的
+            祖先块级元素的内容区（content-box）
+     -->
+
+    <!-- 
+        常规流中块盒的视觉格式化模型（排列方式）：
+            规则一：每个块盒的总宽度（width+padding-left/right+border-left/right+margin-left/right），
+            必须刚好等于其包含块的宽度
+                插语：盒子模型中的默认尺寸
+                    1. margin(margin-top/right/bottom/left) 默认值为0
+                    2. border-width(border-top/right/bottom/left-width) 默认值为medium（注意：若没有
+                    设置border-style，则四个方向上的border-width值为0，因为border-style默认值为none）
+                    3. padding(padding-top/right/bottom/left) 默认值为0
+                    4. width/height 默认值为auto
+                备注：
+                    1. margin-left/right和width的值为auto表示吸收剩余空间，二者同时存在时，
+                    width的吸收能力强于margin
+                    2. 若总宽度相加仍有剩余空间（width+padding-left/right+border-left/right+
+                    margin-left/right<包含块的宽度），该剩余空间会被margin-right全部吸收
+                    3. 在常规流中，块盒在其包含块中水平居中，可以定宽、然后左右margin值设置为auto
+            规则二：关于auto值
+                1. height:auto; 表示高度被内容撑开
+                2. margin-top/bottom:auto; 表示上下的外边距为0
+                3. width:auto;和margin-left/right:auto; 见规则一
+            规则三：关于百分比
+                1. padding(top/right/bottom/left)、margin(top/right/bottom/left)、width取值为百分比时
+                是相对于其包含块的宽度
+                2. height取值为百分比时，分两种情况：
+                    - 父元素（包含块）高度未设置时（此时父元素高度取默认值auto，表示其高度由子元素决定/撑开，而
+                    子元素高度为百分比表示其高度由父元素决定，产生矛盾），height设置为百分比无效，为默认值auto
+                    - 父元素（包含块）定高时，height设置为百分比表示相对于父元素（包含块）的高度
+     -->
+
+    <div class="parent">
+        <div class="child">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam doloribus molestiae voluptas mollitia, quisquam inventore? Maiores cupiditate deserunt repudiandae nulla id sed nesciunt quam rerum! Quam labore porro dolores omnis.
+        </div>
+    </div>
+</body>
+</html>

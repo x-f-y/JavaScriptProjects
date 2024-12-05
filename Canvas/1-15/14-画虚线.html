@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        /**
+         * 画虚线相关api
+         *  1. ctx.setLineDash(segments) 该方法用于在填充线时使用虚线模式
+         *      备注1：参数segments是一个用于描述交替绘制线段和间距长度的数组。如果数组元素的数量是奇数，那么数组的元素会被复制并重复
+         *      备注2：如果要切换回实线模式，将参数设置为一个空数组即可
+         *  2. ctx.getLineDash() 该方法用于获取当前线段的样式
+         *  3. ctx.lineDashOffset = value 设置虚线的偏移量
+         */
+
+        ctx.beginPath()
+        ctx.setLineDash([5, 10, 20])
+        console.log(ctx.getLineDash()) // [5, 10, 20, 5, 10, 20]
+        ctx.moveTo(0, 100)
+        ctx.lineTo(400, 100)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.setLineDash([5, 10, 20, 40])
+        console.log(ctx.getLineDash()) // [5, 10, 20, 40]
+        ctx.moveTo(0, 200)
+        ctx.lineTo(400, 200)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.setLineDash([])
+        console.log(ctx.getLineDash()) // []
+        ctx.moveTo(0, 300)
+        ctx.lineTo(400, 300)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.setLineDash([5, 10, 20, 40])
+        ctx.lineDashOffset = 3 // 和第二条虚线相比，虚线的总长度并没有发生变化，只是起始点向左偏移了3px
+        ctx.moveTo(0, 400)
+        ctx.lineTo(400, 400)
+        ctx.stroke()
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            /**
+             * 插语：动画的基本步骤：
+             *  1. 清空canvas 除非接下来要画的内容会完全充满canvas（例如背景图），否则你需要清空所有。最简单的做法就是用clearRect方法
+             *  2. 保存canvas状态 如果你要改变一些会改变canvas状态的设置（样式，变形之类的），又要在每画一帧之时都是原始状态的话，你需要先
+             *  保存一下
+             *  3. 绘制动画图形 这一步才是重绘动画帧
+             *  4. 恢复canvas状态 如果已经保存了canvas的状态，可以先恢复它，然后重绘下一帧
+             */
+
+            class Heart{
+                constructor(x, y) {
+                    this.x = x
+                    this.y = y
+                    this.color = 'red'
+                    this.heartPath = new Path2D()
+                    this.pointInPath = false
+                    this.eventMapList = {
+                        hover: [],
+                        leave: []
+                    }
+                    canvas.onmousemove = (e) => {
+                        this.pointInPath = ctx.isPointInPath(this.heartPath, e.offsetX, e.offsetY)
+                        if(this.pointInPath){
+                            this.eventMapList.hover.forEach(item => item())
+                        }else{
+                            this.eventMapList.leave.forEach(item => item())
+                        }
+                    }
+                }
+                setPosition(x, y){
+                    this.x = x
+                    this.y = y
+                }
+                onHover(fn){
+                    this.eventMapList.hover.push(fn)
+                }
+                onLeave(fn){
+                    this.eventMapList.leave.push(fn)
+                }
+                draw(){
+                    // 1. 清空画布
+                    ctx.clearRect(0, 0, canvas.width, canvas.height)
+                    // 2. 保存canvas状态
+                    ctx.save()
+                    // 3. 绘制动画图形
+                    this.heartPath.moveTo(this.x, this.y)
+                    this.heartPath.bezierCurveTo(this.x+200,this.y-130,this.x+130,this.y+180,this.x,this.y+200)
+                    this.heartPath.bezierCurveTo(this.x-130,this.y+180,this.x-200,this.y-130,this.x,this.y)
+                    ctx.fillStyle = this.color
+                    ctx.fill(this.heartPath)
+                    // 4. 恢复canvas状态
+                    ctx.restore()
+                }
+            }
+
+            const heart = new Heart(250, 150)
+            heart.onHover(() => {
+                heart.color = 'blue'
+            })
+            heart.onLeave(() => {
+                heart.color = 'red'
+            })
+            window.requestAnimationFrame(function render(){
+                heart.draw()
+                window.requestAnimationFrame(render)
+            })
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/**
+			 * Navigator
+			 * 	由于历史原因，Navigator对象中的大部分属性都已经不能帮助我们识别浏览器了
+			 * 	一般我们只会使用userAgent来判断浏览器的信息
+			 * 		userAgent是一个包含了用来描述浏览器信息内容的字符串
+			 * 		不同的浏览器会有不同的userAgent
+			 * 	chrome的userAgent
+			 * 		Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36
+			 * 	firefox的userAgent
+			 * 		Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0
+			 * 	IE8的userAgent
+			 * 		Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)
+			 * 	IE9的userAgent
+			 * 		Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)
+			 * 	ie10的userAgent
+			 * 		Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)
+			 * 	ie11的userAgent在IE11中已经将微软和IE相关的标识都已经去除了，所以我们基本已经不能通过JserAgent:来识别一个浏览器是否是IE了
+			 * 		Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; rv:11.0) like Gecko
+			 * 	在IE11中已经将微软和IE相关的标识都已经去除了，所以我们基本已经不能通过userAgent来识别一个浏览器是否是IE了
+			 */
+			// chrome、firefox、ie11 为NetScape	ie10、ie9、ie8... 为Microsoft Internet Explorer
+			// alert(navigator.appName);
+
+			/* var ua = navigator.userAgent;
+			if(/chrome/i.test(ua)){
+				alert("我是谷歌浏览器");
+			}else if(/firefox/i.test(ua)){
+				alert("我是火狐浏览器");
+			}else if(/msie/i.test(ua)){
+				alert("我是IE浏览器");
+			} */
+
+			/**
+			 * 如果通过userAgent不能判断是否是ie浏览器，还可以通过一些浏览器中特有的对象，来判断浏览器的类型
+			 * 	比如  ActiveXObject(attachEvent和currentStyle也是ie特有的)  
+			 */
+			// chrome、firefox 为undefined	ie11、ie10、ie9、ie8... 为function ActiveXObject(){[native code]}
+			// alert(window.ActiveXObject);
+			
+			/* if(window.ActiveXObject){
+				alert("我是ie浏览器");
+			}else{
+				alert("我不是ie浏览器");
+			} */
+			//将window.ActiveXObject转换为布尔值在ie8、9、10中为true，在ie11中为false
+			//可以将window.ActiveXObject用"ActiveXObject" in window来代替从而解决这个问题
+			//alert(!!window.ActiveXObject);
+
+			var ua = navigator.userAgent;
+			if (/chrome/i.test(ua)) {
+				alert("我是谷歌浏览器");
+			} else if (/firefox/i.test(ua)) {
+				alert("我是火狐浏览器");
+			} else if (/msie/i.test(ua)) {
+				alert("我是IE浏览器");
+			} else if ("ActiveXObject" in window) {
+				alert("我是IE11浏览器");
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

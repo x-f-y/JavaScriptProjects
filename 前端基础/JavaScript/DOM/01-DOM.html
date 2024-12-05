@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				DOM,全称Document Object Model,文档对象模型。
+				JS中通过DOM来对HTML文档进行操作。只要理解了DOM就可以随心所欲的操作WEB页面。
+				文档	文档表示的就是整个的HTML网页文档
+				对象	对象表示将网页中的每一个部分都转换为了一个对象。
+				模型	使用模型来表示对象之间的关系，这样方便我们获取对象。
+				
+				节点Node,是构成我们网页的最基本的组成部分，网页中的每一个部分都可以称为是一个节点。
+					比如：html标签、属性、文本、注释、整个文档等都是一个节点。
+				虽然都是节点，但是实际上他们的具体类型是不同的。比如：标签我们称为元素节点、
+					属性称为属性节点、文本称为文本节点、文档称为文档节点、注释称为注释节点。
+				节点的类型不同，属性和方法也都不尽相同。
+				
+				nodeName	nodeType	nodeValue
+				元素节点	标签名大写		 1		   null
+				属性节点	属性名			 2		  属性值
+				文本节点	#text		    3		 ★文本内容
+				注释节点 	#comment	    8		 注释的内容
+				文档节点 	#document		9		  null
+			 */
+		</script>
+	</head>
+	<body>
+		<!-- 
+			我们可以在事件对应的属性中设置一些js代码，这样当事件被触发时，这些代码
+				将会执行,这种写法我们称为结构和行为耦合，不方便维护，不推荐使用 
+		-->
+		<!-- <button id="btn" onclick="alert('你点我干嘛');">我是一个按钮</button> -->
+		<button id="btn">我是一个按钮</button>
+		<script type="text/javascript">
+			/* 
+				浏览器已经为我们提供了文档节点对象，这个对象是window对象的属性
+					可以在页面中直接使用，文档节点代表的是整个网页
+				事件，就是文档或浏览器窗口中发生的一些特定的交互瞬间。JavaScript与HTML
+					之间的交互是通过事件实现的。
+				对于Web应用来说，有下面这些代表性的事件：点击某个元素、将鼠标移动
+					至某个元素上方、按下键盘上某个键，等等。
+			 */
+			//获取到button对象
+			var btn = document.getElementById("btn");
+			//修改按钮的文字
+			btn.innerHTML = "I'm a button";//注意:对于自结束标签(如input标签),innerHTML和innerText属性没有意义
+			//btn.innerHTML = "I'm a button";
+			//可以为按钮的对应事件绑定处理函数的形式来响应事件
+			//绑定一个单击事件 像这种为单击事件绑定的函数，我们称为单击响应函数
+			btn.onclick = function(){
+				alert("你还点~~~");
+			};
+		</script>
+
+		<p>你好</p>
+		<button>我是一个按钮</button>
+		<!-- 这是一段注释 -->
+		<input type="text" name="xfy" id="ipt">
+		
+		<script>
+			// 文本节点
+			console.log(document.getElementsByTagName('p')[0].firstChild.nodeValue) // 你好
+			console.log(document.getElementsByTagName('p')[0].firstChild.nodeName) // #text
+			console.log(document.getElementsByTagName('p')[0].firstChild.nodeType) // 3
+			console.log('----------------------')
+			// 元素节点
+			console.log(document.querySelector('button').nodeValue) // null
+			console.log(document.querySelector('button').nodeName) // BUTTON
+			console.log(document.querySelector('button').nodeType) // 1
+			console.log('----------------------')
+			// 属性节点
+			// getAttributeNode()方法获取指定元素的指定属性节点
+			console.log(document.getElementById('ipt').getAttributeNode('name').nodeValue) // xfy
+			console.log(document.getElementById('ipt').getAttributeNode('name').nodeName) // name
+			console.log(document.getElementById('ipt').getAttributeNode('name').nodeType) // 2
+			console.log('----------------------')
+			// 文档节点
+			console.log(document.nodeValue) // null
+			console.log(document.nodeName) // #document
+			console.log(document.nodeType) // 9
+			console.log('----------------------')
+			// 注释节点
+			const input = document.getElementsByName('xfy')[0]
+			// 注意：使用诸如Node.firstChild和Node.previousSibling之类的方法可能会引用到一个空白符文本节点
+			console.log(input.previousSibling.previousSibling.nodeValue) // 这是一段注释
+			console.log(input.previousSibling.previousSibling.nodeName) // #comment
+			console.log(input.previousSibling.previousSibling.nodeType) // 8
+		</script>
+	</body>
+</html>
+

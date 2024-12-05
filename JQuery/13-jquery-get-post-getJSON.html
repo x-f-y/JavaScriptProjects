@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/jquery-3.6.0.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			/**
+			 * $.get('请求地址','请求参数',function(形参){});
+			 * $.post('请求地址','请求参数',function(形参){});
+			 * $.getJSON('请求地址','请求参数',function(形参){});
+			 * 	注意：对于getJSON方法，它要求返回的数据满足json格式（json字符串），如果返回的数据不是json格式，则无法获取
+			 * 	注意：对于$.get和$.post还有一个可选的参数，返回数据的类型，可设置为json
+			 */
+			$(function(){
+				$.get('./data.txt',{},function(data){
+					console.log(data);
+				});
+				/* $.post('./data.txt',{},function(data){
+					console.log(data);
+				}); */
+				$.getJSON('./data.txt',{},function(data){
+					console.log(data);
+				});
+			});
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

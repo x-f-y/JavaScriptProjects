@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios 拦截器</title>
+    <!-- 引入axios -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"></script>
+</head>
+
+<body>
+    <script>
+        // 设置请求拦截器 config 是配置对象
+        // 请求拦截器是后添加先执行
+        axios.interceptors.request.use(function (config) {
+            console.log('请求拦截器 成功 - 1号')
+            // throw '参数出了问题'
+            // 修改config中的参数
+            config.params = { a: 100 }
+            // 由于axios是根据配置对象config来发送请求的，所以这里必须返回config配置对象
+            return config;
+        }, function (error) {
+            console.log('请求拦截器 失败 - 1号')
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.request.use(function (config) {
+            console.log('请求拦截器 成功 - 2号')
+            // 修改config中的参数
+            config.headers = { username: 'admin' }
+            return config;
+        }, function (error) {
+            console.log('请求拦截器 失败 - 2号')
+            return Promise.reject(error);
+        });
+
+        // 设置响应拦截器 response 是axios生成的默认响应结果
+        // 响应拦截器是先添加先执行
+        axios.interceptors.response.use(function (response) {
+            console.log('响应拦截器 成功 - 1号')
+            return response.data
+            // return response;
+        }, function (error) {
+            console.log('响应拦截器 失败 - 1号')
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            console.log('响应拦截器 成功 - 2号')
+            return response;
+        }, function (error) {
+            console.log('响应拦截器 失败 - 2号')
+            return Promise.reject(error);
+        });
+
+        // 发送请求
+        axios({
+            method: 'GET',
+            url: 'http://localhost:3000/posts'
+        }).then(response => {
+            console.log('自定义回调处理成功的结果')
+            console.log(response)
+        }).catch(reason => {
+            console.log('自定义失败回调')
+            console.log(reason)
+        })
+    </script>
+</body>
+
+</html>

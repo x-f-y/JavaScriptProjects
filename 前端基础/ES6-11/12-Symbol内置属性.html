@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Symbol.hasInstance 当其他对象使用instanceof运算符，判断是否为该对象的实例时，会调用这个方法
+        class Person{
+            static [Symbol.hasInstance](params){
+                console.log(params) // {name: 'zs'}
+                console.log('我被用来检测数据类型了') // 我被用来检测数据类型了
+                return true
+            }
+        }
+        let person = {name: 'zs'}
+        console.log(person instanceof Person) // true
+
+        // Symbol.isConcatSpreadable 一个布尔值，表示该对象用于Array.prototype.concat()方法时，是否可以展开
+        let arr1 = [1, 2, 3]
+        let arr2 = [4, 5, 6]
+        console.log(arr1.concat(arr2)) // (6) [1, 2, 3, 4, 5, 6]
+        arr1[Symbol.isConcatSpreadable] = false
+        console.log(arr1.concat(arr2)) // (4) [Array(3), 4, 5, 6]
+        arr2[Symbol.isConcatSpreadable] = false
+        console.log(arr1.concat(arr2)) // (2) [Array(3), Array(3)]
+
+        // Symbol.toStringTag 用于对象的默认描述的字符串值。被 Object.prototype.toString() 使用
+        console.log(Object.prototype.toString.call('foo')); // [object String]
+        console.log(Object.prototype.toString.call(3)); // [object Number]
+        console.log(Object.prototype.toString.call(true)); // [object Boolean]
+        console.log(Object.prototype.toString.call(null)); // [object Null]
+        console.log(Object.prototype.toString.call(undefined)); // [object Undefined]
+        console.log(Object.prototype.toString.call(new Object())) // [object Object]
+        console.log(Object.prototype.toString.call(function () {})) // [object Function]
+        console.log(Object.prototype.toString.call([1, 2])); // [object Array]
+        console.log(Object.prototype.toString.call(Symbol('a'))) // [object Symbol]
+        console.log(Object.prototype.toString.call(18n)) // [object BigInt]
+        console.log(Object.prototype.toString.call(Math)) // [object Math]
+        console.log(Object.prototype.toString.call(new Date())) // [object Date]
+        console.log(Object.prototype.toString.call(/a/)) // [object RegExp]
+        console.log(Object.prototype.toString.call(new Map())); // [object Map]
+        console.log(Object.prototype.toString.call(new Set())) // [object Set]
+        console.log(Object.prototype.toString.call(function* () {})); // [object GeneratorFunction]
+        console.log(Object.prototype.toString.call(Promise.resolve())); // [object Promise]
+        
+        // ......
+        class ValidatorClass { // 自定义类
+            get [Symbol.toStringTag](){
+                return 'ValidatorClass'
+            }
+        }
+        console.log(Object.prototype.toString.call(new ValidatorClass())) // [object ValidatorClass]
+
+        // Symbol.toPrimitive 将对象转化为原始类型时，会调用这个方法
+        const obj = {
+            [Symbol.toPrimitive]: function(hint){
+                console.log(hint)
+                if(hint == 'number'){
+                    return 10
+                }
+                if(hint == 'string'){
+                    return 'hello'
+                }
+            }
+        }
+        console.log(Number(obj)) // number 10
+        console.log(String(obj)) // string hello
+
+        // ......
+    </script>
+</body>
+</html>

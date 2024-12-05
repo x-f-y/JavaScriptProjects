@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios创建实例对象</title>
+    <!-- 引入axios -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"></script>
+</head>
+
+<body>
+    <script>
+        // 创建实例对象duanzi 该实例对象与axios对象的功能几乎是一样的
+        const duanzi = axios.create({
+            baseURL: 'http:localhost:3000',
+            timeout: 2000
+        })
+        // console.log(duanzi)
+
+        // 发送请求
+        duanzi({
+            // 默认是get请求
+            url: '/comments'
+        }).then(response => {
+            console.log(response)
+        })
+
+        duanzi.get('/posts').then(response => {
+            console.log(response)
+        })
+    </script>
+</body>
+
+</html>

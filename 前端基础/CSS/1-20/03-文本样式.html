@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h3 {
+            /* 设置字体颜色 */
+            color: #0000ff;
+            /* 设置块级元素（h1-h6、p、div等）（a、span是行内元素）内文本的水平对齐方式 */
+            text-align: center;
+            /* 设置文字的装饰 none underline下划线 overline上划线 line-through删除线 */
+            text-decoration: underline;
+        }
+
+        a {
+            /* 去除超链接默认的下划线 */
+            text-decoration: none;
+        }
+
+        p {
+			/* 
+				em是一个相对单位
+					- 在font-size中使用是相对于父元素的字体大小
+					- 在其他属性（如width、height、line-height、padding、border、margin、text-indent）中使用是相对于自身的字体大小
+				rem也是一个相对单位
+					- 始终是相对于html根元素的字体大小
+                vw(viewport width,视口宽度)和vh(viewport height,视口高度)也是相对单位
+                    - 始终是相对于当前视口的宽度和高度
+                    - 1vw = 视口宽度的1%    1vh = 视口高度的1%
+                    - 注意：我们本质上是根据视口宽度来等比例缩放页面元素高度和宽度的，所以开发中使用vw就足够了，vh一般很少使用
+                vmin和vmax也是相对单位
+                    - vmin：在视口宽度vw和视口高度vh中取最小值
+                    - vmax：在视口宽度vw和视口宽度vh中取最大值
+                注意：rem和vw主要用于移动端布局，在PC端尽量不要使用
+			 */
+            /* 设置段落文字首行缩进2个文字大小的距离 这里也可以设置为32px（浏览器中文本默认是16px），效果一样 */
+            /* text-indent可以是负值 */
+            text-indent: 2em;
+        }
+
+        .lineHeight {
+            /* 设置文本的行间距（行高） 行高由三部分组成：上间距、文字的高度（默认是16px）和下间距 */
+            /* 设置文本的行间距其实就是改变文本的上间距和下间距 */
+            /* 上间距=5px，文字的高度=16px，下间距=5px */
+            line-height: 26px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>今天天气真好</h3>
+    <a href="#">这是一个超链接</a><br />
+    <p>打开北京、上海与广州的地铁地图，你会看见三张纵横交错的线路网络，这代表了中国最成熟的三套
+        城市轨道交通系统</p>
+    <p class="lineHeight">可即使这样，在北上广生活的人依然少不了对地铁的抱怨，其中谈及最多的问题便是拥挤一对很多人
+        而言，每次挤地铁的过程，都像是一场硬仗。更何况，还都是败仗居多。那么，当越来越多的二线甚至三线城市迎接来了自己的地铁，中国哪里的地铁是最拥挤的呢</p>
+</body>
+
+</html>

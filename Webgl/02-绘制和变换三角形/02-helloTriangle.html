@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 该函数的作用：创建顶点缓冲区对象，并将多个顶点的数据保存在缓冲区中，然后将缓冲区传给顶点着色器
+        function initVertexBuffers(){
+            let n = 3; // 点的个数
+            const vertices = new Float32Array([0.0, 0.5, -0.5, -0.5, 0.5, -0.5]);
+
+            // 1. 创建缓冲区对象
+            const vertexBuffer = gl.createBuffer();
+
+            // 2. 将缓冲区对象绑定到“目标”，这个“目标”表示缓冲区对象的用途
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+
+            // 3. 向缓冲区对象中写入数据
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position'); // 获取attribute变量的存储位置
+
+            // 4. 将缓冲区对象分配给attribute变量
+            gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+
+            // 5. 开启（激活）attribute变量，使缓冲区对attribute变量的分配有效
+            gl.enableVertexAttribArray(a_Position);
+
+            return n;
+        }
+
+        // 顶点着色器
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            void main(){
+                gl_Position = a_Position;
+            }
+        `;
+
+        // 片元着色器
+        const FSHADER_SOURCE = `
+            void main(){
+                gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+            }
+        `;
+
+        // 获取webgl绘图上下文
+        const canvas = document.getElementById('canvas');
+        const gl = canvas.getContext('webgl');
+
+        // 初始化着色器
+        initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+        // 设置点的坐标信息
+        const n = initVertexBuffers(gl);
+
+        // 设置canvas背景色
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+        // 清空canvas
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        // 绘制三角形
+        /**
+         * 关于gl.drawArrays()方法的参数mode的可选值：
+         *  gl.POINTS：一系列点，绘制在v0、v1、v2...处
+         *  gl.LINES：一系列单独的线段，绘制在（v0，v1）、（v2，v3）、（v4，v5）...处，如果点的个数是奇数，最后一个点将被忽略
+         *  gl.LINE_STRIP：一系列连接的线段，被绘制在（v0，v1）、（v1，v2）、（v2，v3）...处
+         *  gl.LINE_LOOP：一系列连接的线段，与gl.LINE_STRIP绘制的线条相比，增加了一条从最后一个点到第一个点的线段
+         *  gl.TRIANGLES：一系列单独的三角形，绘制在（v0，v1，v2）、（v3，v4，v5）...处，如果点的个数不是3的整数倍，
+         *      最后剩下的一或两个点会被忽略
+         *  gl.TRIANGLE_STRIP：一系列条带状的三角形，前三个点构成了第1个三角形，从第二个点开始的三个点构成了第2个三角形
+         *      （该三角形与前一个三角形共享一条边），以此类推
+         *  gl.TRIANGLE_FAN：一系列三角形组成的类似于扇形的图形，前3个点构成了第一个三角形，接下来的一个点和前一个三角形的
+         *      最后一条边组成接下来的一个三角形，这些三角形被绘制在（v0，v1，v2）、（v0，v2，v3）、（v0，v3，v4）...处
+         */
+        gl.drawArrays(gl.TRIANGLES, 0, n); // n = 3
+    </script>
+</body>
+</html>

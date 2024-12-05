@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>localStorage</h2>
+    <button onclick="saveData()">点我向浏览器本地存储保存数据</button><br>
+    <button onclick="readData()">点我向浏览器本地存储读取数据</button><br>
+    <button onclick="deleteData()">点我向浏览器本地存储删除数据</button><br>
+    <button onclick="deleteAllData()">点我清空浏览器的本地存储数据</button><br>
+
+    <script>
+        let p = { name: '张三', age: 18 }
+        console.log(p.toString()) // [object Object](对象转为字符串就是这种形式)
+        console.log(666) // 紫色，表示数值类型
+        console.log('666') // 黑色，表示字符串类型
+
+        function saveData() {
+            // localStorage是window对象上的方法
+            // 通过localStorage存储的键值，浏览器会将它们转换为字符串类型
+            localStorage.setItem('msg', '666') // key:'msg' value:'666'
+            localStorage.setItem('msg2', 666) // key:'msg2' value:'666'
+            // setItem方法可以向浏览器本地存储中存储数据，第二个参数为保存的数据，浏览器会将其转为字符串类型
+            localStorage.setItem('msg3', p) // key:'msg3' value:"[object Object]"(对象的字符串形式)
+            // 要想在浏览器的本地存储中保存和读取对象或数组，可以调用JSON.stringify()和JSON.parse()方法
+            localStorage.setItem('msg4', JSON.stringify(p)) // key:'msg4' value:"{"name":"张三","age":18}"
+        }
+        function readData() {
+            console.log(localStorage.getItem('msg')) // '666'
+            console.log(localStorage.getItem('msg2')) // '666'
+            console.log(localStorage.getItem('msg3')) // "[object Object]"
+            console.log(JSON.parse(localStorage.getItem('msg4'))) // {name: '张三', age: 18}
+        }
+        function deleteData() {
+            localStorage.removeItem('msg')
+        }
+        function deleteAllData() {
+            localStorage.clear()
+        }
+    </script>
+</body>
+
+</html>

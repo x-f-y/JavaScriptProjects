@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* float属性用于创建浮动框，将其移动到一边，直到左边缘或右边缘触及包含块或另一个浮动框的边缘 */
+        /* 浮动：先浮（基于原来的位置漂浮起来）后动（left则往左动，right则往右动） */
+        /* 
+            浮动的三个特性：
+            - 设置了浮动的元素会：
+                - 脱离标准普通流的控制（浮）移动到指定位置（动）
+                - 浮动的盒子不再保留原先的位置
+            - 如果多个盒子都设置了浮动，则它们会在一行内显示并且顶端对齐
+                - 注意：浮动的元素是互相贴靠在一起的，不会有缝隙（行内块元素之间有空隙），如果
+                  父级元素的宽度装不下这些浮动的盒子，则多出的盒子会另起一行对齐
+            - 浮动的元素会具有行内块元素的特性
+                - 任何元素都可以浮动，不管原先是什么模式的元素，添加浮动之后都具有行内块元素相似的特性
+                - 注意：
+                    - 如果为行内元素添加浮动，则不需要将其转换为块级/行内块元素就可以设置宽度和高度
+                    - 如果块级盒子没有设置宽度，那么就独占一行（一般是和父级一样宽），但是添加浮动后，
+                      它的宽度就会根据内容来决定
+         */
+        /* 
+            为了约束浮动元素的位置，网页布局一般采取的策略是：
+            先用标准流的父元素排列上下位置，之后内部子元素采取浮动排列左右位置，符合网页布局第一准则
+          */
+        .box {
+            width: 500px;
+            height: 300px;
+            margin: 100px auto;
+            background-color: #f1f1f1;
+        }
+
+        .one {
+            float: left;
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+        }
+
+        .two {
+            float: right;
+            width: 100px;
+            height: 100px;
+            background-color: skyblue;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        - CSS网页端布局的三种方式（移动端还有其他的布局方式）：
+            - 标准流（普通流/文档流）
+            - 浮动
+            - 定位
+        - 网页布局第一准则：
+            - 多个块级元素纵向排列找标准流，多个块级元素横向排列找浮动
+        - 网页布局第二准则：
+            - 先设置盒子的大小，之后设置盒子的位置
+     -->
+    <div class="box">
+        <div class="one"></div>
+        <div class="two"></div>
+    </div>
+</body>
+
+</html>

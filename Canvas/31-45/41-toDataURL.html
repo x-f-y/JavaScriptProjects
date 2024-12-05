@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="300">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <div class="img_container"></div>
+    <button id="btn">保存图片</button>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            /**
+             * api：
+             *  canvas.toDataURL(type, encoderOptions) 返回一个包含图片展示的data url。可以使用type参数指定其类型，默认为png格式
+             *  图片的分辨率为96dpi
+             * 参数：
+             *  type 可选，图片格式，默认为image/png
+             *  encoderOptions 可选，在指定图片格式为image/jpeg或image/webp的情况下，可以从0到1的区间内选择图片的质量，1表示最好品质，
+             *  0表示品质最差，基本无法辨别
+             * 备注：
+             *  当我们用toDataURL()方法从画布中生成了一个数据链接后，我们可以将它用于元素显示出来，也可以将它放在一个有download属性的超链接
+             *  里用于保存到本地
+             */
+
+            const img = document.createElement('img')
+            img.src = '/image/scenery.png'
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+                const fullQuality = canvas.toDataURL('image/jpeg', 1.0)
+                const mediumQuality = canvas.toDataURL('image/jpeg', 0.5)
+                const lowQuality = canvas.toDataURL('image/jpeg', 0.1)
+                const img1 = document.createElement('img')
+                img1.src = fullQuality
+                img1.width = 400
+                const img2 = document.createElement('img')
+                img2.src = mediumQuality
+                img2.width = 400
+                const img3 = document.createElement('img')
+                img3.src = lowQuality
+                img3.width = 400
+                document.querySelector('.img_container').appendChild(img1)
+                document.querySelector('.img_container').appendChild(img2)
+                document.querySelector('.img_container').appendChild(img3)
+            }
+
+            document.querySelector('#btn').addEventListener('click', () => {
+                const url = canvas.toDataURL()
+                const a = document.createElement('a')
+                // a.setAttribute('download', 'picture')
+                a.download = 'picture'
+                a.href = url
+                // document.body.appendChild(a)
+                a.click()
+            })
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>05_常见简单几何体</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 0.1, 100);
+        camera.position.set(5, 1, 30);
+        camera.lookAt(8, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(canvasWidth, canvasHeight);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(8, 0, 0); // 更改控制器的焦点（与相机的观察点保持一致）
+        controls.update(); // controls.update()必须在摄像机的变换发生任何手动改变后调用
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        const pointLight = new THREE.PointLight(0xffffff);
+        pointLight.decay = 0;
+        pointLight.intensity = 2; // 设置光照强度，默认值为1
+        pointLight.position.set(5, 10, 30);
+        scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        // 长方体，参数分别为宽度、高度、深度、宽度的分段数（可选）、高度的分段数（可选）和深度的分段数（可选）
+        const boxGeometry = new THREE.BoxGeometry(2, 2, 2, 4, 4, 4);
+        // 球体，参数为球体半径
+        const sphereGeometry = new THREE.SphereGeometry(1);
+        // 圆柱体，参数分别为顶部半径、底部半径和圆柱的高度
+        const cylinderGeometry = new THREE.CylinderGeometry(1, 1, 2);
+        // 圆锥体，参数分别为底部半径和圆锥的高度
+        const coneGeometry = new THREE.ConeGeometry(1, 2);
+        // 矩形平面，参数分别为平面沿着x轴的宽度和平面沿着y轴的高度
+        const planeGeometry = new THREE.PlaneGeometry(2, 2);
+        // 圆形平面，参数为圆形平面的半径
+        const circleGeometry = new THREE.CircleGeometry(1);
+
+        // 定义高光网格材质（这种材质受光照的影响）
+        const material = new THREE.MeshPhongMaterial({
+            color: 'red',
+            side: THREE.DoubleSide, // 定义将要渲染哪一面，可选值有THREE.FrontSide（默认值）、THREE.BackSide、THREE.DoubleSide
+            shininess: 40, // 高亮的程度，越高的值越闪亮，默认值为 30
+            specular: 0x333333, // 材质的高光颜色，默认值为0x111111（深灰色）
+            wireframe: true // 将几何体渲染为线框，默认值为false
+        });
+
+        const boxMesh = new THREE.Mesh(boxGeometry, material);
+        const sphereMesh = new THREE.Mesh(sphereGeometry, material);
+        const cylinderMesh = new THREE.Mesh(cylinderGeometry, material);
+        const coneMesh = new THREE.Mesh(coneGeometry, material);
+        const planeMesh = new THREE.Mesh(planeGeometry, material);
+        const circleMesh = new THREE.Mesh(circleGeometry, material);
+
+        boxMesh.position.set(0, 0, 0);
+        sphereMesh.position.set(3, 0, 0);
+        cylinderMesh.position.set(6, 0, 0);
+        coneMesh.position.set(9, 0, 0);
+        planeMesh.position.set(12, 0, 0);
+        circleMesh.position.set(15, 0, 0);
+
+        scene.add(boxMesh);
+        scene.add(sphereMesh);
+        scene.add(cylinderMesh);
+        scene.add(coneMesh);
+        scene.add(planeMesh);
+        scene.add(circleMesh);
+
+        renderer.render(scene, camera);
+    </script>
+</body>
+</html>

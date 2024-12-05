@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div[class^="box"] {
+            width: 400px;
+            height: 150px;
+            line-height: 2;
+            border: 2px solid;
+            margin: 1em auto;
+        }
+        .box1 {
+            /* word-break: normal; */
+            /* word-break: break-all; */
+            word-break: keep-all;
+        }
+        .box2 {
+            /* word-break: normal; */
+            /* word-break: break-all; */
+            word-break: keep-all;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        word-break 指定文字（单词）在什么位置被截断换行，可选值：
+            - normal 默认值，CJK字符（中文/日文/韩文）在文字位置截断，非CJK字符在单词之间截断
+            - break-all 所有字符都在文字位置截断
+            - keep-all 所有字符都在单词之间截断
+     -->
+    <div class="box1">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Repellendus ea consectetur repudiandae, sint aliquam, earum aliquid quam illum est optio maxime dolorem. 
+    </div>
+    <div class="box2">
+        丁阿芳以发会返回年你为即将覅阿尼哦烦恼丁阿芳以发会返回年你为即将覅阿尼哦烦恼
+        丁阿芳以发会返回年你为即将覅阿尼哦烦恼丁阿芳以发会返回年你为即将覅阿尼哦烦恼
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios其他使用</title>
+    <!-- 引入axios -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <!-- 引入外部样式 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="page-header">基本使用</h2>
+        <button class="btn btn-primary">发送 GET 请求</button>
+        <button class="btn btn-warning">发送 POST 请求</button>
+        <button class="btn btn-success">发送 PUT 请求</button>
+        <button class="btn btn-danger">发送 DELETE 请求</button>
+    </div>
+    <script>
+        // 获取按钮
+        const btns = document.querySelectorAll('button')
+
+        // axios默认配置
+        axios.defaults.baseURL = 'http://localhost:3000'
+
+        // 点击按钮发送get请求 查询评论
+        btns[0].onclick = function () {
+            // axios.request()与axios()的使用方式一样
+            axios.request({
+                // 请求类型
+                method: 'GET',
+                // 请求url
+                url: '/comments'
+            }).then(response => {
+                console.log(response)
+            })
+        }
+
+        // 点击按钮发送post请求 新增评论
+        btns[1].onclick = function () {
+            // axios.post(url[, data, config])
+            axios.post('/comments', {
+                body: '今天天气真好',
+                postId: 1
+            }).then(response => {
+                console.log(response)
+            })
+        }
+    </script>
+</body>
+
+</html>

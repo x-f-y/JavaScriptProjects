@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../tools/vue.js"></script>
+</head>
+
+<body>
+    <!--
+        自定义指令总结：
+            - 定义语法：
+                (1).局部指令:
+                    new Vue({directives:{指令名:配置对象}}) 或 new Vue({directives:{指令名:回调函数}})
+                (2).全局指令
+                    Vue.directive(指令名,配置对象) 或 Vue.directive(指令名:回调函数)
+            - 配置对象中常用的3个回调：
+                (1). bind：指令第一次与元素成功绑定时调用，只调用一次。在这里可以进行一次性的初始化设置
+                (2). inserted：指令所在元素被插入页面时调用
+                (3). update：指令所在模板结构被重新解析时调用
+            - 备注：
+                (1).指令定义时不加v-，但使用时要加v-
+                (2).指令名如果是多个单词，要使用kebab-case命名，不要用camelCase命名
+     -->
+    <!-- 
+        需求1：定义一个v-big指令，和v-text功能类似，但会把绑定的数值放大10倍
+        需求2：定义一个v-fbind指令，和v-bind功能类似，但可以让其绑定的input元素默认获取焦点
+     -->
+    <div id="root">
+        <h3>当前的n值为：<span v-text="n"></span></h3>
+        <button @click="n++">点我n+1</button>
+        <hr>
+        <h3>放大10倍后n的值为：<span v-big="n"></span></h3>
+        <!-- 指令名较长时，不要写成驼峰形式，如v-bigNumber，而应该写成如下形式：v-big-number -->
+        <!-- <h2>放大10倍后n的值为：<span v-big-number="n"></span></h2> -->
+        <hr>
+        <input type="text" v-fbind:value="n">
+    </div>
+    <script>
+        Vue.config.productionTip = false
+        // 全局指令（必须写在创建Vue实例之前）
+        Vue.directive('big',function(element, binding){
+            element.innerText = binding.value * 10
+        })
+        Vue.directive('fbind', {
+            bind(element, binding){
+                element.value = binding.value
+            },
+            inserted(element, binding){
+                element.focus()
+            },
+            update(element, binding){
+                element.value = binding.value
+            }
+        })
+        new Vue({
+            el: '#root',
+            data: {
+                n: 1
+            },
+            // 自定义指令（局部指令）
+            directives: {
+                // big函数何时会被调用？1.指令与元素成功绑定时(一上来) 2.指令所在的模板被重新解析时
+                /*big(element, binding) {
+                    // console.log(element instanceof HTMLElement) // true
+                    // console.log(element, binding)
+                    element.innerText = binding.value * 10
+                    // console.log(this) // 注意：这里的this是window
+                },*/
+                // 指令名中包含-时，应该用引号把指令名包起来，如下：（平时不使用引号其实是使用的简写形式）
+                /*'big-number'(element, binding) {
+                    // console.log(element instanceof HTMLElement) // true
+                    // console.log(element, binding)
+                    element.innerText = binding.value * 10
+                },*/
+                /*fbind(element, binding){ // 这种方式也可以
+					element.value = binding.value
+					setTimeout(() => {
+						element.focus()
+					})
+				},*/
+                /*fbind(element, binding, vNode){ // 这种方式也可以
+					// console.log(vNode.context) // vNode.context是vm组件实例对象
+					element.value = binding.value
+					vNode.context.$nextTick(function(){
+						element.focus()
+					})
+				},*/
+                /*fbind: {
+                    // 指令与元素成功绑定时(一上来)被调用 此时还没创建dom元素
+                    bind(element, binding) {
+                        element.value = binding.value
+                        // console.log(this, 'bind') // 注意：这里的this是window
+                    },
+                    // 指令所在元素被插入页面时被调用 此时已经创建了dom元素
+                    inserted(element, binding) {
+                        // 注意：像获取焦点和获取父元素这样的操作必须等到dom节点创建完成之后再执行，所以这样的操作只能放在inserted()函数中
+                        element.focus() // focus()函数主要是用于为指定元素获取焦点
+                        // console.log(this, 'inserted') // 注意：这里的this是window
+                    },
+                    // 指令所在模板被重新解析时调用 其中的代码不能不写，大部分时候和bind中的代码是一样的
+                    update(element, binding) {
+                        element.value = binding.value
+                        // console.log(this, 'update') // 注意：这里的this是window
+                    }
+                }*/
+            }
+        })
+    </script>
+</body>
+
+</html>

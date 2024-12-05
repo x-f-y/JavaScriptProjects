@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function inherit(origin){
+            var target = Object.create(origin)
+            target.sayHi = function(){
+                console.log(target.name)
+            }
+            return target
+        }
+
+        var father = {
+            name: 'father',
+            sayName: function(){
+                console.log(this.name)
+            }
+        }
+
+        var son = inherit(father)
+        console.log(son.name) // father
+        son.sayName() // father
+        son.sayHi() // father
+
+        /**
+         * 寄生式继承是原型式继承的加强版
+         * 简而言之，寄生式继承就是在产生了这个继承自父类型的对象之后，为这个对象添加了一些增强方法
+         * 寄生式继承的缺点：和原型式继承一样，也缺少“类”的概念
+         */ 
+    </script>
+</body>
+</html>

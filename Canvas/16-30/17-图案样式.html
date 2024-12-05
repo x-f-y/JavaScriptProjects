@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            /**
+             * api：ctx.createPattern(image, repetition) 该方法使用指定的图像创建模式，它通过repetition参数在指定的方向上
+             *  重复元图像。此方法返回一个CanvasPattern对象
+             *
+             * 参数：
+             *  1. image 作为重复图像源的对象，可以是下列之一：HTMLImageElement（<img>）、HTMLVideoElement（<video>）、
+             *  HTMLCanvasElement（<canvas>）、CanvasRenderingContext2D、ImageBitmap、ImageData、Blob
+             *  2. repetition 指定如何重复图像，允许的值有："repeat"、"repeat-x"、"repeat-y"、"no-repeat"。注意：如果为
+             *  空字符串或null（但不是undefined），repetition将被当作"repeat"
+             */
+
+            let img = new Image()
+            img.src = '/image/arr.png'
+            img.onload = function(){
+                let pattern = ctx.createPattern(img, "repeat-x")
+                /**
+                 * 插语：
+                 *  对于 ctx.fillStyle = value 和 ctx.strokeStyle = value，其中value可以是：
+                 *  color（DOMString字符串，被转换成CSS <color>颜色值）、gradient（CanvasGradient对象，线性渐变或者放射性渐变）
+                 *  和pattern（CanvasPattern对象，可重复图像）
+                 */
+                ctx.fillStyle = pattern
+                ctx.fillRect(0, 0, canvas.width, canvas.height)
+            }
+        }
+    </script>
+</body>
+</html>

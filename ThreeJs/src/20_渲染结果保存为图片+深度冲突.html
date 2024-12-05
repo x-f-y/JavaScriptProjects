@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>20_渲染结果保存为图片+深度冲突</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <button id="save" style="position: fixed; top: 15px; right: 15px;">保存为图片</button>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            preserveDrawingBuffer: true, // 设置该属性为true表示在渲染完成后保留绘图缓冲区的内容，可以通过读取绘图缓冲区的内容来获取当前画面的像素数据
+            // logarithmicDepthBuffer: true // 使用对数深度缓冲区，优化深度冲突问题（只能优化，不能保证解决）
+        });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        container.appendChild(renderer.domElement);
+
+        const scene = new THREE.Scene();
+
+        const geometry1 = new THREE.PlaneGeometry(4, 4);
+        const geometry2 = new THREE.PlaneGeometry(3, 3);
+        const material1 = new THREE.MeshLambertMaterial({
+            color: 0x00ffff,
+            side: THREE.DoubleSide,
+            polygonOffset: true, // 启用多边形偏移，这对应于WebGL的GL_POLYGON_OFFSET_FILL功能
+            polygonOffsetFactor: 1.0, // 设置多边形偏移系数
+            polygonOffsetUnits: 1.0 // 设置多边形偏移单位
+        });
+        const material2 = new THREE.MeshLambertMaterial({
+            color: 0xff6666,
+            side: THREE.DoubleSide,
+        });
+        const mesh1 = new THREE.Mesh(geometry1, material1);
+        const mesh2 = new THREE.Mesh(geometry2, material2);
+        scene.add(mesh1, mesh2);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        new OrbitControls(camera, renderer.domElement);
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(1, 4, 6);
+        scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+
+        requestAnimationFrame(function animate(){
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        });
+
+        // 点击保存按钮，将渲染结果保存为图片
+        document.getElementById('save').onclick = function(){
+            const link = document.createElement('a');
+            link.download = 'three';
+            link.href = renderer.domElement.toDataURL('image/jpeg');
+            link.click();
+        }
+    </script>
+</body>
+</html>

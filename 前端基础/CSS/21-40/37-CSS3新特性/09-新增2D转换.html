@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        转换（transform）是CSS3中具有颠覆性的特征之一，可以实现元素的位移（translate）、旋转（rotate）、缩放（scale）等效果
+     -->
+    <!-- 
+        transform: translate(x, y);
+        translate最大的优点：不会影响到其他元素的位置
+        translate中的百分比是相对于自身元素的
+        translate对行内元素（标签）没有效果
+     -->
+    <!-- 
+        transform:rotate(xxxdeg)
+        deg是单位，是度数的意思
+        角度为正时，顺时针旋转；角度为负时，逆时针旋转
+        默认旋转的中心点是元素的中心点
+     -->
+    <!-- 
+        transform-origin:x y;设置转换的中心点
+        默认转换的中心点是元素的中心点，即（50% 50%）
+        x和y可以是像素，也可以是方位名词（top、bottom、left、right）
+     -->
+    <!-- 
+        transform:scale(x,y);
+		    transform:scaleX(x);
+		    transform:scaleY(y);
+        参数x和y是缩放的倍数，没有单位
+        scale最大的优点：不会影响到其他的盒子，且可以设置缩放的中心点
+     -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 2000px;
+        }
+
+        .box1 {
+            width: 100px;
+            height: 100px;
+            background-color: skyblue;
+            transform: translate(20px, 10px);
+            /* 水平移动200像素 */
+            /* transform: translateX(200px); */
+            /* 垂直移动100像素 */
+            /* transform: translateY(100px); */
+        }
+
+        .box2 {
+            width: 100px;
+            height: 100px;
+            background-color: yellowgreen;
+        }
+
+        section {
+            width: 100px;
+            height: 100px;
+            background-color: aquamarine;
+            transform: translate(500%, 50%);
+        }
+
+        .father {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            background-color: pink;
+        }
+
+        .son {
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            /* 使用translate使用水平和垂直居中 */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .pic {
+            width: 150px;
+            border-radius: 50%;
+            border: 5px solid pink;
+            transition: all 1s;
+        }
+
+        .pic:hover {
+            /* 顺时针旋转360度 */
+            transform: rotate(360deg);
+        }
+
+        .box3 {
+            width: 100px;
+            height: 100px;
+            background-color: #bfa;
+            margin: 100px auto;
+            transition: all 1s;
+            /* transform-origin: left bottom; */
+            transform-origin: 25px 25px;
+        }
+
+        .box3:hover {
+            transform: rotate(360deg);
+        }
+
+        .box4 {
+            width: 200px;
+            height: 200px;
+            margin: 50px auto;
+            background-color: #bfa;
+            transform-origin: left bottom;
+            transition: all 0.5s;
+        }
+
+        .box4:hover {
+            /* 宽度和高度都放大为原来的2倍 */
+            /* transform: scale(2, 2); */
+            /* 宽度和高度都缩小为原来的0.5倍 */
+            /* transform: scale(0.5, 0.5); */
+            /* 等比例缩放 同时修改宽度和高度 有简洁的写法 */
+            transform: scale(0.5);
+        }
+
+        .box5 {
+            width: 200px;
+            height: 200px;
+            margin: 30px auto;
+            background-color: olivedrab;
+            transition: all 0.5s;
+        }
+
+        .box5:hover {
+            transform: translate(200px, 50px) rotate(180deg) scale(1.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <section></section>
+    <div class="father">
+        <div class="son"></div>
+    </div>
+    <img src="../../images/pic.jpg" alt="" class="pic">
+    <div class="box3"></div>
+    <div class="box4"></div>
+    <div class="box5"></div>
+</body>
+
+</html>

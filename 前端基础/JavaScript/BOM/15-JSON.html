@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!-- 如果需要IE7及以下的浏览器也能使用JSON操作，可以通过引入外部js文件的方式来处理 -->
+		<script type="text/javascript">
+			/**
+			 * JSON		JavaScript Object Notation JS对象表示法
+			 * 	JS中的对象只有JS自己认识，其他语言都不认识
+			 * 	JSON就是一个特殊格式的字符串，这个字符串可以被任意的语言所识别，并且可以转换为任意语言中的对象，JSON在开发中主要用于数据的交互
+			 * 	JSON和JS对象的格式一样，只不过JSON字符串中的属性名必须加双引号，其他的和JS语法一致
+			 * JSON分类：
+			 * 	1、对象 {}
+			 * 	2、数组 []
+			 * JSON中允许的值：
+			 * 	字符串  数值  布尔值  null  对象  数组
+			 */
+			var json = '{"name":"孙悟空","age":18,"gender":"男"}';
+			/**
+			 * JS为我们提供了一个工具类JSON，这个对象可以帮助我们将一个JSON转换为JS对象，也可以将一个JS对象转换为JSON
+			 */
+			//console.log(JSON);
+			/**
+			 * JSON -> js对象
+			 * 	JSON.parse()
+			 */
+			var obj = JSON.parse(json);
+			//console.log(obj.age);
+			/**
+			 * js对象 -> JSON
+			 * 	JSON.stringify()
+			 */
+			var obj2 = {name:"猪八戒",age:28,gender:"男"};
+			var json2 = JSON.stringify(obj2);
+			console.log(json2,typeof json2); // {"name":"猪八戒","age":28,"gender":"男"} string
+			/**
+			 * JSON这个对象在IE7及以下的浏览器中不支持，所以在这些浏览器中调用会报错
+			 */
+
+		 	// 注意：在json字符串中，如果属性值是字符串，则必须用双引号包起来，不能使用单引号
+		 	/* var o1 = '[{"name": "张三","age": 18},{"name": "李四","age": 20}]'
+		 	console.log(JSON.parse(o1)) // √
+		 	var o2 = `[{"name": "张三","age": 18},{"name": "李四","age": 20}]`
+	        console.log(JSON.parse(o2)) // √
+	        var o3 = "[{\"name\": \"张三\",\"age\": 18},{\"name\": \"李四\",\"age\": 20}]"
+	        console.log(JSON.parse(o3)) // √
+
+	        var o4 = '[{"name": \'张三\',"age": 18},{"name": \'李四\',"age": 20}]'
+	        console.log(JSON.parse(o4)) // ×
+	        var o5 = `[{"name": '张三',"age": 18},{"name": '李四',"age": 20}]`
+	        console.log(JSON.parse(o5)) // ×
+	        var o6 = "[{\"name\": '张三',\"age\": 18},{\"name\": '李四',\"age\": 20}]"
+	        console.log(JSON.parse(o6)) // × */
+		</script>
+		<script>
+			/**
+			 * 关于JSON.stringify()的一些细节：
+			 * 	1. 布尔值、数字、字符串的包装对象在序列化过程中会自动转换成对应的原始值
+			 * 	2. undefined、任意的函数以及symbol值，出现在非数组对象的属性值中时，在序列化过程中会被忽略
+			 * 	3. undefined、任何的函数以及symbol值，出现在数组中时，在序列化过程中会被转换成null
+			 * 	4. 函数、undefined被单独转换时，会返回undefined
+			 * 	5. 在序列化过程中，所有以symbol为属性键的属性都会被完全忽略掉，即使replacer参数中强制指定包含了它们
+			 * 	6. 在序列化过程中，不可枚举的属性默认会被忽略
+			 */ 
+
+			console.log(JSON.stringify([new Number(1), new String("hello"), new Boolean(false)])) // [1,"hello",false]
+			console.log(JSON.stringify({ x: undefined, y: Object, z: Symbol("") })) // {}
+			console.log(JSON.stringify([undefined, Object, Symbol("")])) // [null,null,null]
+			console.log(JSON.stringify(Object), JSON.stringify(undefined)) // undefined undefined
+			console.log(JSON.stringify({ [Symbol.for("foo")]: "foo" }, [Symbol.for("foo")])) // {}
+			console.log(JSON.stringify(Object.create(null, { // {"x":"test"}
+				x: { value: 'test', enumerable: true },
+				y: { value: 'demo', enumerable: false }
+			})))
+		</script>
+		<script>
+			/**
+			 * JSON.stringify(value[, replacer [, space]])的其它参数：
+			 * 	1. replacer：如果该参数是一个函数，则在序列化过程中，被序列化的值的每个属性都会经过该函数的转换和处理；
+			 * 	如果该参数是一个数组，则只有包含在这个数组中的属性名才会被序列化到最终的JSON字符串中
+			 * 	2. space：指定缩进用的空白字符串，用于美化输出
+			 */
+			
+			function replacer(key, value){
+				if(typeof value === 'string'){
+					return undefined
+				}
+				return value
+			}
+			var foo = {
+				foundation: 'Mozilla',
+				model: 'box',
+				week: 45,
+				transport: 'car',
+				month: 7
+			}
+			console.log(JSON.stringify(foo, replacer)) // {"week":45,"month":7}
+			console.log(JSON.stringify(foo, ['model', 'week', 'transport'])) // {"model":"box","week":45,"transport":"car"}
+			console.log(JSON.stringify({ a: 2 }, null, " ")) // {\n "a": 2\n}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

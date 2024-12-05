@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Father(a, b){
+            this.a = a
+            this.b = b
+            this.x = [1, 2, 3]
+        }
+        Father.prototype.fun = function(){
+            console.log('fun')
+        }
+        function Son(a, b, c, d){
+            // 关键：利用call()借用父类型的构造函数来初始化共同的属性
+            Father.call(this, a, b)
+            this.c = c
+            this.d = d
+        }
+        var s = new Son(1, 2, 3, 4)
+        console.log(s.a) // 1
+        console.log(s.b) // 2
+
+        /**
+         * 这种继承方式的缺点：
+         *  这种继承方式虽然解决了引用值共享的问题（原型链继承所存在的问题），但是由于没有涉及到原型，
+         *  这只是一种假的继承方式，无法继承父类型原型链上的属性和方法。而如果想要子类型继承就必须将其放在
+         *  构造函数中，但是这样创建出来的实例就都会拥有一份而无法共用，违背了代码复用原则
+         */ 
+
+        s.x.push(4)
+        console.log(s.x) // [1, 2, 3, 4]
+        var s2 = new Son()
+        console.log(s2.x) // [1, 2, 3]
+        s.fun() // 报错
+    </script>
+</body>
+</html>

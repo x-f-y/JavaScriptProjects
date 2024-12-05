@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 在js中，找变量找不到会报错，找一个变量的属性找不到会返回undefined
+         * 但有一种特殊情况，对未定义的变量使用typeof运算符时会返回“undefined”（不会报错）
+         */ 
+
+        console.log(typeof(typeof (abcdefg)) + " : " + typeof (abcdefg)) // string : undefined
+        console.log(typeof window.abcdefg + " : " + window.abcdefg) // undefined : undefined
+        // console.log(abcdefg) // 报错 Uncaught ReferenceError: abcdefg is not defined
+
+        /**
+         * 逗号（,）运算符
+         * 该运算符对它的每个操作数从左到右求值，并返回最后一个操作数的值
+         * void运算符
+         * 该运算符会对给定的表达式进行求值，然后返回undefined
+         */ 
+
+        console.log((1, 2)) // 2
+        var i = 10
+        console.log((i *= 2, i)) // 20
+        console.log(null == 0) // false
+        console.log((null == 0, null == undefined)) // true
+        console.log((null == 0, null == undefined, NaN == NaN)) // false
+
+        console.log(void 0) // undefined
+
+        /**
+         * 只有表达式才能被执行符号执行
+         */ 
+
+        /* function fn1(){
+            console.log('fn1()')
+        }() // 报错 */
+        var fn2 = function(){
+            console.log('fn2()')
+        }() // 打印'fn2()'
+        + function fn3(){
+            console.log('fn3()')
+        }() // 打印'fn3()'
+        - function fn4() {
+            console.log('fn4()')
+        }() // 打印'fn4()'
+        ! function fn5() {
+            console.log('fn5()')
+        }() // 打印'fn5()'
+        ;(function fn6() {
+            console.log('fn6()')
+        })() // 打印'fn6()'
+
+        /**
+         * 能被执行符号执行的表达式就会变成立即执行函数，执行完后，就会失去对函数名的引用
+         */ 
+
+        var fun = function(){}()
+        console.log(typeof(fun) + " " + fun) // undefined undefined
+
+        /**
+         * 面试题
+         */ 
+
+        var x = 1
+        if(function f(){}){ // ()将function f(){}变成了表达式，就相当于将f变成了立即执行函数
+            x += typeof f // 执行到此行代码时已经失去了对f的引用，此时f为undefined
+        }
+        console.log(x) // 1undefined
+
+        /**
+         * undefined是window的一个只读属性
+         *  基于这个原因，我们在定义一个变量为undefined时不要写成 var 变量名 = undefined，而应该写成 var 变量名 = void 0，
+         *  因为前一种写法有如下的隐患
+         */ 
+
+        window.undefined = '111'
+        console.log(window.undefined + " " + typeof(window.undefined)) // undefined undefined
+        console.log("undefined" in window) // true
+
+        function f(){
+            var undefined = 1
+            var a = undefined
+            console.log(a)
+        }
+        f() // 1
+
+        /**
+         * js会对对象的属性做一个处理：
+         *  数字属性提前并升序排序，字符串类型按照原先顺序排列
+         *  备注：实际上，js中对象的属性只有两种数据类型：String和Symbol
+         */ 
+
+        var obj = {
+            p2: 'aaa',
+            2: 'aaa',
+            1: 'aaa',
+            p1: 'aaa'
+        }
+        for(var k in obj){
+            console.log(k) // 打印 1 2 p2 p1
+        }
+
+        /**
+         * String.raw
+         *  是一个模板字符串的标签函数，它用来获取一个模板字符串的原始字符串，比如说：
+         *  占位符（如${foo}）会被处理为它所代表的其他字符串，而转义字符（例如\n）不会
+         */ 
+
+        console.log(String.raw`Hi\n${ 2+3 }!`) // 'Hi\\n5!'
+        console.log(String.raw`Hi\u000A!`) // 'Hi\\u000A!'
+    </script>
+</body>
+</html>

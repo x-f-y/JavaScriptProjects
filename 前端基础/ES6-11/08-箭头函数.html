@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>hello</p>
+    <script>
+        /**
+         * 箭头函数的简写
+         *  - 形参只有一个时可以省略小括号
+         *  - 函数体只有一句话时，可以省略大括号，并且返回函数体的内容
+         * 箭头函数相较于普通函数的区别：
+         *  - 箭头函数没有 arguments 对象
+         *  - 箭头函数不能用作构造器，和 new 一起使用会抛出错误
+         *  - 箭头函数不会创建自己的 this，它只会从自己的作用域链的上一层继承 this
+         *  - 箭头函数没有 prototype 属性
+         *  - yield 关键字通常不能在箭头函数中使用（除非是嵌套在允许使用的函数内），因此，箭头函数不能用作函数生成器
+         */ 
+
+        // let fn = function (x) { return x * 2; };
+        // let fn = (x) => { return x * 2; }
+        // let fn = x => { return x * 2; }
+        let fn = x => x * 2;
+        console.log(fn(3)); // 6
+
+        let fun = a => console.log(a)
+        console.log(fun(2)) // 2 undefined
+
+        let fn2 = () => {
+            // console.log(arguments) // 报错，arguments is not defined
+        }
+        fn2()
+
+        let Person = () => {}
+        // let person = new Person() // 报错，Person is not a constructor
+
+        const p = document.getElementsByTagName('p')[0]
+        p.addEventListener('dblclick', function(){
+            console.log(this) // p元素
+            console.log(this.innerText) // hello
+        })
+        p.addEventListener('dblclick', () => {
+            console.log(this) // Window
+            console.log(this.innerText) // undefined
+        })
+
+        function fn3(){}
+        let fn4 = () => {}
+        console.log(fn3.prototype) // {constructor: ƒ}
+        console.log(fn4.prototype) // undefined
+    </script>
+</body>
+</html>

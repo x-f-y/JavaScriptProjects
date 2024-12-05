@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 
+      - :root
+        匹配文档树的根元素，对于HTML来说，:root表示<html>元素，除了优先级更高之外，与html选择器相同
+      - :any-link
+        匹配一个链接的:link和:visited状态
+      - :empty
+        匹配不包含任何子元素的元素，子元素可以是元素节点或文本（包括空格），但是注释、处理指令和 CSS content 不会影响元素是否被认定为空
+      - :placeholder-shown
+        匹配占位文本可见的<input>或<textarea>元素。当输入框中的内容被清空，显示占位文本时，输入框被选中；当输入框中有内容输入时，占位文本被隐藏，则输入框不被选中
+      - :focus-within
+        当该元素或其任意后代元素被聚焦时，将选中该元素
+      - :checked
+        匹配处于选中状态的radio(<input type="radio">)、checkbox(<input type="checkbox">)和select元素中的option元素
+      - :default
+        匹配一组相关元素中的默认表单元素，该选择器可以在<button>、<input type="radio">、<input type="checkbox">以及<option>上使用
+      - :disabled
+        匹配被禁用的元素
+      - :enabled
+        匹配已启用的元素，如果元素可以被激活（例如被选择、单击、输入文本等），或者能够获得焦点，那么它就是启用的
+      - :required
+        匹配设置了required属性的<input>、<textarea>或<select>元素
+      - :optional
+        匹配没有设置required属性的<input>、<textarea>或<select>元素
+      - :read-only
+        匹配不可被用户编辑的元素。注意：这个选择器不只是选择具有readonly属性的<input>元素，它也会选择所有的不能被用户编辑的元素
+      - :read-write
+        匹配可以被用户编辑的元素。注意：这个选择器不只是选择<input>元素，它也会选择所有可以被用户编辑的元素，例如设置了contenteditable属性的<p>元素
+      - :valid
+        匹配通过验证的input或其他表单元素
+      - :invalid
+        匹配未通过验证的input或其他表单元素
+      - :in-range
+        匹配一个input元素，其当前值处于属性min和max限定的范围之内
+      - :out-of-range
+        匹配一个input元素，其当前值处于属性min和max限定的范围之外
+    */
+  </style>
+  <style>
+    /* :target --> 选择一个唯一的目标元素，该元素的id值与当前页面url的hash值匹配 */
+    :root {
+      height: 100%;
+      body {
+        margin: 0;
+        height: 100%;
+        .wrap {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          a {
+            font-size: 1.5rem;
+            padding: 0 10px;
+          }
+        }
+        div[class^="bg"] {
+          width: 100%;
+          height: 100%;
+        }
+        .bg-red {
+          background-color: #f00;
+        }
+        .bg-green {
+          background-color: #0f0;
+        }
+        .bg-blue {
+          background-color: #00f;
+        }
+        div[class^="bg"]:not(:target) {
+          display: none;
+        }
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="#red">red</a>
+    <a href="#green">green</a>
+    <a href="#blue">blue</a>
+  </div>
+  
+  <div id="red" class="bg-red"></div>
+  <div id="green" class="bg-green"></div>
+  <div id="blue" class="bg-blue"></div>
+</body>
+</html>

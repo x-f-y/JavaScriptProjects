@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!-- <script src="./modules/自定义JS模块_1.js" type="text/javascript"></script> -->
+		<script src="./modules/自定义JS模块_2.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			/**
+			 * 闭包的应用：定义JS模块
+			 *  - JS模块是具有特定功能的js文件
+			 * 	- 该模块将所有的数据和功能都封装在一个函数内部（私有的）
+			 *  - 该模块只向外暴露一个函数或者是包含多个函数的对象
+			 * 	- 模块的使用者，只需要通过模块暴露的对象调用来实现对应的功能
+			 */
+			
+			/* var fun = myModule_1();
+			fun.doSomething();
+			fun.doOtherthing(); */
+			
+			myModule_2.doSomething();
+			myModule_2.doOtherthing();
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

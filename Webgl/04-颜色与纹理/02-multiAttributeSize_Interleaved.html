@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
+</head>
+<body onload="main()">
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 顶点着色器
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            attribute float a_PointSize;
+            void main(){
+                gl_Position = a_Position;
+                gl_PointSize = a_PointSize;
+            }
+        `;
+
+        // 片元着色器
+        const FSHADER_SOURCE = `
+            void main(){
+                gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+            }
+        `;
+
+        function initVertexBuffers(gl){
+            const n = 3; // 顶点个数
+            const verticesSizes = new Float32Array([ // 顶点的（x，y）坐标和尺寸
+                0.0, 0.5, 10.0, // 第一个点
+                -0.5, -0.5, 20.0, // 第二个点
+                0.5, -0.5, 30.0 // 第三个点
+            ]);
+
+            // 创建缓冲区对象
+            const vertexSizeBuffer = gl.createBuffer();
+            // 将顶点坐标和尺寸写入缓冲对象
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexSizeBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, verticesSizes, gl.STATIC_DRAW);
+
+            const FSIZE = verticesSizes.BYTES_PER_ELEMENT; // verticesSizes数组中每个元素所占的字节数
+
+            // 获取a_Position的存储位置，分配缓冲区并开启
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, FSIZE * 3, 0); /* 每一个顶点有三个数据值（两个坐标数据和
+            一个尺寸数据），因此参数stride应该设置为FSIZE*3 */
+            gl.enableVertexAttribArray(a_Position);
+
+            // 获取a_PointSize的存储位置，分配缓冲区并开启
+            const a_PointSize = gl.getAttribLocation(gl.program, 'a_PointSize');
+            gl.vertexAttribPointer(a_PointSize, 1, gl.FLOAT, false, FSIZE * 3, FSIZE * 2); /* 每一个顶点的前两个值是顶点
+            坐标，后一个值是顶点尺寸，因此参数offset应该设置为FSIZE*2 */
+            gl.enableVertexAttribArray(a_PointSize);
+
+            return n;
+        }
+
+        function main(){
+            const canvas = document.getElementById('canvas');
+            const gl = canvas.getContext('webgl');
+            initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+            // 设置顶点信息
+            const n = initVertexBuffers(gl);
+
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.POINTS, 0, n);
+        }
+    </script>
+</body>
+</html>

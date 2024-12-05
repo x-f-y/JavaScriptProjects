@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/jquery-3.6.0.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			/**
+			 * 操作元素的属性
+			 * 	属性的分类：
+			 * 		固有属性 如id name class style
+			 * 		返回值是boolean的属性	 如checked selected disabled
+			 * 		自定义属性 用户自己定义的属性
+			 * 	1、获取属性
+			 * 		attr('属性名')
+			 * 		prop('属性名')
+			 * 			区别见下面的例子
+			 * 	2、设置属性
+			 * 		attr('属性名','属性值')
+			 * 		prop('属性名','属性值')
+			 * 	3、移除属性
+			 * 		removeAttr('属性名','属性值')
+			 * 	总结：一般使用attr方法，若要操作元素的disabled、selected、checked属性，则使用prop方法
+			 */
+			window.onload = function() {
+				//获取属性
+				let name = $('#aa').attr('name');
+				console.log(name);//ch
+				let name2 = $('#aa').prop('name');
+				console.log(name2);//ch
+				
+				let ck1 = $('#aa').attr('checked');
+				console.log(ck1);//checked
+				let ck2 = $('#aa').prop('checked');
+				console.log(ck2);//true
+				let ck3 = $('#bb').attr('checked');
+				console.log(ck3);//undefined
+				let ck4 = $('#bb').prop('checked');
+				console.log(ck4);//false
+				
+				let abc1 = $('#aa').attr('abc');
+				console.log(abc1);//aabbcc
+				let abc2 = $('#aa').prop('abc');
+				console.log(abc2);//undefined
+				//设置属性
+				$('#aa').attr('value','1');
+				$('#bb').prop('value','2');
+				
+				$('#bb').attr('checked','checked');
+				$('#bb').prop('checked',true);
+				
+				$('#aa').attr('uname','admin');
+				$('#aa').prop('uage',18);
+				//移除属性
+				$('#aa').removeAttr('checked');
+			};
+		</script>
+	</head>
+	<body>
+		<input type="checkbox" name="ch" checked="checked" id="aa" abc="aabbcc" />aa
+		<input type="checkbox" name="ch" id="bb" />bb
+	</body>
+</html>

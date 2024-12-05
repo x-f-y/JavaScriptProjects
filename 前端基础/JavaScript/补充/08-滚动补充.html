@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul li {
+            list-style-type: none;
+            width: 1600px;
+            height: 200px;
+            margin: 10px 0;
+            font-size: 50px;
+            line-height: 200px;
+            text-align: center;
+        }
+        ul li:nth-child(even){
+            background-color: #008c8c;
+        }
+        ul li:nth-child(odd){
+            background-color: wheat;
+        }
+        .nav {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            line-height: 25px;
+            text-align: center;
+            margin: auto 0;
+        }
+        .nav .start, .nav .book-start, .nav .book-end, .nav .end {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+        <li>10</li>
+        <li>11</li>
+        <li>12</li>
+        <li>13</li>
+        <li>14</li>
+        <li>15</li>
+        <li>16</li>
+        <li>17</li>
+        <li>18</li>
+        <li>19</li>
+        <li>20</li>
+    </ul>
+    <div class="nav">
+        <div class="start" style="background-color: red;">至开头</div>
+        <div class="book-start" style="background-color: yellow;">开始阅读</div>
+        <div class="book-end" style="background-color: green;">结束阅读</div>
+        <div class="end" style="background-color: blue;">至结尾</div>
+    </div>
+    <script>
+        /**
+         * 1. window.scroll(x-coord, y-coord) window.scroll(options)
+         * 2. window.scrollTo(x-coord, y-coord) window.scrollTo(options)
+         * 3. window.scrollBy(x-coord, y-coord) window.scrollBy(options)
+         * 备注：
+         *  1. scroll()方法和scrollTo()方法是相同的
+         *  2. 前两个方法是滚动到文档中的绝对位置，而scrollBy()方法会在之前的数据基础之上做累加
+         *  3. options是一个包含三个属性的对象：
+         *      - top：等同于y-coord
+         *      - left：等同于x-coord
+         *      - behavior：表示滚动行为，支持参数：smooth（平滑滚动）、instant（瞬间滚动）、默认值auto（效果等同于instant）
+         */ 
+
+        var start = document.getElementsByClassName('start')[0]
+        var bookStart = document.getElementsByClassName('book-start')[0]
+        var bookEnd = document.getElementsByClassName('book-end')[0]
+        var end = document.getElementsByClassName('end')[0]
+
+        var html = document.documentElement
+        var h = html.scrollHeight - window.innerHeight + 20
+        var timer;
+
+        start.onclick = function(){
+            // scrollTo(0, 0)
+            scroll({
+                left: 0,
+                top: 0,
+                behavior: 'smooth'
+            })
+        }
+        bookStart.onclick = function(){
+            if(timer){
+                clearInterval(timer)
+            }
+            timer = setInterval(function(){
+                // scrollBy(0, 50)
+                scrollBy({
+                    left: 0,
+                    top: 50,
+                    behavior: 'smooth'
+                })
+                if(html.scrollHeight - html.clientHeight === html.scrollTop){
+                    // 滚动条滚动到底
+                    clearInterval(timer)
+                }
+            }, 100)
+        }
+        bookEnd.onclick = function(){
+            clearInterval(timer)
+        }
+        end.onclick = function(){
+            // scrollTo(0, h)
+            scrollTo({
+                left: 0,
+                top: h,
+                behavior: 'smooth'
+            })
+        }
+    </script>
+</body>
+</html>

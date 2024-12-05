@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript">
+		let p = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				resolve('ok');
+			}, 1000);
+		});
+		p.then(value => {
+			console.log(111);
+			//中断promise链条有且只有一种方式，返回一个pending状态的promise
+			return new Promise(() => { });
+		}).then(value => {
+			console.log(222);
+		}).then(value => {
+			console.log(333);
+		}).catch(reason => {
+			console.warn(reason);
+		})
+	</script>
+</head>
+
+<body>
+</body>
+
+</html>

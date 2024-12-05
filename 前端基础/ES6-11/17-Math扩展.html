@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 引入指数运算符 ** ，用来实现幂运算，功能与 Math.pow() 相同
+        console.log(2 ** 3) // 8
+        console.log(2 ** 2 ** 3) // 256（2 ** (2 ** 3)）
+
+        // Math.sign() 检查一个数是否是正数或负数或零
+        console.log(Math.sign(100)); // 1
+        console.log(Math.sign(0)); // 0
+        console.log(Math.sign(-20)); // -1
+        console.log(Math.sign(Infinity)) // 1
+        console.log(Math.sign(-0)) // -0
+        console.log(Math.sign(NaN)) // NaN
+
+        // Math.cbrt() 返回任意数字的立方根
+        console.log(Math.cbrt(27)) // 3
+
+        // Math.hypot() 返回所有参数的平方和的平方根
+        console.log(Math.hypot(3, 4)) // 5
+    </script>
+</body>
+</html>

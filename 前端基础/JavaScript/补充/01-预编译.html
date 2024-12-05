@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * js代码运行的三个步骤：
+         *  1. 语法分析 通篇扫描，检查是否有语法错误
+         *  2. 预编译 变量声明提升和函数声明整体提升发生在此阶段
+         *      - 全局预编译 发生在页面加载完成时执行
+         *      - 函数预编译 发生在函数执行的前一刻
+         *  3. 解释执行 js代码解释一行，执行一行
+         */ 
+
+        /**
+         * 全局预编译的步骤：
+         *  1. 创建GO（Global Object，全局执行期上下文，在浏览器中为window）对象
+         *  2. 寻找var变量声明，变量名作为GO对象的属性名，属性值赋值为undefined
+         *  3. 寻找function函数声明，函数名作为GO对象的属性名，属性值赋值为函数体
+         */ 
+
+        /**
+         * 局部预编译的步骤：
+         *  1. 创建AO（Activation Object，函数执行期上下文）对象
+         *  2. 寻找函数的形参和var变量声明，将形参和变量名作为AO对象的属性名，属性值赋值为undefined
+         *  3. 将形参和实参相统一，即将AO对象中属性名为形参的属性值更改为具体的实参值
+         *  4. 寻找function函数声明，函数名作为AO对象的属性名，属性值赋值为函数体
+         */ 
+
+        function fn(a) {
+            console.log(a) // ƒ a() { }
+            var a = 123
+            console.log(a) // 123
+            function a() { }
+            console.log(a) // 123
+            var b = function () { }
+            console.log(b) // ƒ () { }
+            function d() { }
+        }
+        fn(1)
+
+        function test(a, b){
+            console.log(a) // ƒ a(){}
+            console.log(b) // undefined
+            var b = 234
+            console.log(b) // 234
+            a = 123
+            console.log(a) // 123
+            function a(){}
+            var a
+            b = 234
+            var b = function(){}
+            console.log(a) // 123
+            console.log(b) // ƒ (){}
+        }
+        test(1)
+    </script>
+</body>
+</html>

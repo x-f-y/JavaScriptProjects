@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .one {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            /* 圆形 border-radius设置为宽度/高度的一半（可以是具体的像素值，也可以是百分比） */
+            /* border-radius: 100px; */
+            border-radius: 50%;
+        }
+
+        .two {
+            width: 300px;
+            height: 100px;
+            /* 圆角矩形 border-radius设置为高度的一半 */
+            border-radius: 50px;
+            background-color: pink;
+        }
+
+        .three {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            /* 
+                border-radius:左上角 右上角 右下角 左下角;
+                border-radius:左上角 右上角和左下角 右下角;
+                border-radius:左上角和右下角 右上角和左下角;
+                border-radius:左上角和右上角和右下角和左下角;
+                border-radius也可以分开写：
+                    - border-top-left-radius
+                    - border-top-right-radius
+                    - border-bottom-right-radius
+                    - border-bottom-left-radius
+             */
+            border-radius: 10px 20px 30px 40px;
+        }
+    </style>
+</head>
+
+<body>
+    圆形
+    <div class="one"></div>
+    圆角矩形
+    <div class="two"></div>
+    设置不同的圆角
+    <div class="three"></div>
+</body>
+
+</html>

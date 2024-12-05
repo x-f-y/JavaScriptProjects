@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        选择器分为基础选择器和复合选择器
+        - 基础选择器
+            - 标签选择器 类选择器 id选择器 通配符选择器
+        - 复合选择器 复合选择器是由两个或多个基础选择器，通过不同的方式组合而成的
+            - 常用的复合选择器包括：后代选择器 子代选择器 并集选择器 交集选择器 相邻兄弟选择器 通用兄弟选择器 伪类选择器等
+     -->
+    <!-- 
+        后代选择器 元素1 元素2 {}   选择元素1里面的所有元素2
+        子代选择器 元素1 > 元素2 {}   选择元素1的第一代中的所有元素2
+        并集选择器 元素1, 元素2 {}   选择元素1和元素2
+		交集选择器 选择器1选择器2 {}   选择同时满足多个条件的元素
+		相邻兄弟选择器 元素1 + 元素2 {}   当元素2紧跟在元素1之后，并且两个元素都是属于同一个父元素的子元素，则第二个元素将被选中
+		通用兄弟选择器 元素1 ~ 元素2 {}   选择元素1之后所有同层级元素2
+        伪类选择器 伪类选择器书写最大的特点是用冒号（:）表示
+            - 链接伪类 a:link a:visited a:hover a:active
+            注意：为了确保生效，要按照LVHA（link visited hover active）的顺序书写 记忆法：love hate
+            - :focus伪类选择器  用于选取获得焦点的表单元素
+        注意：以上的元素1和元素2可以是任意的基础选择器
+      -->
+    <!-- 
+        插语：对于后代选择器，浏览器对其的查询方向是从右至左的（为了提升效率）
+        例如对于选择器：div ui li p a span，浏览器会先查询span，再查询a，......，最后查询div
+     -->
+    <style>
+		/* 可以选择到 */
+        div > p {
+            color: red;
+        }
+
+        /* 选择所有未被访问（点击）过的链接 */
+        a:link {
+            text-decoration: none;
+            color: #333;
+        }
+
+        /* 选择所有已被访问（点击）过的链接 */
+        a:visited {
+            color: orange;
+        }
+
+        /* 选择鼠标指针位于其上的链接 */
+        a:hover {
+            color: skyblue;
+        }
+
+        /* 选择活动链接（鼠标按下未弹起的链接） */
+        a:active {
+            color: green;
+        }
+
+        /* 选取获得焦点的input元素 */
+        input:focus {
+            background-color: pink;
+        }
+		
+		/* 选择不到 */
+		.container .box + div {
+			color: hotpink;
+		}
+		
+		/* 可以选择到 */
+		.container .box + h3 {
+			color: skyblue;
+		}
+		
+		/* 可以选择到div2，不能选择到div1 */
+		.container .box ~ div {
+			font-weight: bold;
+		}
+		
+		/* 选择不到 */
+		.fontsize50.red {
+			color: #008c8c;
+		}
+		
+		/* 可以选择到hello, html */
+		p.red {
+			color: blue;
+		}
+    </style>
+</head>
+
+<body>
+    <div>
+		<a href="javascript:;">这是一个链接</a>
+        <p>it is a good day</p>
+        <ul>
+            <li>
+                <p>it is a bad day</p>
+            </li>
+            <li>
+                <p>it is a good day</p>
+            </li>
+        </ul>
+		<p>it is a bad day</p>
+    </div>
+    <p><a href="#">这是一个链接</a></p>
+    <input type="text">
+    <input type="text">
+    <input type="text">
+	<div class="container">
+		<div>div1</div>
+		<div class="box"></div>
+		<h3>这个一个标题</h3>
+		<div>div2</div>
+	</div>
+	<p class="fontsize50 blue">hello, css</p>
+	<p class="red">hello, html</p>
+	<p class="orange">hello, javascript</p>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img, video {
+            object-fit: fill;
+            /* object-fit: cover; */
+            /* object-fit: contain; */
+            /* object-fit: none; */
+        }
+        .position {
+            object-position: top left;
+            /* object-position: top; */
+            /* object-position: left; */
+            /* object-position: 20px 50px; */
+            /* object-position: 50% center; */
+        }
+        .size1 {
+            width: 800px;
+            height: 600px;
+        }
+        .size2 {
+            width: 800px;
+            height: 400px;
+        }
+        .style {
+            border: 10px dashed green;
+            padding: 20px;
+            margin: 10px 0;
+            background-clip: content-box;
+            background-color: #008c8c;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        - 非可替换元素
+            大部分元素，页面上显示的结果，取决于元素的内容，称为非可替换元素
+        - 可替换元素
+            少部分元素，页面上显示的结果，取决于元素的属性，称为可替换元素，例如img、video、iframe等
+        - 备注：
+            1. 绝大部分可替换元素均为行盒
+            2. 可替换元素类似于行块盒，盒模型中所有尺寸都有效
+            3. 对于可替换元素，CSS不能完全控制其中的样式
+     -->
+
+    <!-- 
+        object-fit 指定可替换元素的内容对象在元素盒区域中的填充方式，类似于background-size，可选值有：
+            - fill 默认值，被替换的内容正好填充元素的内容框。如果对象的宽高比与内容框不匹配，那么该对象
+            将被拉伸以适应内容框
+            - cover 被替换的内容在保持其宽高比的同时填充元素的整个内容框。如果对象的宽高比与内容框不匹配，
+            那么该对象将被剪裁以适应内容框
+            - contain 被替换的内容将被缩放，以在填充元素的内容框时保持其宽高比
+            - none 被替换的内容将保持其原有的尺寸
+     -->
+
+    <!-- 
+        object-position 指定可替换元素的内容对象在元素盒区域中的位置，类似于background-position
+     -->
+
+    <img src="../images/4.jpg" alt="这是我的头像" class="size1 style position">
+    <video src="../medias/mi.mp4" controls class="size2 style"></video>
+</body>
+</html>

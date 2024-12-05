@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>02_坐标轴与轨道控制器</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const geometry = new THREE.BoxGeometry(4, 4, 4);
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x008c8c,
+            transparent: true, // 开启透明
+            opacity: 0.7 // 透明度
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(0, 0, 0);
+        scene.add(mesh);
+
+        // 创建一个3维坐标轴，参数表示轴的长度（红色代表x轴，绿色代表y轴，蓝色代表z轴）
+        const axesHelper = new THREE.AxesHelper(3);
+        // 将坐标轴添加到场景中
+        scene.add(axesHelper);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.render(scene, camera);
+        container.appendChild(renderer.domElement);
+
+        // 创建一个轨道控制器，可以实现左键旋转，中键缩放，右键移动（本质上是改变相机的位置）
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            console.log(camera.position);
+            renderer.render(scene, camera);
+        });
+    </script>
+</body>
+</html>

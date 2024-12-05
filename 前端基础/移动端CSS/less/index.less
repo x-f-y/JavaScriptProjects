@@ -1,0 +1,139 @@
+/* less变量 */
+
+// 定义值变量
+@width: 30%;
+@color: #bfa;
+@font12: 12px;
+@margin: 10px;
+@border: 1px solid #ccc;
+.box1 {
+    // 使用值变量
+    width: @width;
+    height: 50px;
+    margin: @margin auto;
+    border: @border;
+    background-color: @color;
+    font-size: @font12;
+}
+
+// 定义选择器变量
+@mySelector: #wrap;
+@wrap: wrap;
+// 使用选择器变量
+@{mySelector} { // 变量名必须用大括号{}包裹
+    width: 30%;
+    height: 50px;
+    margin: 10px auto;
+    background-color: pink
+}
+.@{wrap} { // 变量名必须用大括号{}包裹
+    font-size: 30px;
+}
+#@{wrap} { // 变量名必须用大括号{}包裹
+    border: 2px solid red;
+}
+
+// 定义属性变量
+@background: background-color;
+.box2 {
+    width: 30%;
+    height: 50px;
+    margin: 10px auto;
+    // 使用属性变量
+    @{background}: skyblue; // 变量名必须用大括号{}包裹
+}
+
+// 定义url变量
+@image: '../images'; // 需要加引号（单引号双引号都可以）
+.box2 {
+    // 使用url变量
+    background: url("@{image}/dog.jpg") no-repeat; // url必须加引号且变量名必须用大括号{}包裹
+    background-size: 100% 100%;
+}
+
+// 声明变量
+@aqua: {background-color: aqua;}
+@rules: {
+    width: 30%;
+    height: 50px;
+    margin: 10px auto;
+}
+.box3 {
+    // 使用变量
+    @aqua();
+    @rules();
+}
+
+// 变量作用域 --> 就近原则
+@v: @a;
+@a: 100%;
+.box4 {
+    width: @v; // 30%
+    @a: 30%;
+}
+
+// 用变量去定义变量
+@fnord: "I am fnord.";
+@var: "fnord";
+.box4::after {
+    content: @@var; // content: "I am fnord.";
+}
+
+/* 
+    less运算
+        - 习惯：最好在运算符（+ - * /）的左右两侧各加一个空格
+        - 单位问题
+            - 如果两个数都没有单位，则结果没有单位
+            - 如果两个数一个有单位，一个没有单位，则结果的单位取决于有单位的那个数
+            - 如果两个数都有单位
+                - 两个数单位相同，则结果的单位就是该单位
+                - 两个数单位不同，则结果的单位取决于第一个数的单位
+        - 除法要加括号
+*/
+
+@width2: 300px;
+@color2: #666;
+.box4 {
+    width: @width2 + 50; // 350px
+    height: (50px - 10px)*2; // 80px
+    margin: (50px / 2) auto; // 25px auto
+    padding: (40px / 2em); // 20px
+    font-size: 10 * 3px; // 30px
+    color: @color2 - #111; // #555555
+    background-color: @color2 * 2; // #cccccc
+}
+
+/*
+    less嵌套
+        - &代表的上一层选择器的名字
+*/
+
+.box5 {
+    width: 30%;
+    height: 70px;
+    margin: 10px auto;
+    background-color: hotpink;
+    a {
+        text-decoration: none;
+        color: #666;
+        &:hover { // .box5 a:hover
+            color: blue;
+        }
+        &:first-of-type { // .box5 a:first-of-type
+            font-size: 25px;
+        }
+    }
+    p {
+        &::after { // .box5 p::after
+            content: 'this is a paragraph'
+        }
+    }
+}
+
+/*
+    less导入
+        - 语法：@import "相对路径";
+        - @import语句可以放在任意位置
+        - 如果不写文件扩展名，默认是.less文件
+*/
+@import "./less-demo";

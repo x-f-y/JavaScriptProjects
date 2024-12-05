@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        object元素
+            表示引入一个外部资源，这个资源可能是一张图片，一个嵌入的浏览上下文，亦或是一个插件所使用的资源
+        embed元素
+            将外部内容嵌入到文档中的指定位置，此内容由外部应用程序或其他交互式内容源（如浏览器插件）提供
+        备注：
+            1. object元素的data属性和embed元素的src属性都是要嵌入的资源的路径，type属性都是指定的资源的MIME类型
+            2. object元素和embed元素都是可替换元素
+            3. 在object元素内部可以使用param元素为其定义参数（这种做法现在已经弃用）
+     -->
+
+    <object data="./example.swf" type="application/x-shockwave-flash">
+        <param name="quality" value="high">
+    </object>
+
+    <embed quality="high" src="./example.swf" type="application/x-shockwave-flash">
+
+    <!-- 不同的浏览器对object元素和embed元素的支持性不一样，下面是更加兼容的写法 -->
+    <object data="./example.swf" type="application/x-shockwave-flash">
+        <param name="quality" value="high">
+        <embed quality="high" src="./example.swf" type="application/x-shockwave-flash">
+    </object>
+</body>
+</html>

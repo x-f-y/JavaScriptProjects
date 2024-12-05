@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        a {
+            /* 将行内元素a转换为块级元素 */
+            display: block;
+            width: 300px;
+            height: 100px;
+            background-color: pink;
+        }
+
+        div {
+            /* 将块级元素div转换为行内元素 */
+            display: inline;
+            background-color: skyblue;
+        }
+
+        span {
+            /* 将行内元素span转换为行内块元素 */
+            display: inline-block;
+            width: 200px;
+            height: 100px;
+            background-color: #d21300;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        HTML中的元素分为块级元素、行内元素（内联元素）和行内块元素
+        - 常见的块级元素有容器元素（div、header、footer等）、<h1>~<h6>、<p>、<ul>、<ol>、<dl>、<dt>、<dd>、<form>等
+            块级元素的特点：
+            - 独占一行
+            - 高度、宽度、外边距以及内边距都可以控制
+            - 宽度默认是容器（父元素）的100%
+            - 是一个容器盒子，里面可以放行内元素或者块级元素
+            注意：
+            - 文字类的元素内不能使用块级元素
+            - <p>标签主要用于存放文字，因此<p>里面不能放块级元素，特别是不能放<div>
+            - 同理，<h1>~<h6>等都是文字类块级标签，因此里面也不能放其他块级元素
+        - 常见的行内元素有<a>、<span>、<strong>、<b>、<em>、<i>、<del>、<s>、<ins>、<u>、<img>、<video>、<audio>等
+            行内元素的特点：
+            - 相邻行内元素在一行上，一行可以显示多个
+            - 高、宽直接设置是无效的（但可以设置margin、border和padding值）
+            - 默认宽度就是它本身内容的宽度
+            - 行内元素只能容纳文本或其他行内元素
+            注意：
+            - 链接里面不能再放链接
+            - 特殊情况：<a>里面可以放块级元素，但是给<a>转换一个块级模式最安全
+        - 常见的行内块元素有<input>、<textarea>、<select>、<button>等，它们同时具有块级元素和行内元素的特点
+            行内块元素的特点：
+            - 和相邻行内元素（行内块）在一行上，但是它们之间会有空白缝隙，一行可以显示多个（行内元素特点）
+            - 默认宽度就是它本身内容的宽度（行内元素特点）
+            - 宽度、高度、外边距以及内边距都可以控制（块级元素特点）
+        - 元素显示模式的转换
+            - 转换为块级元素    display:block;
+            - 转换为行内元素    display:inline;
+            - 转换为行内块元素  display:inline-block;
+     -->
+    <!-- 
+        插语：元素包含关系
+            以前：块级元素可以包含行内元素，行内元素不可以包含块级元素，a元素除外
+            现在：元素的包含关系由元素的内容类别决定
+            总结：
+                1. 容器元素（div、header、aside等）可以包含任何元素
+                2. a元素中几乎可以包含任何元素
+                3. 某些元素有固定的子元素（ul>li、ol>li、dl>dt+dd等）
+                4. 段落元素不能包含标题元素（h1~h6）和容器元素（div、section、header、footer、nav、aside等）
+     -->
+    <a href="#">这是一个链接</a>
+    <a href="#">这是一个链接</a>
+    <div>这是一个div</div>
+    <div>这是一个div</div>
+    <span>这是一个span</span>
+    <span>这是一个span</span>
+</body>
+
+</html>

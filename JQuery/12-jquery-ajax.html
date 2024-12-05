@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/jquery-3.6.0.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			/**
+			 * jquery调用ajax方法
+			 * 	格式：$.ajax({});
+			 * 		参数：
+			 * 			type		请求方式GET/POST	  大小写均可
+			 * 			url			请求地址url
+			 * 			async		是否异步，默认是true表示异步
+			 * 			data		发送到服务器的数据
+			 * 			datatype	预期服务器返回的数据类型
+			 * 			contentType	设置请求头
+			 * 			success		请求成功时调用次函数
+			 * 			error		请求失败时调用此函数
+			 */
+			//点击按钮，发送ajax请求，将返回的数据显示在页面中
+			$(() => {
+				$('#btn').click(function() {
+					$(function() {
+						$.ajax({
+							type: 'get',
+							url: './data.txt',
+							data: {},
+							dataType: 'json', //自动将服务器返回的数据转换为json对象
+							success: function(data) { //此data和上面两行的data不是同一个
+								console.log(data, typeof data);
+								let ul = $('<ul></ul>');
+								for (let i = 0; i < data.length; i++) {
+									let user = data[i].userName;
+									let li = "<li>" + user + "</li>";
+									ul.append(li);
+								}
+								console.log(ul);
+								$('body').append(ul);
+							}
+						});
+					});
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<button id="btn">查询数据</button>
+	</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        /**
+         * canvas的坐标系：
+         *  坐标原点：画布左上角
+         *  坐标轴：从左到右为x轴正方向，从上到下为y轴正方向
+         * webgl的坐标系：
+         *  坐标原点：画布中心点
+         *  坐标轴：从左到右为x轴正方向，从下到上为y轴正方向，从里到外为z轴正方向
+         */
+
+        /* webgl程序包括运行在浏览器中的javascript和运行在webgl系统的着色器程序这两个部分 */
+
+        // 顶点着色器程序->进行的是逐顶点的操作（GLSL ES语言）
+        const VSHADER_SOURCE = `
+            void main(){
+                // gl_Position和gl_PointSize都是顶点着色器中内置的变量，分别表示顶点的位置和点的尺寸
+                gl_Position = vec4(0.0, 0.0, 0.0, 1.0); // 设置坐标（类型是vec4）（内置函数vec4()可以根据四个值创建vec4对象）
+                // 齐次坐标（x,y,z,w）等价于三维坐标（x/w,y/w,z/w）。如果齐次坐标的第4个分量是1，就可以将它当做三维坐标来使用
+                gl_PointSize = 10.0; // 设置尺寸（类型是float）
+            }
+        `;
+
+        // 片元着色器程序->进行的是逐片元的操作（GLSL ES语言）
+        // 片元就是显示在屏幕上的一个像素（严格意义上说，片元包括这个像素的位置、颜色和其他信息）
+        const FSHADER_SOURCE = `
+            void main(){
+                gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0); // 设置颜色（类型是vec4，包括4个浮点型分量，分别代表rgba值）
+            }
+        `;
+
+        // 主程序（JavaScript语言）
+        function main(){
+            // 1. 获取canvas元素
+            const canvas = document.getElementById('canvas');
+
+            // 2. 获取webgl绘图上下文
+            const gl = canvas.getContext('webgl');
+            if(!gl){
+                console.log('Failed to get the rendering context for webgl');
+                return;
+            }
+
+            // 3. 初始化着色器
+            if(!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)){
+                console.log('Failed to initialize shaders');
+                return;
+            }
+
+            // 4. 设置canvas的背景色
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+            // 5. 清空canvas
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            // 6. 绘制一个点
+            /**
+             * gl.drawArrays(mode, first, count) 执行顶点着色器，按照mode参数指定的方式绘制图形
+             *  mode：指定绘制的方式，可接收以下常量符号：gl.POINTS, gl.LINES, gl.TRIANGLES等
+             *  first：指定从哪个顶点开始绘制（整型数）
+             *  count：指定绘制需要用到多少个顶点（整型数）
+             */
+            gl.drawArrays(gl.POINTS, 0, 1);
+        }
+
+        main();
+    </script>
+</body>
+</html>

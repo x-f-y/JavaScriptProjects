@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .one {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            margin: 100px auto;
+            /* 
+                盒子阴影box-shadow
+                - 语法：box-shadow: h-shadow v-shadow blur spread color inset;
+                - 各个参数的含义：
+                    - h-shadow 必需，水平阴影的位置，允许负值
+                    - v-shadow 必需，垂直阴影的位置，允许负值
+                    - blur 可选，阴影的模糊半径
+                    - spread 可选，阴影的扩散半径
+                    - color 可选，阴影的颜色
+                    - inset 可选。将外部阴影（outset）改为内部阴影
+                - 注意：
+                    - 默认的是外阴影（outset），但是不可以写这个单词，否则阴影无效
+                    - 盒子阴影不占用空间，不会影响其他盒子排列
+             */
+            /* box-shadow: 10px 10px 10px -2px rgba(0, 0, 0, .3); */
+        }
+
+        .one:hover {
+            /* 鼠标经过时添加阴影效果 */
+            box-shadow: 10px 10px 10px -2px rgba(0, 0, 0, .3);
+        }
+
+        .two {
+            font-size: 50px;
+            color: orangered;
+            font-weight: 700;
+            /* 
+                文字阴影text-shadow
+                语法：text-shadow: h-shadow v-shadow blur color;
+            */
+            text-shadow: 10px 10px 6px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="one"></div>
+    <div class="two">你是阴影，我是火影</div>
+</body>
+
+</html>

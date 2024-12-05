@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        box-sizing:content-box;（默认），盒子大小为width/height+padding+border(padding和border会撑开盒子)
+        box-sizing:border-box;盒子大小为width/height(padding和border不会撑开盒子)
+     -->
+    <style>
+        .box1 {
+            box-sizing: content-box;
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            border: 5px solid red;
+            padding: 10px;
+        }
+
+        .box2 {
+            box-sizing: border-box;
+            width: 200px;
+            height: 200px;
+            background-color: skyblue;
+            border: 5px solid yellow;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <p class="box1"></p>
+    <p class="box2"></p>
+</body>
+
+</html>

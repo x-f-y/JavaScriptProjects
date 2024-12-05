@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Number.isNaN() --> 判断传递的值是否是 NaN
+        // 注意：如果传入的参数不是数字时，该函数不会像全局的isNaN函数那样将其转换为数字
+        console.log(Number.isNaN(NaN)) // true
+        console.log(Number.isNaN(0 / 0)) // true
+        console.log(Number.isNaN(Infinity)) // false
+        console.log(Number.isNaN(null)) // false
+        console.log(Number.isNaN(undefined)) // false
+
+        // Number.isFinite() --> 判断传递的值是否是有限数
+        console.log(Number.isFinite(NaN)) // false
+        console.log(Number.isFinite(Infinity)) // false
+        console.log(Number.isFinite(-Infinity)) // false
+        console.log(Number.isFinite(1 / 0)) // false
+        console.log(Number.isFinite(null)) // false
+        console.log(Number.isFinite(undefined)) // false
+
+        // Number.isInteger() --> 判断传递的值是否是整数
+        console.log(Number.isInteger(NaN)); // false
+        console.log(Number.isInteger(0.1)); // false
+        console.log(Number.isInteger(Math.PI)); // false
+        console.log(Number.isInteger(Infinity)); // false
+        console.log(Number.isInteger(-Infinity)); // false
+        console.log(Number.isInteger("10")); // false
+        console.log(Number.isInteger(true)); // false
+        console.log(Number.isInteger([1]));  // false
+        console.log(Number.isInteger(null)) // false
+        console.log(Number.isInteger(undefined)) // false
+
+        // Number.isSafeInteger() --> 判断传递的值是否是安全整数（-(2^53 - 1) 至 (2^53 - 1)）
+        console.log(Number.isSafeInteger(2 ** 53)) // false
+        console.log(Number.isSafeInteger(2 ** 53 - 1)) // true
+        console.log(Number.isSafeInteger(Infinity)) // false
+        console.log(Number.isSafeInteger(NaN)) // false
+
+        // Number.parseInt() 和 Number.parseFloat() （ES5 中将其作为独立的方法，而 ES6 中将其封装为 Number 的属性）
+        // 使用方法和全局的 parseInt()、parseFloat() 一样
+        console.log(Number.parseInt('123abc')) // 123
+        console.log(Number.parseInt('abc')) // NaN
+        console.log(Number.parseFloat('123.34abc')) // 123.34
+
+        // Number.EPSILON --> JavaScript表示的最小精度 其值等于2**(-52) 通常用于浮点数的运算
+        function equal(a, b) {
+            if (Math.abs(a - b) < Number.EPSILON) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        console.log(0.1 + 0.2 === 0.3); // false
+        console.log(equal(0.1 + 0.2, 0.3)); // true
+
+        // Number.prototype.toLocaleString() --> 返回这个数字在特定语言环境下的表示字符串
+        // 使用toLocaleString()对数字进行分隔
+        const numOne = 123456789.123
+        console.log(numOne.toLocaleString()) // 123,456,789.123
+        // 使用toLocaleString()将数字转为百分比
+        const numTwo = 0.12
+        console.log(numTwo.toLocaleString('zh', { style: 'percent' })) // 12%
+        // 使用toLocaleString()将数字转为货币表示法
+        const numThree = 1000000
+        console.log(numThree.toLocaleString('zh', { style: 'currency', currency: 'cny' })) // ¥1,000,000.00
+
+        /**
+         * Number.prototype.toFixed() --> 使用定点表示法来格式化一个数值
+         *  参数：接收一个参数，表示小数点后数字的个数，如果忽略该参数，则默认值为0
+         *  返回值：返回使用定点表示法表示给定数字的字符串
+         */ 
+        console.log(2.345.toFixed()) // '2'
+        console.log(2.345.toFixed(1)) // '2.3'
+        console.log(2.345.toFixed(2)) // '2.35'
+        console.log(2.6.toFixed(2)) // '2.60'
+        // console.log(2.toFixed(1)) // 报错，解决方式有如下三种
+        console.log(2..toFixed(1)) // '2.0'
+        console.log(2 .toFixed(1)) // '2.0'
+        console.log((2).toFixed(1)) // '2.0'
+        console.log(-2.34.toFixed(1)) // -2.3（注意：由于操作符优先级的问题，这里的返回值的是Number数值类型）
+        console.log((-2.34).toFixed(1)) // '-2.3'
+        console.log(2.55.toFixed(1)) // '2.5'（注意：由于js小数精度的问题，这里的返回值不是'2.6'）
+
+        /**
+         * Number.prototype.toPrecision() --> 以指定的精度返回该数值对象的字符串表示
+         *  参数：一个用来指定有效数个数的整数，如果忽略该参数，则调用Number.prototype.toString()方法
+         *  返回值：以定点表示法或指数表示法表示的一个数值对象的字符串表示，四舍五入到precision参数指定的显示数字位数
+         *  备注：如果precision参数不足小数点前的位数，则会返回科学计数法字符串
+         */ 
+        console.log(5.123456.toPrecision()) // '5.123456'
+        console.log(5.123456.toPrecision(1)) // '5'
+        console.log(5.123456.toPrecision(2)) // '5.1'
+        console.log(5.123456.toPrecision(5)) // '5.1235'
+        console.log(0.0123.toPrecision()) // '0.0123'
+        console.log(0.0123.toPrecision(1)) // '0.01'
+        console.log(0.0123.toPrecision(2)) // '0.012'
+        console.log(0.0123.toPrecision(5)) // '0.012300'
+        console.log(123.456.toPrecision(2)) // '1.2e+2'
+</script>
+</body>
+</html>

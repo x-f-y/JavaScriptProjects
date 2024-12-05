@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios对象创建过程模拟实现</title>
+    <!-- 引入axios入口文件 -->
+    <!-- <script src="./node_modules/axios/index.js"></script> -->
+    <!-- 真正的axios入口文件 -->
+    <!-- <script src="./node_modules/axios/lib/axios.js"></script> -->
+    <!-- 打包压缩后的axios文件 -->
+    <!-- <script src="./node_modules/axios/dist/axios.min.js"></script> -->
+</head>
+
+<body>
+    <script>
+        // 创建构造函数
+        function Axios(config) {
+            this.defaults = config
+            this.interceptors = {
+                request: {},
+                response: {}
+            }
+        }
+
+        // Axios原型对象上添加相关的方法
+        Axios.prototype.request = function (config) {
+            console.log('发送AJAX请求 请求的类型为' + config.method)
+        }
+        Axios.prototype.get = function (config) {
+            return this.request({ method: 'GET' })
+        }
+        Axios.prototype.post = function (config) {
+            return this.request({ method: 'POST' })
+        }
+
+        // 声明一个函数，用来创建Axios实例
+        function createInstance(config) {
+            // 实例化一个对象
+            // 执行此行代码后可以context.get() context.post(),但是不能context()
+            let context = new Axios(config)
+
+            // 创建请求函数
+            // bind函数和call、apply类似，可以改变this的指向，但是它返回一个函数
+            // 执行此行代码后，instance是一个函数，可以instance() 但是不能instance.get() instance.post()
+            let instance = Axios.prototype.request.bind(context)
+            // console.log(instance)
+
+            // 将Axios.prototype对象中的方法添加到instance函数对象中
+            Object.keys(Axios.prototype).forEach(key => {
+                // console.log(key)
+                instance[key] = Axios.prototype[key].bind(context)// this.defaults this.interceptors
+            })
+            // console.dir()方法可以在控制台显示指定js对象的属性,打印出该对象的所有属性和属性值.
+            // console.dir(instance)
+
+            // 为instance函数对象添加属性defaults和interceptors
+            Object.keys(context).forEach(key => {
+                instance[key] = context[key]
+            })
+
+            // 返回instance函数
+            return instance
+        }
+
+        // 测试
+        let axios = createInstance()
+        axios({ method: 'GET' })
+        axios({ method: 'POST' })
+        axios.get()
+        axios.post()
+    </script>
+</body>
+
+</html>

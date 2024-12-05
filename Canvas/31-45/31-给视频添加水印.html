@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+        button {
+            position: absolute;
+            top: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="200">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <video src="/image/mi.mp4" width="800" height="200" hidden></video>
+    <button id="btn">播放/暂停</button>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            // 获取元素
+            const btn = document.querySelector('#btn')
+            const video = document.querySelector('video')
+            const img = new Image()
+            img.src = '/image/wzry.png'
+
+            // 渲染函数
+            function render(){
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+                ctx.drawImage(img, 600, 150, 200, 50)
+                requestAnimationFrame(render)
+            }
+
+            btn.onclick = function(){
+                if(video.paused){ // 视频被暂停了
+                    video.play() // 播放视频
+                    render()
+                }else{ // 视频正在播放
+                    video.pause() // 暂停视频
+                }
+            }
+        }
+    </script>
+</body>
+</html>

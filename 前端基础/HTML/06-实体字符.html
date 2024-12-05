@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .span::after {
+            /* 这里content的值是以反斜线（\）开头的十六进制Unicode码点 */
+            content: '\8881\8FDB'
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        实体字符：通常用于在页面中显示一些特殊符号
+        格式：
+            1. &单词;
+            2. &#数字;
+     -->
+    <!-- 大于符号 -->
+    <span>&gt;</span>
+    <!-- 小于符号 -->
+    <span>&lt;</span>
+    <!-- 空格符号 -->
+    <span>&nbsp;</span>
+    <!-- 版权符号 -->
+    <span>&copy;</span>
+    <!-- &符号 -->
+    <span>&amp;</span>
+    <!-- 双引号 -->
+    <span>&quot;</span>
+    <!-- 其他符号 -->
+    <span>&#9760;</span>
+    <span>&#9876;</span>
+    <span>&#60;</span>
+    <span>&frac34;</span>
+    <span>&frac12;</span>
+
+    <span>&#34945;&#36827;</span>
+    <!-- x表示后面的内容是十六进制 -->
+    <span>&#x8881;&#x8FDB;</span>
+
+    <span class="span"></span>
+</body>
+</html>

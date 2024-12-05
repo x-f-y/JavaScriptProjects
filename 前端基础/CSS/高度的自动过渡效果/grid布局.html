@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 300px;
+      margin: 30px auto;
+      input {
+        width: 100%;
+        border: 1px solid #000;
+        outline: none;
+        font-size: 16px;
+        padding: 5px 0.5em;
+      }
+      .wrapper {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: 0.6s;
+        overflow: hidden;
+        border: 1px solid #000;
+        border-top: none;
+        margin-top: -1px;
+        .dropdown-list {
+          min-height: 0;
+          list-style-type: none;
+          li {
+            padding: 5px 0.5em;
+          }
+        }
+      }
+    }
+
+    input:focus + .wrapper {
+      grid-template-rows: 1fr;
+    }
+
+    /*
+      使用网格布局实现高度自动过渡的关键：
+        1. 将.wrapper设置为网格布局，grid-template-rows的值为0fr，并设置过渡时间
+        2. 将.dropdown-list的最小高度设置为0并设置父元素溢出隐藏，使得.dropdown-list不占用空间
+        3. 输入框聚焦时设置.wrapper的grid-template-rows的值为1fr
+    */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <input type="text">
+    <div class="wrapper">
+      <ul class="dropdown-list">
+        <li>Lorem, ipsum dolor.</li>
+        <li>Lorem ipsum dolor sit amet.</li>
+        <li>Lorem, ipsum.</li>
+        <li>Lorem ipsum amet consect.</li>
+        <li>Lorem ipsum dolor sit.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

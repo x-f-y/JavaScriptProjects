@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>11_mesh的平移、旋转和缩放</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshLambertMaterial({color: 'red'});
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        // 创建一个三维向量
+        const v3 = new THREE.Vector3(1, 1, 1);
+        // 单位化（归一化）
+        v3.normalize();
+
+        /***** 平移 *****/
+        // 方式一：
+        // mesh.position.set(1, 1, 1);
+        // 方式二：
+        // mesh.position.x = 1;
+        // mesh.position.y = 1;
+        // mesh.position.z = 1;
+        // 方式三：
+        // mesh.translateX(1);
+        // mesh.translateY(1);
+        // mesh.translateZ(1);
+        // 方式四：沿指定方向平移，第一个参数是一个在局部空间中的标准化向量，第二个参数是将要平移的距离
+        mesh.translateOnAxis(v3, 2);
+
+        /***** 旋转 *****/
+        // 方式一：
+        // mesh.rotation.set(Math.PI / 4, Math.PI / 4, Math.PI / 4);
+        // 方式二：
+        // mesh.rotation.x = Math.PI / 4;
+        // mesh.rotation.y = Math.PI / 4;
+        // mesh.rotation.z = Math.PI / 4;
+        // 方式三：
+        mesh.rotateX(Math.PI / 4);
+        mesh.rotateY(Math.PI / 4);
+        mesh.rotateZ(Math.PI / 4);
+        // 方式四：
+        // 创建一个欧拉角对象，参数分别是绕x、y、z轴旋转的弧度值
+        // const euler = new THREE.Euler(Math.PI / 4, Math.PI / 4, Math.PI / 4);
+        // 将euler的属性值拷贝到当前对象对应的属性
+        // mesh.rotation.copy(euler);
+        // 方式五：
+        // 绕指定轴旋转，第一个参数是一个在局部空间中的标准化向量，第二个参数是将要旋转的角度（以弧度表示）
+        // mesh.rotateOnAxis(v3, Math.PI / 4);
+
+        /***** 缩放 *****/
+        // 方式一：
+        // mesh.scale.set(2, 2, 2);
+        // 方式二：
+        mesh.scale.x = 2;
+        mesh.scale.y = 2;
+        mesh.scale.z = 2;
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.decay = 0;
+        pointLight.position.set(2.3, 4.0, 3.5);
+        scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.render(scene, camera);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+    </script>
+</body>
+</html>

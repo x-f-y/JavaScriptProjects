@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			window.onload = function(){
+				//获取count
+				var count = document.getElementById("count");
+				/**
+				 * 使count中的内容自动切换
+				 */
+				/**
+				 * 如果希望一段程序，可以每间隔一段时间执行一次，可以使用定时调用
+				 * 		setInterval() 定时调用 可以将一个函数每隔一段时间执行一次
+				 * 			参数
+				 * 				1：回调函数，该函数会每隔一段时间被调用一次
+				 * 				2：每次调用的间隔时间，单位是毫秒
+				 * 			返回值
+				 * 				返回一个Number类型的数据，这个数字是该定时器的唯一标识
+				 * 		clearInterval() 用来关闭一个定时器
+				 * 			该方法中需要一个定时器的标识作为参数，这样将关闭标识对应的定时器
+				 * 	setInterval()和clearInterval()都是window对象的方法，可以直接使用，且内部this指向window
+				 * 	注意：由于定时调用是异步代码，必须等同步代码执行完后才能执行，所以设置的间隔时间往往不是真正的间隔时间（有误差）
+				 */
+				var num = 1;
+				var timer = setInterval(function(){
+					console.log(this === window) // true
+					count.innerText = num++;
+					if(num == 11){
+						clearInterval(timer);
+					}
+				},500);
+			};
+		</script>
+	</head>
+	<body>
+		<h1 id="count"></h1>
+	</body>
+</html>

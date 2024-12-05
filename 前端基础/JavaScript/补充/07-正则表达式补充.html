@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 正则表达式的属性
+         *  RegExp.prototype.flags 返回由当前正则表达式对象的标志位组成的字符串（标志位按字典序排序）
+         *  RegExp.prototype.source 返回当前正则表达式对象的模式文本的字符串
+         *  RegExp.prototype.lastIndex 该属性用来指定下一次匹配的起始索引
+         *  RegExp.prototype.dotAll 返回是否在正则表达式中使用s修饰符
+         *  RegExp.prototype.ignoreCase 返回是否在正则表达式中使用i修饰符
+         *  RegExp.prototype.global 返回是否在正则表达式中使用g修饰符
+         *  ...etc...
+         */ 
+        console.log(/abc/uigms.flags) // "gimsu"
+        console.log(/<h[1-6]>https?.+<\/\1>/ig.source) // "<h[1-6]>https?.+<\/\1>"
+        console.log(/abc/ig.dotAll) // false
+        console.log(/abc/ig.ignoreCase) // true
+        console.log(/abc/ig.global) // true
+
+        /**
+         * 创建正则表达式的一些细节
+         */ 
+        var reg1 = /ab+c/
+        var reg2 = new RegExp(reg1)
+        var reg3 = RegExp(reg1)
+        reg1.abc = '123'
+        console.log(reg1, reg2, reg3) // /ab+c/ /ab+c/ /ab+c/
+        console.log(reg2.abc) // undefined
+        console.log(reg3.abc) // "123"
+        console.log(reg1 === reg2) // false
+        console.log(reg1 === reg3) // true
+
+        /**
+         * 关于正则表达式中的单词边界（\b和\B）
+         *  1. 边界是指一个位置，那什么是位置？就是每个字符之间以及字符串首尾
+         *      举个例子，如果用|表示位置的话，那么字符串 example:a+b=3 就表示为 |e|x|a|m|p|l|e|:|a|+|b|=|3|
+         *  2. 对于上述的例子，只把单词边界表示出来就是|example|:|a|+|b|=|3|
+         *  3. 对于上述的例子，只把非单词边界表示出来就是 e|x|a|m|p|l|e:a+b=3
+         */ 
+    </script>
+</body>
+</html>

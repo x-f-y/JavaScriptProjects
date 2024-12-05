@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Father(){}
+        Father.prototype.a = 1
+        Father.prototype.b = function(){
+            console.log(2)
+        }
+        Father.prototype.c = ['a', 'b', 'c']
+        function Son(){}
+        // 关键：子类和父类共享一个原型
+        Son.prototype = Father.prototype
+        var s = new Son()
+        console.log(s.a) // 1
+        s.b() // 2
+
+        /**
+         * 这种继承方式的缺点：
+         *  1. 和原型链继承一样，存在引用值共享的问题
+         *  2. 只能继承父类型原型上的属性和方法，不能继承构造函数里面书写的属性和方法
+         *  3. 在子类型的原型上添加属性或方法，会导致父类型的实例也能访问到
+         */
+        
+        s.c.push('d')
+        console.log(s.c)
+        var s2 = new Son() // ['a', 'b', 'c', 'd']
+        console.log(s2.c) // ['a', 'b', 'c', 'd']
+        
+        Son.prototype.d = function(){
+            console.log('d')
+        }
+        var f = new Father()
+        f.d() // d
+    </script>
+</body>
+</html>

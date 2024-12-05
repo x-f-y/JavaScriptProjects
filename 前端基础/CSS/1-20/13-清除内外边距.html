@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 
+            网页元素很多都带有默认的内外边距，而且不同浏览器默认的也不一致，因此我们在布局前，
+            首先要清除下网页元素的内外边距
+         */
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 
+            注意：行内元素为了照顾兼容性，尽量只设置左右的内外边距，不要设置上下的内外边距
+            但是转换为块级元素和行内块元素就可以设置上下的内外边距了
+        */
+        span {
+            background-color: pink;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    123
+    <ul>
+        <li>abcd</li>
+    </ul>
+    <span>行内元素尽量只设置左右的内外边距</span>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Father(a){
+            this.a = a
+        }
+        Father.prototype.b = function(){
+            console.log('b')
+        }
+        function Son(a, c){
+            Father.call(this, a)
+            this.c = c
+        }
+        Son.prototype = new Father()
+        Son.prototype.constructor = Son
+        Son.prototype.d = function(){
+            console.log('d')
+        }
+        var s = new Son('a', 'c')
+        console.log(s.a) // a
+        s.b() // b
+        console.log(s.c) // c
+        s.d() // d
+        console.log(s.constructor) // f Son(){ ... }
+
+        /**
+         * 这种继承方式（又被称为伪经典继承）的缺点：
+         *  父类型的构造函数被执行了两次（第一次是在 Son.prototype = new Father()，第二次是在
+         *  var s = new Son('a', 'c')），导致父类型构造函数中定义的属性（这里是a属性）既会出现在
+         *  子类型实例上，又会出现在子类型实例的原型（这里是s.__proto__）上
+         * 备注：这个问题将在寄生组合式继承里得到解决
+         */ 
+        
+        console.log(s.hasOwnProperty('a')) // true
+        console.log(s.__proto__.hasOwnProperty('a')) // true
+    </script>
+</body>
+</html>

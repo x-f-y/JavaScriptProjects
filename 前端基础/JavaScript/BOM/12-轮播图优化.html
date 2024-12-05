@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#outer{
+				width: 620px;
+				height: 400px;
+				/* 居中 */
+				margin: 100px auto;
+				background-color: greenyellow;
+				padding: 10px 0;
+				/* 开启相对定位 */
+				position: relative;
+				/* 裁剪溢出的部分 */
+				overflow: hidden;
+			}
+			/* 子绝父相  子元素的定位是相对于其父元素的 */
+			#imgList{
+				/* 去除项目符号 */
+				list-style: none;
+				/* width: 3100px; */
+				/* 开启绝对定位 */
+				position: absolute;
+				/* 设置偏移量 每向左移动620px，就是显示到下一张图片 */
+				left: 0;
+			}
+			#imgList li{
+				float: left;
+				margin: 0 10px;
+			}
+			#navDiv{
+				position: absolute;
+				/* 设置位置 */
+				bottom: 20px;
+				/* 
+					设置left值 
+					outer宽度 620
+					navDiv宽度 (15+5*2)*5 = 125
+						620 - 125 = 495/2 = 247.5
+				*/
+			   /* left: 247.5px; */
+			}
+			#navDiv a{
+				float: left;
+				width: 15px;
+				height: 15px;
+				background-color: red;
+				margin: 0 5px;
+				/* 设置透明 */
+				opacity: 0.5;
+				/* 兼容IE8透明 */
+				filter:alpha(opacity=50);
+			}
+			/* 设置鼠标移入的效果 */
+			#navDiv a:hover{
+				background-color: black;
+			}
+		</style>
+		<!-- 引入tools.js -->
+		<script type="text/javascript" src="./tools/tools.js"></script>
+		<script type="text/javascript">
+			window.onload = function(){
+				//获取imgList
+				var imgList = document.getElementById("imgList");
+				//获取img标签
+				var img = document.getElementsByTagName("img");
+				//获取所有的a
+				var allA = document.getElementsByTagName("a");
+				//获取navDiv
+				var navDiv = document.getElementById("navDiv");
+				//获取outer
+				var outer = document.getElementById("outer");
+				
+				//定义一个变量用来保存当前正在显示的图片的索引
+				var index = 0;
+				//定义一个变量用来存储定时器的标识
+				var timer;
+				
+				//动态设置imgList的宽度
+				imgList.style.width = 620 * img.length + "px";
+				//通过修改navDiv的left值来动态设置导航按钮居中
+				navDiv.style.left = (outer.offsetWidth - navDiv.offsetWidth)/2 + "px";
+				//设置选中的效果
+				allA[index].style.backgroundColor = "black";
+				//自动切换图片
+				autoChange();
+				
+				/**
+				 * 点击超链接切换到指定的图片
+				 */
+				//为每一个超链接绑定一个单击响应函数
+				/* for(let i = 0; i < allA.length; i++){
+					allA[i].onclick = function(){
+						alert(i);
+					};
+				} */
+				for(let i = 0; i < allA.length; i++){
+					//为每一个超链接都添加一个num属性
+					allA[i].num = i;
+					allA[i].onclick = function(){
+						/**
+						 * 用户点击超链接按钮时，关闭自动切换动画的定时器（即关闭自动轮播功能），
+						 * 用户点击按钮切换到指定的图片这个动画完成后，再开启自动轮播
+						 */
+						clearInterval(timer);
+						//获取点击的超链接的索引，并将其设置为index
+						index = this.num;
+						//重新设置导航按钮的背景颜色
+						setA();
+						//普通方式切换图片
+						//imgList.style.left = -620 * index + "px";
+						//使用move()函数来切换图片
+						move(imgList,"left",-620 * index,20,function(){
+							//用户点击按钮切换到指定的图片这个动画完成后，再开启自动轮播
+							autoChange();
+						});
+					};
+				}
+				
+				//创建一个函数，用于设置选中的导航按钮的样式
+				function setA(){
+					//判断当前索引是否是最后一张图片,如果是，则设置index为0
+					if(index >= img.length - 1){
+						//设置index为0
+						index = 0;
+						//进入此判断说明当前显示的是最后一张图片，最后一张图片和第一张图片一模一样
+						//此时可以通过css以一种障眼法的方式将最后一张切换成第一张
+						imgList.style.left = 0;
+					}
+					//遍历所有a，将它们的背景颜色设置为红色
+					for(var i = 0; i < allA.length; i++){
+						//allA[i].style.backgroundColor = "red";
+						//如果像上一行这样，设置的样式为内联样式，优先级高，会导致鼠标移入超链接时的变黑效果失效
+						allA[i].style.backgroundColor = "";
+					}
+					//修改正在选中的a的背景颜色为黑色
+					allA[index].style.backgroundColor = "black";
+				}
+				
+				//创建一个函数用于自动切换图片
+				function autoChange(){
+					//开启一个定时器，用于定时切换图片
+					timer = setInterval(function(){
+						//当前的index自增
+						index++;
+						//处理自增后的索引越界问题
+						index %= img.length;
+						move(imgList,"left",-620*index,20,function(){
+							//切换图片完毕，重新设置导航按钮的颜色
+							setA();
+						});
+					},2000);
+				}
+			};
+		</script>
+	</head>
+	<body>
+		<div id="outer">
+			<ul id="imgList">
+				<li><img src="./img/p1.jpg" style="width: 600px; height: 400px;"/></li>
+				<li><img src="./img/p2.jpg" style="width: 600px; height: 400px;"/></li>
+				<li><img src="./img/p3.jpg" style="width: 600px; height: 400px;"/></li>
+				<li><img src="./img/p4.jpg" style="width: 600px; height: 400px;"/></li>
+				<li><img src="./img/p5.jpg" style="width: 600px; height: 400px;"/></li>
+				<li><img src="./img/p1.jpg" style="width: 600px; height: 400px;"/></li>
+			</ul>
+			<!-- 创建导航按钮 -->
+			<div id="navDiv">
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+			</div>
+		</div>
+	</body>
+</html>

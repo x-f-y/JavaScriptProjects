@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 顶点着色器程序
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            void main(){
+                gl_Position = a_Position; // 设置坐标
+                gl_PointSize = 10.0; // 设置尺寸
+            }
+        `;
+
+        // 片元着色器程序
+        const FSHADER_SOURCE = `
+            void main(){
+                gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0); // 设置颜色
+            }
+        `;
+
+        // 获取canvas元素
+        const canvas = document.getElementById('canvas');
+
+        // 获取webgl绘图上下文
+        const gl = canvas.getContext('webgl');
+
+        // 初始化着色器
+        initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+        // 设置canvas的背景色
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        // 清空canvas
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        // 获取attribute变量的存储位置
+        const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+
+        /**
+         * 默认情况下，系统中的绘制操作实际上是在颜色缓冲区中进行绘制的，绘制结束后系统将缓冲区中的内容显示在屏幕上，然后颜色缓冲区就会被重置，
+         * 其中的内容会丢失。所以要把鼠标每次点击的位置都记录下来，而不是仅仅记录最近一次鼠标点击的位置
+         */
+        const points = []; // 鼠标点击位置的坐标数组
+
+        // 鼠标点击事件响应函数
+        canvas.onclick = function(event){
+            const canvasInfo = event.target.getBoundingClientRect();
+            // 获取点击位置的坐标（浏览器坐标系下的坐标）
+            const bx = event.clientX, by = event.clientY;
+            // 将浏览器坐标系下的坐标转换为canvas坐标系下的坐标
+            const cx = bx - canvasInfo.left, cy = by - canvasInfo.top;
+            // 将canvas坐标系下的坐标转换为webgl坐标系下的坐标
+            const wx = (cx - canvasInfo.width / 2) / (canvasInfo.width / 2);
+            const wy = (canvasInfo.height / 2 - cy) / (canvasInfo.height / 2);
+
+            points.push(wx);
+            points.push(wy);
+
+            // 清空canvas
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            for(let i = 0; i < points.length; i += 2){
+                // 将顶点位置传输给attribute变量
+                gl.vertexAttrib2fv(a_Position, new Float32Array([points[i], points[i+1]]));
+                // 绘制一个点
+                gl.drawArrays(gl.POINTS, 0, 1);
+            }
+        }
+    </script>
+</body>
+</html>

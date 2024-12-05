@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 100px auto;
+            background: #ddd;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            /**
+             * 画直线
+             * @param x1
+             * @param y1
+             * @param x2
+             * @param y2
+             * @param color
+             * @param width
+             */
+            function drawLine(x1, y1, x2, y2, color, width){
+                ctx.beginPath()
+                ctx.strokeStyle = color
+                ctx.lineWidth = width
+                ctx.lineCap = 'round' // 设置线段末端以圆形结束
+                ctx.moveTo(x1, y1)
+                ctx.lineTo(x2, y2)
+                ctx.stroke()
+            }
+
+            /**
+             * 画文字
+             * @param text
+             * @param x
+             * @param y
+             */
+            function drawText(text, x, y){
+                ctx.font = 'bold 26px 微软雅黑'
+                ctx.fillStyle = '#000'
+                ctx.textAlign = 'center'
+                ctx.textBaseline = 'middle'
+                ctx.fillText(text, x, y)
+            }
+
+            /**
+             * 画圆弧
+             * @param x
+             * @param y
+             * @param r
+             * @param color
+             */
+            function drawCircle(x, y, r, color){
+                ctx.beginPath()
+                ctx.fillStyle = color
+                ctx.arc(x, y, r, 0, Math.PI * 2, false)
+                ctx.fill()
+            }
+
+            /**
+             * 计算横坐标
+             * @param r
+             * @param Θ
+             * @returns {number}
+             */
+            function computeX(r, Θ){
+                return r * Math.sin(Θ)
+            }
+
+            /**
+             * 计算纵坐标
+             * @param r
+             * @param Θ
+             * @returns {number}
+             */
+            function computeY(r, Θ){
+                return -r * Math.cos(Θ)
+            }
+
+            // 定义基础变量
+            const w = h = 400 // 时钟宽高
+            const r = 180 // 时钟半径
+            const dotRadius = 10 // 表盘中心小圆点的半径
+            const hourLength = 60 // 时针长度
+            const minuteLength = 120 // 分针长度
+            const secondLength = 140 // 秒针长度
+            const hourWidth = 10 // 时针宽度
+            const minuteWidth = 5 // 分针宽度
+            const secondWidth = 2 // 秒针宽度
+            const lScaleLength = 20 // 大刻度的长度
+            const sScaleLength = 15 // 小刻度的长度
+            const lScaleWidth = 3 // 大刻度的宽度
+            const sScaleWidth = 2 // 小刻度的宽度
+
+            // 移动canvas的参照点至表盘中心（原本参照点在左上角）
+            ctx.translate(w / 2, h / 2)
+
+            /**
+             * 绘制整个时钟
+             */
+            function clock(){
+                // 画表盘
+                drawCircle(0, 0, r, '#fff')
+
+                // 画表钉
+                drawCircle(0, 0, dotRadius, '#000')
+
+                // 画数字
+                for(let i = 1; i <= 12; i++){
+                    const deg = Math.PI / 6 * i
+                    drawText(i, computeX(140, deg), computeY(140, deg))
+                }
+
+                // 画刻度
+                for(let i = 1; i <= 60; i++){
+                    const deg = Math.PI / 30 * i
+                    const x = computeX(r, deg), y = computeY(r, deg)
+                    if(i % 5 === 0){
+                        drawLine(x, y, computeX(r - lScaleLength, deg), computeY(r - lScaleLength, deg), '#c2c2c2', lScaleWidth)
+                    }else{
+                        drawLine(x, y, computeX(r - sScaleLength, deg), computeY(r - sScaleLength, deg), '#d7d7d7', sScaleWidth)
+                    }
+                }
+
+                // 获取当前时间
+                const date = new Date()
+                const hour = date.getHours()
+                const minute = date.getMinutes()
+                const second = date.getSeconds()
+
+                // 计算时针、分针和秒针各旋转的角度
+                const hourDeg = Math.PI / 6 * hour + Math.PI / 360 * minute + Math.PI / 21600 * second
+                const minuteDeg = Math.PI / 30 * minute + Math.PI / 1800 * second
+                const secondDeg = Math.PI / 30 * second
+
+                // 画表针
+                drawLine(0, 0, computeX(hourLength, hourDeg), computeY(hourLength, hourDeg), '#000', hourWidth)
+                drawLine(0, 0, computeX(minuteLength, minuteDeg), computeY(minuteLength, minuteDeg), '#000', minuteWidth)
+                drawLine(0, 0, computeX(secondLength, secondDeg), computeY(secondLength, secondDeg), '#f00', secondWidth)
+
+                requestAnimationFrame(clock)
+            }
+
+            // setInterval(function () {
+            //     clock()
+            // }, 1000)
+
+            clock()
+        }
+    </script>
+</body>
+</html>

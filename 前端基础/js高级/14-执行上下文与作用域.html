@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 执行上下文（虚拟的）
+         *  - 全局执行上下文
+         *      1. 在执行全局代码前将window确定为全局执行上下文
+         *      2. 对全局数据进行预处理
+         *          - var定义的变量==>赋值undefined，添加为window的属性
+         *          - function声明的全局函数==>添加为window的方法
+         *          - this==>赋值window
+         *      3. 开始执行全局代码
+         *  - 函数执行上下文
+         *      1. 在调用函数，准备执行函数体之前，创建对应的函数执行上下文
+         *      2. 对局部数据进行预处理
+         *          - 形参变量==>赋值（实参），添加为执行上下文的属性
+         *          - arguments==>赋值（实参列表），添加为执行上下文的属性
+         *          - var定义的局部变量==>赋值undefined，添加为执行上下文的属性
+         *          - function声明的函数==>添加为执行上下文的方法
+         *          - this==>赋值（调用函数的对象）
+         *      3. 开始执行函数体代码
+         * 执行上下文栈
+         *  1. 在全局代码执行前，js引擎就会创建一个栈用来管理所有的执行上下文对象
+         *  2. 在全局执行上下文（window）确定后，将其添加到栈中（栈底）
+         *  3. 在函数执行上下文创建后，将其添加到栈中
+         *  4. 当当前函数执行完后，将栈顶的函数执行上下文对象移出栈
+         *  5. 在所有代码执行完后，栈中只剩下全局执行上下文window
+         */
+        
+        /**
+         * 下面的代码输出什么？
+         *  global begin:undefined
+         *  foo() begin:1
+         *  foo() begin:2
+         *  foo() befin:3
+         *  foo() end:3
+         *  foo() end:2
+         *  foo() end:1
+         *  global end:1
+         * 共产生几个执行上下文？  5
+         */ 
+        console.log('global begin:' + i)
+        var i = 1
+        foo(1)
+        function foo(i){
+            if(i == 4){
+                return
+            }
+            console.log('foo() begin:' + i)
+            foo(i+1)
+            console.log('foo() end:' + i)
+        }
+        console.log('global end:' + i)
+
+        // 下面代码输出什么？  undefined
+        if(!(n in window)){
+            var n = 1
+        }
+        console.log(n)
+
+        /**
+         * 作用域
+         *  - 全局作用域
+         *  - 函数作用域
+         *  - 块作用域（ES6之后才有）
+         * 作用域链
+         *  - 多个嵌套关系的作用域形成的链，方向是从内到外的
+         *  - 查找变量时就是沿着作用域链来查找的
+         *  - 查找一个变量的查找规则
+         *      1. 在当前作用域下的执行上下文中查找对应的属性，如果有则直接返回，否则进入2
+         *      2. 在上一级作用域的执行上下文中查找对应的属性，如果有则直接返回，否则进入3
+         *      3. 再次执行2的相同操作，直到查找到全局作用域，如果还找不到就抛出找不到的异常
+         */ 
+
+        /**
+         * 执行上下文与作用域的区别
+         *  - 执行上下文从属于所在的作用域
+         *  - 执行上下文是动态的，调用函数时创建，函数调用结束后就会自动释放
+         *  - 作用域是静态的，只要函数定义好了就一直存在，且不会再变化
+         */ 
+
+        /**
+         * 下面代码输入什么？
+         *  fn() 100 20 300 10
+         *  bar() 1000 20 300 400 100
+         *  bar() 1000 20 300 400 200
+         * 共产生几个执行上下文？  4
+         * 有几个作用域？  3
+         */ 
+        var a = 10, b = 20
+        function fn(x){
+            var a = 100, c = 300
+            console.log('fn()', a, b, c, x)
+            function bar(x){
+                var a = 1000, d = 400
+                console.log('bar()', a, b, c, d, x)
+            }
+            bar(100)
+            bar(200)
+        }
+        fn(10)
+
+        // 下面代码输出什么？  10（作用域在写代码时就确定了，查找变量 x 时沿着作用域链进行查找）
+        var x = 10
+        function fun(){
+            console.log(x)
+        }
+        function show(f){
+            var x = 20
+            f()
+        }
+        show(fun)
+
+        // 下面代码输出什么？  报错，f is not defined
+        var obj = {
+            f : function(){
+                console.log(f)
+            }
+        }
+        obj.f()
+    </script>
+</body>
+</html>

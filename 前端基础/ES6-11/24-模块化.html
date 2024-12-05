@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/**
+			 * 模块化是指将一个大的程序文件，拆分成许多小的文件，然后将小文件组合起来
+			 * 	模块功能主要由两个命令构成：export和import
+			 * 		export：用于规定模块的对外接口
+			 * 		import：用户输入其他模块提供的功能
+			 */
+		</script>
+		<!-- 传统引入的方式（模块化引用不能使用这种方式） -->
+		<!-- <script type="text/javascript" src="./module1.js"></script> -->
+		<!-- 第一种可使用的引入方式 直接在script标签中写引入代码 -->
+		<script type="module">
+			//1.通用的导入方式
+			/* //引入module1.js模块内容
+			import * as m1 from './module/module1.js';
+			//引入module2.js模块内容
+			import * as m2 from './module/module2.js';
+			//引入module3.js模块内容
+			import * as m3 from './module/module3.js';
+			console.log(m1);
+			console.log(m2);
+			console.log(m3);
+			m1.teach()
+			m2.findJob()
+			m3.default.change(); // 多了一层default */
+			
+			//2.解构赋值形式
+			/* import {school,teach} from './module/module1.js';
+			//使用as关键字为school起别名，防止重名
+			import {school as guigu,findJob} from './module/module2.js';
+			//导入默认暴露的模块的固定写法 （必须为default起一个别名）
+			import {default as m3} from './module/module3.js'; // 固定写法
+			console.log(school);
+			console.log(teach);
+			console.log(guigu);
+			console.log(findJob);
+			console.log(m3.school);
+			console.log(m3.change) */
+			
+			//3.简便形式（只针对于默认暴露）
+			/* import m3 from './module/module3.js';
+			console.log(m3)
+			console.log(m3.school);
+			console.log(m3.change) */
+		</script>
+		<!-- 第二种可使用的引入方式 引入入口文件 在入口文件中写引入代码 -->
+		<script type="module" src="./module/app.js"></script>
+		<!-- 注意：type="module"的script脚本默认是异步加载的 -->
+	</head>
+	<body>
+	</body>
+</html>

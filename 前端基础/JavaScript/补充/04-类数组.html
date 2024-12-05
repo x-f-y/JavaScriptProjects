@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 模拟实现数组的slice方法
+        Array.prototype.mySlice = function(start, end){
+            start = start || 0
+            end = end || this.length
+            start += (start > 0 ? 0 : this.length)
+            end += (end > 0 ? 0 : this.length)
+            var ans = []
+            for(let i = start; i < end; i++){
+                ans.push(this[i])
+            }
+            return ans
+        }
+        // 模拟实现数组的push方法
+        Array.prototype.myPush = function(){
+            for(let i = 0; i < arguments.length; i++){
+                this[this.length++] = arguments[i]
+            }
+            return this.length
+        }
+        var arr = [1, 2, 3, 4, 5]
+        console.log(arr.mySlice(1)) // [2, 3, 4, 5]
+        console.log(arr.mySlice(-1)) // [5]
+        console.log(arr.mySlice(1, 3)) // [2, 3]
+        console.log(arr.mySlice(-1, -3)) // []
+        console.log(arr.mySlice(-3, -1)) // [3, 4]
+        console.log(arr.myPush(6)) // 6
+        console.log(arr) // [1, 2, 3, 4, 5, 6]
+        console.log(arr.myPush(7, 8)) // 8
+        console.log(arr) // [1, 2, 3, 4, 5, 6, 7, 8]
+
+
+        /**
+         * 类数组
+         *  属性要为索引（数字）属性，必须有length属性，最好加上push方法
+         *  如下的obj对象就是一个类数组
+         */ 
+        var obj = {
+            "0": 'a',
+            "1": 'b',
+            "2": 'c',
+            "length": 3,
+            "push": Array.prototype.push,
+            "splice": Array.prototype.splice // 加上splice方法是为了在浏览器控制台打印该对象的时候，其显示形式更像数组
+        }
+        console.log(obj) // ['a', 'b', 'c', push: ƒ, splice: ƒ]
+        obj.push('d', 'e')
+        console.log(obj) // ['a', 'b', 'c', 'd', 'e', push: ƒ, splice: ƒ]
+
+
+        /**
+         * 面试题
+         */ 
+        var o = {
+            2: 'a',
+            3: 'b',
+            length: 2,
+            push: Array.prototype.push,
+            splice: Array.prototype.splice
+        }
+        o.push('c')
+        o.push('d')
+        console.log(o) //  [空属性 × 2, 'c', 'd', push: ƒ, splice: ƒ]
+
+        
+        // 利用数组的slice方法将伪数组转化为真正的数组
+        function fun(){
+            console.log(arguments) // Arguments(5) [1, 2, 3, 4, 5, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+            console.log(Array.isArray(arguments)) // false
+            var ans = Array.prototype.slice.call(arguments) // [1, 2, 3, 4, 5]
+            console.log(ans) // true
+            console.log(Array.isArray(ans))
+        }
+        fun(1, 2, 3, 4, 5)
+    </script>
+</body>
+</html>

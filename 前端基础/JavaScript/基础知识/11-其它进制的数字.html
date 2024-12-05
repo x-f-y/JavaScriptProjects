@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				在js中，如果需要表示十六进制的数字，则需要以0x或OX开头
+						如果需要表示八进制的数字，则需要以0o或0O开头
+						如果需要表示二进制的数字，则需要以0b或0B开头
+			 */
+			console.log(0b10); // 2
+			console.log(0B10); // 2
+			console.log(0o11) // 9
+			console.log(0O11) // 9
+			console.log(0x34) // 52
+			console.log(0X34) // 52
+
+			/* 
+				可以在parseInt()中传递第二个参数来指定数字的进制
+				对于此方法，若第二个参数小于2或者大于36或者第一个参数不能被转换为数字，则返回NaN
+				如果第二个参数是undefined、0或未指定的，则会分以下几种情况
+					- 如果输入的 string 以0x或OX开头，那么第二个参数被假定为16，字符串的其余部分被当做十六进制数去解析
+					- 如果输入的 string 以任何其他值开头，那么第二个参数被假定为10，字符串被当做十进制去解析
+				注意：
+					1. 如果字符串以0开头，一定要明确给出第二个参数的值
+					2. parseFloat()方法和parseInt()方法不同，它只有一个参数
+			 */
+			console.log(parseInt('3', 1)) // NaN（第二个参数不在[2，36]范围内）
+			console.log(parseInt('abc')) // NaN（第一个参数不能被转换为数字）
+			console.log(parseInt(3, 2)) // NaN （3不是一个二进制的数字）
+			
+			console.log(parseInt('1013', 2)) // 5
+
+			console.log(parseInt('4', 0)) // 4（第二个参数为0，当成十进制解析）
+			console.log(parseInt('123', undefined)) // 123（第二个参数为undefined，当成十进制解析）
+			console.log(parseInt('123')) // 123（第二个参数未指定，当成十进制解析）
+
+			console.log(parseInt('0x11', 0)) // 17（第二个参数为0，当成十六进制解析）
+			console.log(parseInt('0x13', undefined)) // 19（第二个参数为undefined，当成十六进制进制解析）
+			console.log(parseInt('0x14')) // 20（第二个参数未指定，当成十六进制解析）
+			
+			console.log(parseInt("070", 8)); // 56（字符串以0开头，一定要明确给出第二个参数的值）
+			
+			//以0开头的数字若后面未出现8、9、a、b等数字、字母，则为八进制，若出现了，则为十进制
+			console.log(011) // 9
+			console.log(080) // 80
+			</script>
+	</head>
+	<body>
+	</body>
+</html>

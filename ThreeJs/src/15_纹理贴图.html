@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>15_纹理贴图</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        container.appendChild(renderer.domElement);
+
+        new OrbitControls(camera, renderer.domElement);
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.decay = 0;
+        pointLight.position.set(2.3, 4.0, 3.5);
+        scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        // 定义一个几何体
+        const geometry = new THREE.BufferGeometry();
+        const vertices = new Float32Array([ // 顶点坐标
+            4.0, 4.0, 1.0, // v0
+            -4.0, 4.0, 1.0, // v1
+            -4.0,-4.0, 1.0, // v2
+            4.0,-4.0, 1.0  // v3
+        ]);
+        const uvs = new Float32Array([ // 顶点坐标对应的uv坐标
+            1, 1,   0, 1,   0, 0,   1, 0
+        ]);
+        const normals = new Float32Array([ // 顶点法向量
+            0, 0, 1, // v0
+            0, 0, 1, // v1
+            0, 0, 1, // v2
+            0, 0, 1  // v3
+        ]);
+        const indices = new Uint8Array([ // 顶点索引
+            0, 1, 2,   0, 2, 3
+        ]);
+        geometry.attributes.position = new THREE.BufferAttribute(vertices, 3);
+        geometry.attributes.uv = new THREE.BufferAttribute(uvs, 2);
+        geometry.attributes.normal = new THREE.BufferAttribute(normals, 3);
+        geometry.index = new THREE.BufferAttribute(indices, 1);
+        // 创建一个纹理加载器
+        const textureLoader = new THREE.TextureLoader();
+        // 调用纹理加载器的load()方法创建一个纹理对象
+        const texture = textureLoader.load('../resources/image/panda.jpg');
+        // 设置SRGB颜色空间
+        texture.colorSpace = THREE.SRGBColorSpace;
+        // 对纹理图像进行y轴反转（默认值就是true，所以也可以不用设置）
+        texture.flipY = true;
+        // 设置纹理在水平（U）和垂直（V）方向上填充的模式
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        // 设置纹理在UV两个方向上的填充次数
+        texture.repeat.set(6, 6);
+        // 定义材质
+        const material = new THREE.MeshLambertMaterial({
+            side: THREE.DoubleSide,
+            map: texture, // 设置材质的颜色贴图属性
+            // color: 0x0000ff // map和color属性的颜色值会混合，一般来说，设置了map属性，就不用设置color属性了
+        });
+        // material.map = texture;
+        // 根据几何体和材质创建网格模型
+        const mesh = new THREE.Mesh(geometry, material);
+        // 将网格模型添加到场景中
+        scene.add(mesh);
+
+        requestAnimationFrame(function animate(){
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        });
+    </script>
+</body>
+</html>

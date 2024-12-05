@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<div class="box" style="height: 100px; width: 100px;">box</div>
+	<!-- 
+		在实际的项目中一般不会使用24-模块化.html中的import引入方式，原因有两个
+		1.兼容性问题 2.ES6模块化还不能直接对npm安装的模块进行导入 
+		所以在项目中通常使用Babel（Babel 是一个工具链，主要用于在当前和旧的浏览器或环境中
+		将ES 2015+代码转换为JavaScript向后兼容版本的代码）
+	-->
+	<!-- 
+		1 安装工具 babel-cli babel-preset-env browserify(webpack)
+			- npm init -y
+			- npm i babel-cli babel-preset-env browserify -D
+		2 npx babel module -d dist --presets=babel-preset-env
+		3 打包 npx browserify dist/app.js -o dist/bundle.js
+		4 当对app.js中的代码进行修改时，需要再重复一遍步骤2和步骤3
+	 -->
+	<script src="dist/bundle.js"></script>
+</body>
+</html>

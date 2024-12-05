@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			overflow: hidden;
+			width: 900px;
+			height: 500px;
+			margin: 100px auto;
+			text-align: center;
+			background-color: skyblue;
+		}
+
+		.container h3 {
+			margin-top: 5px;
+		}
+
+		.container img {
+			width: 90%;
+			height: 85%;
+			margin-top: 8px;
+			margin-bottom: 8px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h3></h3>
+		<img src="../BOM/img/1.jpg" alt="">
+		<footer>
+			<button>上一张</button>
+			<button>下一张</button>
+		</footer>
+	</div>
+	<script>
+		// 获取各个元素节点对象
+		const title = document.querySelector('.container h3')
+		const img = document.querySelector('.container img')
+		const prev = document.querySelectorAll('.container footer button')[0]
+		const next = document.querySelectorAll('.container footer button')[1]
+
+		// 存储图片路径
+		const imgArr = ['../BOM/img/1.jpg', '../BOM/img/2.jpg', '../BOM/img/3.jpg']
+		// 存储当前图片索引
+		let imgIndex = 0
+
+		// 点击上一张
+		prev.onclick = function () {
+			imgIndex--
+			if (imgIndex < 0) {
+				imgIndex = imgArr.length - 1
+			}
+			img.src = imgArr[imgIndex]
+			// 重新设置提示文字
+			title.innerText = `一共${imgArr.length}张图片，当前是第${imgIndex + 1}张图片`
+		}
+
+		// 点击下一张
+		next.onclick = function () {
+			imgIndex = (imgIndex + 1) % imgArr.length
+			img.src = imgArr[imgIndex]
+			// 重新设置提示文字
+			title.innerText = `一共${imgArr.length}张图片，当前是第${imgIndex + 1}张图片`
+		}
+
+		// 设置提示文字
+		title.innerText = `一共${imgArr.length}张图片，当前是第${imgIndex + 1}张图片`
+	</script>
+</body>
+
+</html>

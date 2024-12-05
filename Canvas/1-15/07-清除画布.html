@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        /**
+         * 清除画布
+         *  语法：ctx.clearRect(x, y, width, height) 该方法通过把像素设置为透明以达到擦除一个矩形区域的目的
+         *  注意：如果没有依照绘制路径的步骤，使用clearRect()会导致意想之外的结果，请确保在调用clearRect()之后绘制新内容前调用beginPath()
+         *  备注：绘制路径的步骤：
+         *      1. 首先，需要创建路径起始点（beginPath()）
+         *          备注：当前路径为空，即调用beginPath()之后，或者canvas刚建的时候，第一条路径构造命令通常被视为是moveTo()，无论
+         *          实际上是什么。出于这个原因，你几乎总是要在设置路径之后专门指定你的起始位置
+         *      2. 然后使用画图命令画出路径
+         *      3. 把路径封闭（closePath()，不是必需的）
+         *          备注：当你调用fill()函数时，所有没有闭合的形状都会自动闭合，所以你不需要调用closePath()函数。但是调用stroke()时
+         *          不会自动闭合
+         *      4. 一旦路径生成，就能通过描边或填充路径区域来渲染图形（stroke()和fill()）
+         */
+
+        ctx.fillStyle = 'gold'
+        ctx.fillRect(100, 100, 300, 300)
+
+        // 清除整个画布
+        // ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+        // 清除一部分画布
+        ctx.clearRect(150, 150, 200, 200)
+    </script>
+</body>
+</html>

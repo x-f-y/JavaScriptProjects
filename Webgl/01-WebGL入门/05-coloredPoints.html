@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 顶点着色器程序
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            void main(){
+                gl_Position = a_Position; // 设置坐标
+                gl_PointSize = 10.0; // 设置尺寸
+            }
+        `;
+
+        // 片元着色器程序
+        /**
+         * attribute变量传输的是那些与顶点相关的数据，而uniform变量传输的是那些对于所有顶点都相同（或与顶点无关）的数据
+         * 只有顶点着色器才能使用attribute变量（顶点着色器也可以使用uniform变量），使用片元着色器时，就需要使用uniform变量
+         */
+        const FSHADER_SOURCE = `
+            precision mediump float; // 使用精度限定词指定变量的范围
+            uniform vec4 u_FragColor; // 声明uniform变量
+            void main(){
+                gl_FragColor = u_FragColor; // 设置颜色
+            }
+        `;
+
+        // 获取canvas元素
+        const canvas = document.getElementById('canvas');
+
+        // 获取webgl绘图上下文
+        const gl = canvas.getContext('webgl');
+
+        // 初始化着色器
+        initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+        // 设置canvas的背景色
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        // 清空canvas
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        // 获取attribute变量的存储位置
+        const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+        // 获取uniform变量的存储位置
+        /**
+         * gl.getUniformLocation(program, name) 获取指定名称的uniform变量的存储位置
+         *  program：指定包含顶点着色器和片元着色器的着色器程序对象
+         *  name：指定想要获取其存储地址的uniform变量的名称
+         */
+        const u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
+
+        const points = []; // 鼠标点击位置的坐标数组
+        const colors = []; // 存储点颜色的数组
+
+        // 鼠标点击事件响应函数
+        canvas.onclick = function(event){
+            const canvasInfo = event.target.getBoundingClientRect();
+            // 获取点击位置的坐标（浏览器坐标系下的坐标）
+            const bx = event.clientX, by = event.clientY;
+            // 将浏览器坐标系下的坐标转换为canvas坐标系下的坐标
+            const cx = bx - canvasInfo.left, cy = by - canvasInfo.top;
+            // 将canvas坐标系下的坐标转换为webgl坐标系下的坐标
+            const wx = (cx - canvasInfo.width / 2) / (canvasInfo.width / 2);
+            const wy = (canvasInfo.height / 2 - cy) / (canvasInfo.height / 2);
+
+            points.push([wx, wy]);
+            if(wx > 0.0 && wy > 0.0){ // 第一象限
+                colors.push([1.0, 0.0, 0.0, 1.0]); // 红色
+            }else if(wx < 0.0 && wy < 0.0){ // 第三象限
+                colors.push([0.0, 1.0, 0.0, 1.0]); // 绿色
+            }else { // 其他象限
+                colors.push([1.0, 1.0, 1.0, 1.0]); // 白色
+            }
+
+            // 清空canvas
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            for(let i = 0; i < points.length; i++){
+                // 将顶点位置传输给attribute变量
+                gl.vertexAttrib2f(a_Position, points[i][0], points[i][1]);
+                // 将颜色值传输给uniform变量
+                /**
+                 * gl.uniform1f(location, v0)
+                 * gl.uniform2f(location, v0, v1)
+                 * gl.uniform3f(location, v0, v1, v2)
+                 * gl.uniform4f(location, v0, v1, v2, v3)
+                 *  上述系列函数都是将数据传输给由location参数指定的uniform变量。gl.uniform1f()仅传输一个值，这个值将被填充到uniform
+                 *  变量的第一个分量中，第二、三个分量将被设为0.0，第4个分量将被设为1.0。类似地，gl.uniform2f()将填充前两个分量，第三个
+                 *  分量为0.0，第四个分量为1.0。gl.uniform3f()填充前三个分量，第四个分量为1.0。gl.uniform4f()填充了所有四个分量
+                 */
+                gl.uniform4f(u_FragColor, colors[i][0], colors[i][1], colors[i][2], colors[i][3]);
+                // gl.uniform[1234]f()系列函数也可以写成矢量版本，以上行代码为例，其矢量版本的写法如下：
+                // gl.uniform4fv(u_FragColor, new Float32Array([colors[i][0], colors[i][1], colors[i][2], colors[i][3]]));
+                // 绘制一个点
+                gl.drawArrays(gl.POINTS, 0, 1);
+            }
+        }
+    </script>
+</body>
+</html>

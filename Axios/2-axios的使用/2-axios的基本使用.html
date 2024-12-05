@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios基本使用</title>
+    <!-- 引入axios -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <!-- 引入外部样式 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="page-header">基本使用</h2>
+        <button class="btn btn-primary">发送 GET 请求</button>
+        <button class="btn btn-warning">发送 POST 请求</button>
+        <button class="btn btn-success">发送 PUT 请求</button>
+        <button class="btn btn-danger">发送 DELETE 请求</button>
+    </div>
+    <script>
+        // 获取按钮
+        const btns = document.querySelectorAll('button')
+
+        // 点击按钮发送get请求 查询id为3的文章
+        btns[0].onclick = function () {
+            // 发送ajax请求
+            axios({
+                // 请求类型
+                method: 'GET',
+                // 请求url
+                url: 'http://localhost:3000/posts/3'
+            }).then(response => {
+                console.log(response)
+            })
+        }
+
+        // 点击按钮发送post请求 添加一篇新的文章
+        btns[1].onclick = function () {
+            // 发送ajax请求
+            axios({
+                // 请求类型
+                method: 'POST',
+                // 请求url
+                url: 'http://localhost:3000/posts',
+                // 请求体
+                data: {
+                    title: '今天天气不错，还挺风和日丽的',
+                    author: '张三'
+                }
+            }).then(resposne => {
+                console.log(response)
+            })
+        }
+
+        // 点击按钮发送put请求 更新id为c2fb的文章
+        btns[2].onclick = function () {
+            // 发送ajax请求
+            axios({
+                // 请求类型
+                method: 'PUT',
+                // 请求url
+                url: 'http://localhost:3000/posts/c2fb',
+                // 请求体
+                data: {
+                    title: '今天天气不错，还挺风和日丽的',
+                    author: '李四'
+                }
+            }).then(resposne => {
+                console.log(response)
+            })
+        }
+
+        // 点击按钮发送delete请求 删除id为c2fb的文章
+        btns[3].onclick = function () {
+            // 发送ajax请求
+            axios({
+                // 请求类型
+                method: 'DELETE',
+                // 请求url
+                url: 'http://localhost:3000/posts/c2fb'
+            }).then(resposne => {
+                console.log(response)
+            })
+        }
+    </script>
+</body>
+
+</html>

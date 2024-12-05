@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .bg1 {
+            /* 设置背景颜色，背景颜色默认是transparent */
+            background-color: #bfa;
+            width: 100px;
+            height: 100px;
+        }
+
+        .bg2 {
+            /* 
+                相比于直接插入图片，设置背景图片的好处是非常便于控制位置，实际开发中常用于logo或者一些装饰性的
+                小图片或者是超大的背景图片（精灵图也是一种运用场景）
+            */
+            /* 
+                设置背景图片，默认值是none 注意不要忘了url() url中路径的引号（单引号或双引号）可加可不加，
+                但是为了防止路径中出现特殊符号而导致意想之外的结果，建议用引号将路径包裹起来
+            */
+            background-image: url('../images/wzry.png');
+            width: 400px;
+            height: 200px;
+            /* 设置背景图片不平铺 默认值是repeat（平铺） 可选值有repeat no-repeat repeat-x repeat-y */
+            background-repeat: no-repeat;
+            /* 可以同时设置背景颜色和背景图片，这样的话，背景颜色在下层，背景图片在上层 */
+            background-color: pink;
+        }
+
+        .bg3 {
+            background-image: url('../images/wzry.png');
+            width: 400px;
+            height: 200px;
+            /* 设置背景图片沿x轴平铺 */
+            background-repeat: repeat-x;
+            background-color: aqua;
+        }
+
+        .bg4 {
+            background-image: url('../images/wzry.png');
+            width: 400px;
+            height: 200px;
+            /* 设置背景图片沿y轴平铺 */
+            background-repeat: repeat-y;
+            background-color: skyblue;
+        }
+
+        .bg5 {
+            /* 
+                设置图片在盒子中的位置 语法：background-position: x y; x和y可以使用方位名词或者精确单位
+                方位名词有top,bottom,left,right,center
+                精确单位可以是像素，百分比等
+            */
+            /*
+                如果参数是方位名词
+                - 如果指定的两个值都是方位名词，则两个值前后顺序无关，比如left top和top left效果一样
+                - 如果只指定了一个方位名词，另一个值省略，则第二个值默认居中对齐
+             */
+            width: 400px;
+            height: 200px;
+            background-color: red;
+            background-image: url('../images/wzry.png');
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+
+        .bg6 {
+            /*
+                如果参数是精确单位
+                - 如果参数值是精确坐标，那么第一个肯定是x坐标，第二个一定是y坐标
+                - 如果只指定一个数值，那该数值一定是x坐标，另一个默认垂直居中
+             */
+            width: 400px;
+            height: 200px;
+            /* background-color: green; */
+            /* 
+                设置背景颜色半透明效果 语法：background-color: rgba(0,0,0,0.3);
+                - 最后一个参数是alpha透明度，取值范围在0~1之间
+                - 我们习惯把0.3的0省略掉，写成background: rgba(0,0,0,.3);
+                - 注意：背景半透明是指盒子背景半透明，盒子里面的内容不受影响
+            */
+            background-color: rgba(0, 0, 255, .3);
+            background-image: url(../images/wzry.png);
+            background-repeat: no-repeat;
+            background-position: 30px;
+        }
+
+        .bg7 {
+            /*
+                如果参数是混合单位
+                - 如果指定的两个值是精确单位和方位名词混合使用，则第一个值是x坐标，第二个值是y坐标 
+             */
+            width: 400px;
+            height: 200px;
+            /* background-color: orange;
+            background-image: url(../../demo/img/wzry.png);
+            background-repeat: no-repeat;
+            background-position: center 30px; */
+            /* 背景的复合写法（没有特定的书写顺序） */
+            background: orange url(../../其他/img/wzry.png) no-repeat center 30px;
+        }
+
+        .bg8 {
+            /* 
+                background-clip  规定元素的背景（背景图片或颜色）是否延伸到border box、padding box或content box
+                    可选值：
+                        - border-box 默认值，背景被裁剪到border box
+                        - padding-box 背景被裁剪到padding box
+                        - content-box 背景被裁剪到content box
+             */
+            box-sizing: border-box;
+            width: 400px;
+            height: 300px;
+            border: 10px dotted rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            background: url(../images/dog.jpg) no-repeat;
+            background-size: 500px auto;
+            /* background-color: #bfa; */
+            /* background-clip: padding-box; */
+            /* background-clip: content-box; */
+        }
+
+        .bg9 {
+            /* 
+                background-origin 规定 background-position 属性相对于什么位置来定位
+                    注意：当使用 background-attachment 为 fixed 时，该属性将被忽略不起作用
+                    可选值：
+                        - padding-box 默认值，背景图片的摆放以 padding 区域为参考
+                        - border-box 背景图片的摆放以 border 区域为参考
+                        - content-box 背景图片的摆放以 content 区域为参考
+             */
+            box-sizing: border-box;
+            width: 400px;
+            height: 250px;
+            padding: 20px;
+            border: 10px dotted rgba(255, 0, 0, 0.2);
+            background: url(../images/dog.jpg) no-repeat;
+            background-size: 400px auto;
+            /* background-origin: content-box; */
+            /* background-origin: border-box; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg1"></div>
+    <div class="bg2"></div>
+    <div class="bg3"></div>
+    <div class="bg4"></div>
+    <div class="bg5"></div>
+    <div class="bg6">今天天气真好</div>
+    <div class="bg7"></div>
+    <div class="bg8"></div>
+    <div class="bg9"></div>
+    <!-- 
+        背景样式还有一个background-attachment,详见07-练习.html
+     -->
+</body>
+
+</html>

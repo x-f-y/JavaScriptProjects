@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>08_自定义几何体-点线面</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        /***** 点 *****/
+        // 创建一个空的几何体对象
+        const geometry_1 = new THREE.BufferGeometry(); // BufferGeometry是boxGeometry、sphereGeometry、cylinderGeometry等的基类
+        // 顶点坐标
+        const vertices_1 = new Float32Array([ // 3个顶点的(x,y,z)坐标
+            0.0, 2.0, 3.0,
+            -1.0, 0.0, 3.0,
+            1.0, 0.0, 3.0
+        ]);
+        // 根据顶点坐标创建属性缓冲区对象
+        const attribute_1 = new THREE.BufferAttribute(vertices_1, 3); // 第二个参数3表示vertices_1中存储的是三元组，即3个为一组
+        // 将顶点坐标缓冲区对象分配给几何体对象的position属性
+        // geometry_1.attributes.position = attribute_1; // 方式一
+        geometry_1.setAttribute('position', attribute_1); // 方式二
+        const pointsMaterial = new THREE.PointsMaterial({
+            color: 0xff00ff,
+            size: 0.5 // 点的大小，默认值为1.0
+        });
+        const points = new THREE.Points(geometry_1, pointsMaterial); // 使用gl.POINTS模式渲染
+        scene.add(points);
+
+        /***** 线 *****/
+        const geometry_2 = new THREE.BufferGeometry();
+        const vertices_2 = new Float32Array([
+            -1.0, 0.0, 2.0,
+            -1.0, 2.0, 2.0,
+            1.0, 2.0, 2.0,
+            1.0, 0.0, 2.0
+        ]);
+        const attribute_2 = new THREE.BufferAttribute(vertices_2, 3);
+        geometry_2.attributes.position = attribute_2;
+        const lineMaterial = new THREE.LineBasicMaterial({
+            color: 0x00ffff
+        });
+        // const line = new THREE.Line(geometry_2, lineMaterial); // 使用gl.LINE_STRIP模式渲染
+        const line = new THREE.LineLoop(geometry_2, lineMaterial); // 使用gl.LINE_LOOP模式渲染
+        // const line = new THREE.LineSegments(geometry_2, lineMaterial); // 使用gl.LINES模式渲染
+        scene.add(line);
+
+        /***** 面 *****/
+        const geometry_3 = new THREE.BufferGeometry();
+        const vertices_3 = new Float32Array([
+            -1.0, 0.0, 1.0,
+            1.0, 0.0, 1.0,
+            1.0, 2.0, 1.0,
+            1.0, 2.0, 1.0,
+            -1.0, 2.0, 1.0,
+            -1.0, 0.0, 1.0
+        ]);
+        const attribute_3 = new THREE.BufferAttribute(vertices_3, 3);
+        geometry_3.setAttribute('position', attribute_3);
+        const meshMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffff00,
+            side: THREE.DoubleSide
+        });
+        const mesh = new THREE.Mesh(geometry_3, meshMaterial); // 使用gl.TRIANGLES模式渲染
+        scene.add(mesh);
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.decay = 0;
+        pointLight.position.set(2.3, 4.0, 3.5);
+        scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.render(scene, camera);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+    </script>
+</body>
+</html>

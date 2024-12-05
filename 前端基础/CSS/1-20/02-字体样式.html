@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .font1 {
+        /* italic是斜体，要想不倾斜将font-style设置为normal即可 */
+        font-style: italic;
+        /* 700（bold）是加粗，要想不加粗将font-weight设置为400（normal）即可 */
+        font-weight: 700;
+        /* 注意：font-weight没有单位，而font-size有单位 */
+        font-size: 30px;
+        /* 不同字体之间用逗号分隔，一个字体有多个单词时用引号（单引号，双引号都可）将其包起来 */
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .font2 {
+        /* 复合形式 */
+        /* 使用复合形式时必须按照font-style font-weight font-size/line-height font-family的顺序书写，不能更换顺序
+        不需要设置的属性可以省略（取默认值），但必须保留font-size和font-family属性，否则font属性将不起作用 */
+        font: italic 700 30px 'Times New Roman', Times, serif;
+    }
+</style>
+
+<body>
+    <p class="font1">今天天气真好</p>
+    <p class="font2">今天天气真好</p>
+</body>
+
+</html>

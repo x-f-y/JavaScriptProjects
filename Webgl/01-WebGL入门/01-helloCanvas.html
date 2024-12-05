@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 获取canvas元素
+        const canvas = document.getElementById('canvas');
+
+        // 获取webgl绘图上下文
+        const gl = canvas.getContext('webgl');
+
+        // 指定清空canvas的颜色，参数分别是rgba值，但rgb范围是0-1，而不是0-255
+        gl.clearColor(0, 0, 0, 1);
+
+        // 清空canvas（颜色缓冲区）
+        gl.clear(gl.COLOR_BUFFER_BIT);
+    </script>
+</body>
+</html>

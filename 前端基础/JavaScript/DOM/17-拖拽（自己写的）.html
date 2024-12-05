@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            left: 200px;
+            top: 200px;
+        }
+        .box1 {
+            width: 100px;
+            height: 100px;
+            background-color: yellowgreen;
+        }
+        .box2 {
+            width: 100px;
+            height: 100px;
+            background-color: skyblue;
+        }
+    </style>
+</head>
+
+<body>
+    <p>今天天气真好！</p>
+    <div class="box"></div>
+    <br>
+    <div class="box1"></div>
+    <br>
+    <div class="box2"></div>
+    <br>
+    <img src="./images/4.jpg" alt="" width="100">
+    <script>
+        const box1 = document.querySelector('.box1')
+        const box2 = document.querySelector('.box2')
+        const img = document.querySelector('img')
+
+        drag(box1)
+        drag(box2)
+        drag(img)
+
+        /**
+         * 创建一个函数用来实现拖拽功能
+         *  参数：obj 要执行拖拽功能的元素
+         */
+        function drag(obj) {
+            obj.onmousedown = function (e) {
+                // 给要拖拽的元素添加z-index属性
+                this.style.zIndex = 1
+                // 给要拖拽的元素添加绝对定位
+                this.style.position = 'absolute'
+                // 修改鼠标样式
+                this.style.cursor = 'move'
+                // 获取元素移动前鼠标的坐标
+                const oldX = e.pageX
+                const oldY = e.pageY
+                // 获取元素原先的位置
+                const elementX = +getComputedStyle(this).getPropertyValue('left').slice(0, -2)
+                const elementY = +getComputedStyle(this).getPropertyValue('top').slice(0, -2)
+                document.onmousemove = (e) => {
+                    // 获取元素移动后鼠标的坐标
+                    const newX = e.pageX
+                    const newY = e.pageY
+                    // 设置元素移动后的新位置为移动前的旧位置加上鼠标移动的距离
+                    this.style.left = elementX + (newX - oldX) + 'px'
+                    this.style.top = elementY + (newY - oldY) + 'px'
+                    document.onmouseup = (e) => {
+                        // 松开鼠标后移除document的onmousemove事件和onmouseup事件
+                        document.onmousemove = null
+                        document.onmouseup = null
+                        // 拖拽完成后重新设置元素的z-index的值
+                        this.style.zIndex = ''
+                        // 拖拽完成后重新设置鼠标样式
+                        this.style.cursor = 'default'
+                    }
+                }
+                // 取消浏览器的默认行为（拖拽时去搜索引擎中搜索该内容）
+                e.preventDefault();
+            }
+        }
+
+        var box = document.getElementsByClassName('box')[0]
+        var isDrag = false
+        var oldX, oldY, newX, newY
+        box.addEventListener('mousedown', function(e){
+            isDrag = true
+            oldX = e.pageX
+            oldY = e.pageY
+        })
+        document.addEventListener('mousemove', function(e){
+            if(isDrag){
+                newX = e.pageX
+                newY = e.pageY
+                box.style.left = parseInt(getComputedStyle(box).left) + newX - oldX + 'px'
+                box.style.top = parseInt(getComputedStyle(box).top) + newY - oldY + 'px'
+                oldX = newX
+                oldY = newY
+            }
+        })
+        document.addEventListener('mouseup', function(){
+            isDrag = false
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div[class^=box] {
+      margin: 10px auto;
+      width: 300px;
+      height: 200px;
+    }
+    .box1 {
+      /* 使用conic-gradient函数可以创建一个锥形渐变，在锥形渐变中，颜色围绕圆的中心在圆周上旋转过渡，从顶部开始，顺时针进行 */
+      background-image: conic-gradient(red, blue);
+      background-image: conic-gradient(red, green, blue);
+    }
+    .box2 {
+      /* 默认情况下，锥形渐变的中心点位于50% 50%的位置，可以修改锥形渐变的中心点 */
+      background-image: conic-gradient(at 0% 30%, red 10%, yellow 30%, #1e90ff 50%);
+      background-image: conic-gradient(at center top, red 30%, yellow 50%, #1e90ff 70%);
+    }
+    .box3 {
+      /* 默认情况下，锥形渐变的起始点是朝上的，可以修改锥形渐变的起始点 */
+      background-image: conic-gradient(from 45deg, red, orange 50%, yellow 85%, green);
+      background-image: conic-gradient(from -90deg at center bottom, red 10%, green 30%, blue 50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="box1"></div>
+  <div class="box2"></div>
+  <div class="box3"></div>
+</body>
+</html>

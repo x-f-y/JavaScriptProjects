@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>阴影贴图</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+</head>
+<body onload="main()">
+    <canvas width="400" height="400" id="canvas">please select a browser that supports canvas</canvas>
+    <script>
+        /**
+         * shadow mapping基本原理（阴影算法的核心，实际上就是要针对任意给定的片元，鉴定出它是否处在阴影之中）：
+         *  step 1: 将视点移到光源的位置处，按照光线传播的视角观察场景，这时，那些“将要被绘出”的片元都是被光照射到的，即落在这个像素上的各个
+         *      片元中最前面的。我们将其和光源之间的距离（实际上也就是片元在光源坐标系下的深度z值）写入到阴影贴图中
+         *  step 2: 将视点移回原来的位置，计算每个片元在光源坐标系（即step 1中的视点坐标系）下的坐标，并与阴影贴图中记录的z值比较，如果前者
+         *      大于后者，就说明当前片元处在阴影之中，用较深暗的颜色绘制（降低可见度）
+         */
+
+        // 生成阴影贴图的顶点着色器（step 1对应的着色器1）
+        const SHADOW_VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            uniform mat4 u_MvpMatrix; // 视点在光源处的模型视图投影矩阵
+            void main(){
+                gl_Position = u_MvpMatrix * a_Position;
+            }
+        `;
+        // 生成阴影贴图的片元着色器（step 1对应的着色器1）
+        const SHADOW_FSHADER_SOURCE = `
+            #ifdef GL_ES
+            precision mediump float;
+            #endif
+            void main(){
+                // gl_FragCoord.x和gl_FragCoord.y是片元在屏幕上的坐标，而gl_FragCoord.z是深度值。它们是通过(gl_Position.xyz/gl_Position.w)/2.0+0.5
+                // 计算出来的（参阅OpenGL ES 2.0 specification），都被归一化到[0.0,1.0]区间。如果gl_FragCoord.z是0.0，则表示该片元在近裁剪面上，如果是
+                // 1.0，则表示该片元在远裁剪面上。我们将该值写入到阴影贴图的R分量中（也可以使用其他分量）
+                gl_FragColor = vec4(gl_FragCoord.z, 0.0, 0.0, 0.0);
+            }
+        `;
+        // 正常绘制时用到的顶点着色器（step 2对应的着色器2）
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            attribute vec4 a_Color;
+            uniform mat4 u_MvpMatrix; // 视点在原处的模型视图投影矩阵
+            uniform mat4 u_MvpMatrixFromLight; // 视点在光源处的模型视图投影矩阵（相当于着色器1中的u_MvpMatrix）
+            varying vec4 v_PositionFromLight; // 顶点在光源坐标系下的坐标（相当于着色器1中的gl_Position）
+            varying vec4 v_Color;
+            void main(){
+                gl_Position = u_MvpMatrix * a_Position;
+                // 计算顶点在光源坐标系（即step 1中的视点坐标系）下的坐标
+                v_PositionFromLight = u_MvpMatrixFromLight * a_Position;
+                v_Color = a_Color;
+            }
+        `;
+        // 正常绘制时用到的片元着色器（step 2对应的着色器2）
+        const FSHADER_SOURCE = `
+            #ifdef GL_ES
+            precision mediump float;
+            #endif
+            uniform sampler2D u_ShadowMap; // 阴影贴图将作为纹理对象传递给该变量
+            varying vec4 v_PositionFromLight;
+            varying vec4 v_Color;
+            void main(){
+                // 阴影贴图中的z值是通过(gl_Position.z/gl_Position.w)/2.0+0.5计算出来的，为了使这里的结果能够与之比较，也需要进行相同的计算
+                // float z = (v_PositionFromLight.z/v_PositionFromLight.w)/2.0 + 0.5;
+                // 为了将z值与阴影贴图中的相应纹素值比较，需要通过v_PositionFromLight的x和y坐标从阴影贴图中获取纹素。但我们知道，WebGL中的x和y
+                // 坐标都是在[-1.0,1.0]区间中的，而纹理坐标s和t是在[0.0,1.0]的区间中的，所以我们还需要将x和y坐标转化为s和t坐标（参阅OpenGL ES 2.0 specification）
+                // float s = (v_PositionFromLight.x/v_PositionFromLight.w)/2.0 + 0.5;
+                // float t = (v_PositionFromLight.y/v_PositionFromLight.w)/2.0 + 0.5;
+                // 可以发现，s和t归一化的方式恰巧与z值的归一化方式一致（事实上，这并非巧合），所以我们可以在一行代码中完成xyz的归一化，计算出shadowCoord，
+                // 其x和y分量为当前片元在阴影贴图中对应纹素的纹理坐标，而z分量表示当前片元在光源坐标系中的归一化z值，可与阴影贴图中的相应纹素值比较
+                vec3 shadowCoord = (v_PositionFromLight.xyz/v_PositionFromLight.w)/2.0 + 0.5;
+                // 从阴影贴图中抽取纹素
+                vec4 rgbaDepth = texture2D(u_ShadowMap, shadowCoord.xy);
+                // 从R分量中获取z值
+                float depth = rgbaDepth.r;
+                // 比较shadowCoord.z与depth，如果shadowCoord.z大于depth，就说明当前片元在阴影中，应该降低可见度
+                // 注意：偏移量0.005的作用是消除马赫带。我们知道，纹理图像的RGBA分量中，每个分量都是8位，那么存储在阴影贴图中的z值精度也只有8位，而与阴影贴图进行比较的值
+                // shadowCoord.z是float类型的，有16位。比如说，假设z值是0.1234567，8位浮点数的精度是1/256，也就是0.00390625。根据0.1234567/(1/256)=31.6049152，
+                // 在8位精度下，0.1234567实际上是31个1/256，即0.12109375。同理，在16位精度下，0.1234567实际上是8090个1/65536，即0.12344360。前者比后者小，这意味着，
+                // 即使是完全相同的坐标，在阴影贴图中的z值可能会比shadowCoord.z中的值小，这就造成了矩形平面的某些区域被误认为是阴影了。我们在进行比较时，为阴影贴图添加一个
+                // 偏移量0.005，就可以避免产生马赫带。注意，偏移量应当略大于精度，比如这里的0.005就略大于1/256
+                float visibility = (shadowCoord.z > depth + 0.005) ? 0.7 : 1.0;
+                gl_FragColor = vec4(v_Color.rgb * visibility, v_Color.a);
+            }
+        `;
+
+        const OFFSCREEN_WIDTH = 2048, OFFSCREEN_HEIGHT = 2048;
+        const LIGHT_X = 0, LIGHT_Y = 7, LIGHT_Z = 2; // 光源位置
+
+        const modelMatrix = new Matrix4();
+        const mvpMatrix = new Matrix4();
+
+        const angle_step = 40.0; // 旋转速度（度/秒）
+        let currentAngle = 0.0; // 当前旋转角度（绕z轴）
+        let last = Date.now(); // 记录上一次调用函数的时刻
+
+        function initArrayBufferForLaterUse(gl, data, num, type){
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+
+            buffer.num = num;
+            buffer.type = type;
+
+            return buffer;
+        }
+
+        function initElementArrayBufferForLaterUse(gl, data, type){
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, data, gl.STATIC_DRAW);
+
+            buffer.type = type;
+
+            return buffer;
+        }
+
+        function initVertexBuffersForPlane(gl){
+            // create a plane
+            //  v1-------v0
+            //  |        |
+            //  |        |
+            //  |        |
+            // v2-------v3
+            const vertices = new Float32Array([
+                3.0, -1.7, 2.5,  -3.0, -1.7, 2.5,  -3.0, -1.7, -2.5,  3.0, -1.7, -2.5    // v0-v1-v2-v3
+            ]);
+            const colors = new Float32Array([
+                1.0, 1.0, 1.0,   1.0, 1.0, 1.0,   1.0, 1.0, 1.0,   1.0, 1.0, 1.0
+            ]);
+            const indices = new Uint8Array([0, 1, 2,   0, 2, 3]);
+
+            const vertexBuffer = initArrayBufferForLaterUse(gl, vertices, 3, gl.FLOAT);
+            const colorBuffer = initArrayBufferForLaterUse(gl, colors, 3, gl.FLOAT);
+            const indexBuffer = initElementArrayBufferForLaterUse(gl, indices, gl.UNSIGNED_BYTE);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
+            return {
+                vertexBuffer,
+                colorBuffer,
+                indexBuffer,
+                numIndices: indices.length
+            }
+        }
+
+        function initVertexBuffersForTriangle(gl){
+            // create a triangle
+            //       v2
+            //      / |
+            //     /  |
+            //    /   |
+            //  v0----v1
+            const vertices = new Float32Array([-0.8, 3.5, 0.0,  0.8, 3.5, 0.0,  0.0, 3.5, 1.8]);
+            const colors = new Float32Array([1.0, 0.5, 0.0,  1.0, 0.5, 0.0,  1.0, 0.0, 0.0]);
+            const indices = new Uint8Array([0, 1, 2]);
+
+            const vertexBuffer = initArrayBufferForLaterUse(gl, vertices, 3, gl.FLOAT);
+            const colorBuffer = initArrayBufferForLaterUse(gl, colors, 3, gl.FLOAT);
+            const indexBuffer = initElementArrayBufferForLaterUse(gl, indices, gl.UNSIGNED_BYTE);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
+            return {
+                vertexBuffer,
+                colorBuffer,
+                indexBuffer,
+                numIndices: indices.length
+            }
+        }
+
+        function initAttributeVariable(gl, a_attribute, buffer){
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.vertexAttribPointer(a_attribute, buffer.num, buffer.type, false, 0, 0);
+            gl.enableVertexAttribArray(a_attribute);
+        }
+
+        function initFrameBufferObject(gl){
+            let frameBuffer, texture, depthBuffer;
+
+            const error = function(){
+                if(frameBuffer) gl.deleteFramebuffer(frameBuffer);
+                if(texture) gl.deleteTexture(texture);
+                if(depthBuffer) gl.deleteBuffer(depthBuffer);
+                return null;
+            }
+
+            // step 1: 创建并绑定帧缓冲区对象
+            frameBuffer = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
+
+            // step 2: 创建并绑定纹理对象并设置其尺寸和参数
+            texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, OFFSCREEN_WIDTH, OFFSCREEN_HEIGHT, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            frameBuffer.texture = texture; // 保存纹理对象，以便稍后访问
+
+            // step 3: 创建并绑定渲染缓冲区对象并设置其尺寸和参数
+            depthBuffer = gl.createRenderbuffer();
+            gl.bindRenderbuffer(gl.RENDERBUFFER, depthBuffer);
+            gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, OFFSCREEN_WIDTH, OFFSCREEN_HEIGHT);
+
+            // step 4: 将纹理对象作为颜色关联对象绑定到帧缓冲区
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+
+            // step 5: 将渲染缓冲区对象作为深度关联对象绑定到帧缓冲区
+            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthBuffer)
+
+            // step 6: 检查帧缓冲区是否正确配置
+            const e = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+            if(e !== gl.FRAMEBUFFER_COMPLETE){
+                console.log('Frame buffer object is incomplete: ' + e.toString());
+                return error();
+            }
+
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            gl.bindTexture(gl.TEXTURE_2D, null);
+            gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+
+            return frameBuffer;
+        }
+
+        function draw(gl, program, bufferObj, viewProjMatrix){
+            // 将缓冲区对象分配给对应的attribute变量
+            initAttributeVariable(gl, program.a_Position, bufferObj.vertexBuffer);
+            if(program.a_Color !== undefined){ // 在FBO中绘制纹理贴图（对应着色器1）时不需要传递a_Color变量，而在正常绘制场景（对应着色器2）时需要传递
+                initAttributeVariable(gl, program.a_Color, bufferObj.colorBuffer);
+            }
+
+            // 设置模型视图投影矩阵并传递给顶点着色器
+            mvpMatrix.set(viewProjMatrix);
+            mvpMatrix.multiply(modelMatrix);
+            gl.uniformMatrix4fv(program.u_MvpMatrix, false, mvpMatrix.elements);
+
+            // 绘制
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufferObj.indexBuffer);
+            gl.drawElements(gl.TRIANGLES, bufferObj.numIndices, bufferObj.indexBuffer.type, 0);
+        }
+
+        function drawTriangle(gl, program, bufferObj, viewProjMatrix){
+            modelMatrix.setRotate(currentAngle, 0, 1, 0);
+            draw(gl, program, bufferObj, viewProjMatrix);
+        }
+
+        function drawPlane(gl, program, bufferObj, viewProjMatrix){
+            modelMatrix.setRotate(-45, 0, 1, 1);
+            draw(gl, program, bufferObj, viewProjMatrix);
+        }
+
+        function main(){
+            const canvas = document.getElementById('canvas');
+            const gl = canvas.getContext('webgl');
+
+            const shadowProgram = createProgram(gl, SHADOW_VSHADER_SOURCE, SHADOW_FSHADER_SOURCE);
+            shadowProgram.a_Position = gl.getAttribLocation(shadowProgram, 'a_Position');
+            shadowProgram.u_MvpMatrix = gl.getUniformLocation(shadowProgram, 'u_MvpMatrix');
+
+            const normalProgram = createProgram(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+            normalProgram.a_Position = gl.getAttribLocation(normalProgram, 'a_Position');
+            normalProgram.a_Color = gl.getAttribLocation(normalProgram, 'a_Color');
+            normalProgram.u_MvpMatrix = gl.getUniformLocation(normalProgram, 'u_MvpMatrix');
+            normalProgram.u_MvpMatrixFromLight = gl.getUniformLocation(normalProgram, 'u_MvpMatrixFromLight');
+            normalProgram.u_ShadowMap = gl.getUniformLocation(normalProgram, 'u_ShadowMap');
+
+            gl.clearColor(0, 0, 0, 1);
+            gl.enable(gl.DEPTH_TEST);
+
+            // 设置矩阵平面和三角形的顶点信息
+            const planeBufferObj = initVertexBuffersForPlane(gl);
+            const triangleBufferObj = initVertexBuffersForTriangle(gl);
+
+            // 初始化帧缓冲区（FBO）
+            const fbo = initFrameBufferObject(gl);
+
+            // 视点在光源处的视图投影矩阵，用来生成纹理贴图
+            const viewProjMatrixFromLight = new Matrix4();
+            viewProjMatrixFromLight.setPerspective(70.0, OFFSCREEN_WIDTH / OFFSCREEN_HEIGHT, 1.0, 100.0);
+            viewProjMatrixFromLight.lookAt(LIGHT_X, LIGHT_Y, LIGHT_Z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // 把光源的位置作为视点的位置
+
+            // 用来正常绘制场景的视图投影矩阵
+            const viewProjMatrix = new Matrix4();
+            viewProjMatrix.setPerspective(45, canvas.width / canvas.height, 1.0, 100.0);
+            viewProjMatrix.lookAt(0.0, 7.0, 9.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+            // 因为着色器2中的u_MvpMatrixFromLight变量等价于着色器1中的u_MvpMatrix变量，
+            // 所以在帧缓冲区中绘制纹理贴图时需要保存一份模型视图投影矩阵供正常绘制场景时使用
+            const mvpMatrixFromLight_t = new Matrix4(); // 绘制在FBO中的三角形对应的模型视图投影矩阵
+            const mvpMatrixFromLight_p = new Matrix4(); // 绘制在FBO中的矩形平面对应的模型视图投影矩阵
+
+            requestAnimationFrame(function tick(){
+                // 重新计算旋转角度
+                const now = Date.now();
+                currentAngle += (now - last) / 1000 * angle_step;
+                currentAngle %= 360;
+                last = now;
+
+                // 为在帧缓冲区中绘制纹理贴图做准备
+                gl.bindFramebuffer(gl.FRAMEBUFFER, fbo); // 将绘制目标切换为帧缓冲区（FBO）
+                gl.viewport(0, 0, OFFSCREEN_WIDTH, OFFSCREEN_HEIGHT); // 为FBO设置视口
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // 清空FBO
+                gl.useProgram(shadowProgram); // 使用着色器1
+
+                drawTriangle(gl, shadowProgram, triangleBufferObj, viewProjMatrixFromLight);
+                mvpMatrixFromLight_t.set(mvpMatrix); // 保存三角形对应的模型视图投影矩阵，在正常绘制场景时传递给着色器2中的u_MvpMatrixFromLight变量
+                drawPlane(gl, shadowProgram, planeBufferObj, viewProjMatrixFromLight);
+                mvpMatrixFromLight_p.set(mvpMatrix); // 保存矩阵平面对应的模型视图投影矩阵，在正常绘制场景时传递给着色器2中的u_MvpMatrixFromLight变量
+
+                // 为正常绘制场景做准备
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null); // 将绘制目标切换为颜色缓冲区（canvas）
+                gl.viewport(0, 0, canvas.width, canvas.height); // 将视口设置回canvas的尺寸
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // 清空canvas
+                gl.useProgram(normalProgram); // 使用着色器2
+
+                // 绑定纹理对象到目标并将纹理单元编号传递给u_ShadowMap变量
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, fbo.texture);
+                gl.uniform1i(normalProgram.u_ShadowMap, 0);
+                // 绘制三角形
+                gl.uniformMatrix4fv(normalProgram.u_MvpMatrixFromLight, false, mvpMatrixFromLight_t.elements);
+                drawTriangle(gl, normalProgram, triangleBufferObj, viewProjMatrix);
+                // 绘制矩形平面
+                gl.uniformMatrix4fv(normalProgram.u_MvpMatrixFromLight, false, mvpMatrixFromLight_p.elements);
+                drawPlane(gl, normalProgram, planeBufferObj, viewProjMatrix);
+
+                requestAnimationFrame(tick);
+            })
+        }
+    </script>
+</body>
+</html>

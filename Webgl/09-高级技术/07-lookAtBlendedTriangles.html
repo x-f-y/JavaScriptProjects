@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/cuon-matrix.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+</head>
+<body onload="main()">
+    <canvas id="canvas" width="400" height="400">please select a browser that supports canvas</canvas>
+    <script>
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            attribute vec4 a_Color;
+            uniform mat4 u_ViewMatrix;
+            uniform mat4 u_ProjMatrix;
+            varying vec4 v_Color;
+            void main(){
+                gl_Position = u_ProjMatrix * u_ViewMatrix * a_Position;
+                v_Color = a_Color;
+            }
+        `;
+
+        const FSHADER_SOURCE = `
+            #ifdef GL_ES
+            precision mediump float;
+            #endif
+            varying vec4 v_Color;
+            void main(){
+                gl_FragColor = v_Color;
+            }
+        `;
+
+        let eyeX = 0.20, eyeY = 0.25, eyeZ = 0.25; // 视点位置
+
+        function initVertexBuffers(gl){
+            const n = 9; // 顶点数量
+            const verticesColors = new Float32Array([
+                // 顶点坐标（xyz）和颜色（rgba）
+                0.0,  0.5,  -0.4,  0.4,  1.0,  0.4,  0.4, // 后面的绿色三角形
+               -0.5, -0.5,  -0.4,  0.4,  1.0,  0.4,  0.4,
+                0.5, -0.5,  -0.4,  1.0,  0.4,  0.4,  0.4,
+
+                0.5,  0.4,  -0.2,  1.0,  0.4,  0.4,  0.4, // 中间的黄色三角形
+               -0.5,  0.4,  -0.2,  1.0,  1.0,  0.4,  0.4,
+                0.0, -0.6,  -0.2,  1.0,  1.0,  0.4,  0.4,
+
+                0.0,  0.5,   0.0,  0.4,  0.4,  1.0,  0.4,  // 前面的蓝色三角形
+               -0.5, -0.5,   0.0,  0.4,  0.4,  1.0,  0.4,
+                0.5, -0.5,   0.0,  1.0,  0.4,  0.4,  0.4,
+            ]);
+
+            const vertexColorBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, verticesColors, gl.STATIC_DRAW);
+
+            const FSIZE = verticesColors.BYTES_PER_ELEMENT;
+
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, FSIZE * 7, 0);
+            gl.enableVertexAttribArray(a_Position);
+
+            const a_Color = gl.getAttribLocation(gl.program, 'a_Color');
+            gl.vertexAttribPointer(a_Color, 4, gl.FLOAT, false, FSIZE * 7, FSIZE * 3);
+            gl.enableVertexAttribArray(a_Color);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+            return n;
+        }
+
+        function main(){
+            const canvas = document.getElementById('canvas');
+            const gl = canvas.getContext('webgl');
+            initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+            /**
+             * 实现半透明效果需要用到颜色的α分量，该功能被称为α混合或混合，WebGL已经内置了该功能，只需要如下两个步骤开启即可：
+             *  1. gl.enable(gl.BLEND); // 开启混合功能
+             *  2. gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); // 指定混合函数
+             */
+            gl.enable(gl.BLEND);
+            /**
+             * gl.blendFunc(src_factor, dst_factor) --> 通过参数src_factor和dst_factor指定进行混合操作（将源颜色混到目标颜色中）的函数，
+             * 混合后的颜色计算公式为：混合后颜色 = 源颜色 x src_factor + 目标颜色 x dst_factor
+             *  备注：
+             *      1. 可以指定给src_factor和dst_factor的常量见“../relativeImg/α混合.png”
+             *      2. 例如：源颜色是半透明的绿色(0.0,1.0,0.0,0.4)，目标颜色是普通的黄色(1.0,1.0,0.0,1.0)，那么src_factor即源颜色的α分量为0.4，
+             *          而dist_factor则是(1-0.4)=0.6，计算出混合后的颜色就是(0.6,1.0,0.0)，如图“../relativeImg/计算混合后的颜色.png”所示
+             */
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+            const n = initVertexBuffers(gl);
+
+            const u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
+            const u_ProjMatrix = gl.getUniformLocation(gl.program, 'u_ProjMatrix');
+
+            const viewMatrix = new Matrix4();
+            const projMatrix = new Matrix4();
+
+            viewMatrix.setLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 1, 0);
+            gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements);
+            projMatrix.setOrtho(-1, 1, -1, 1, 0, 2);
+            gl.uniformMatrix4fv(u_ProjMatrix, false, projMatrix.elements);
+
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.TRIANGLES, 0, n);
+
+            document.addEventListener('keydown', (event) => {
+                if(event.key === 'ArrowRight'){
+                    eyeX += 0.01;
+                }else if(event.key === 'ArrowLeft'){
+                    eyeX -= 0.01;
+                }else{
+                    return;
+                }
+                viewMatrix.setLookAt(eyeX, eyeY, eyeZ, 0, 0, 0, 0, 1, 0);
+                gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                gl.drawArrays(gl.TRIANGLES, 0, n);
+            })
+        }
+    </script>
+</body>
+</html>

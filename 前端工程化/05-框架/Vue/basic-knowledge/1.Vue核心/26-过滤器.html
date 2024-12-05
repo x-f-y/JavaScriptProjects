@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../tools/dayjs.min.js"></script>
+    <script src="../tools/vue.js"></script>
+</head>
+
+<body>
+    <!--
+        过滤器：
+            定义：对要显示的数据进行特定格式化后再显示（适用于一些简单逻辑的处理）
+            语法：
+                - 注册过滤器：Vue.filter(name,callback)【全局注册】或new Vue({filters:{}})【局部注册】
+                - 使用过滤器：{{xxx | 过滤器名}} 或 v-bind:属性="xxx | 过滤器名"
+            备注：
+                - 过滤器也可以接受额外参数，多个过滤器也可以串联
+                - 过滤器并没有改变原本的数据，而是在原数据的基础上产生新的数据
+     -->
+    <div id="root">
+        <h2>显示格式化之后的时间</h2>
+        <!-- 计算属性实现 -->
+        <h3>现在是{{fmtTime}}</h3>
+        <!-- methods实现 -->
+        <h3>现在是{{getFmtTime()}}</h3>
+        <!-- 过滤器实现 -->
+        <!-- time作为参数传递给timeFormater -->
+        <h3>现在是{{time | timeFormater}}</h3>
+        <!-- 过滤器实现（传参） -->
+        <!-- time和'YYYY年MM月DD日'作为参数传递给timeFormater -->
+        <h3>现在是{{time | timeFormater('YYYY年MM月DD日')}}</h3>
+        <!-- 过滤器串联 -->
+        <!-- time和'YYYY年MM月DD日'作为参数传递给timeFormater，然后将前一个过滤器的返回值作为参数传递给mySlice -->
+        <h3>现在是{{time | timeFormater('YYYY年MM月DD日') | mySlice}}</h3>
+        <!-- v-bind指令也支持过滤器 -->
+        <h3 :x="msg | mySlice">atguigu</h3>
+        <!-- v-model指令不支持过滤器 -->
+        <!-- <input type="text" v-model="msg | mySlice"> -->
+    </div>
+    <hr>
+    <div id="root2">
+        <h2>{{msg | mySlice}}</h2>
+    </div>
+    <script>
+        Vue.config.productionTip = false
+        // 全局过滤器（必须写在创建Vue实例之前）
+        Vue.filter('mySlice', function (value) {
+            return value.slice(0, 5)
+        })
+        new Vue({
+            el: '#root',
+            data: {
+                time: 1652331248339, // 时间戳
+                msg: '你好，尚硅谷！'
+            },
+            computed: {
+                fmtTime() {
+                    return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+                }
+            },
+            methods: {
+                getFmtTime() {
+                    return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+                }
+            },
+            // 局部过滤器
+            filters: {
+                timeFormater(value, str = 'YYYY-MM-DD HH:mm:ss') { // 形参默认值
+                    return dayjs(value).format(str)
+                },
+                /* mySlice(value) {
+                    return value.slice(0, 5)
+                } */
+            }
+        })
+        new Vue({
+            el: '#root2',
+            data: {
+                msg: 'hello, atguigu!'
+            }
+        })
+    </script>
+</body>
+
+</html>

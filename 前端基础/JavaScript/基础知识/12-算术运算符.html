@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				运算符也叫操作符
+					比如typeof就是一个运算符，可以获得一个变量的类型
+					它会将该变量的类型以字符串的形式返回
+						当对非Number类型的值进行+ - * / %运算时，会将这些值转换为Number类型然后再运算
+							特例：如果对两个字符串进行加法运算，则会做拼串操作
+								任何值和字符串相加都会转换为字符串，并做拼串操作
+			*/
+			
+			console.log(typeof 123); // 'number'
+			console.log(typeof (typeof 123)); // 'string'
+			
+			var str = "锄禾日当午，" + "汗滴禾下土，" + "谁知盘中餐，" + "粒粒皆辛苦";
+			console.log(str);
+					  
+			/* 
+				任何值和字符串相加都会转换为字符串，并做拼串操作 
+				我们可以利用这一特点，来将一个任意的数据类型转换为String
+				这是一种隐式的类型转换，由浏览器自动完成，实际上它也是调用的String()函数
+			*/
+			console.log(typeof 123); // 'number'
+			console.log(typeof (123 + '')); // 'string'
+			
+			console.log(123 + "345"); // '123345'
+			console.log("123" + "456"); // '123456'
+			console.log(100 + '23') // '10023'
+			console.log(100 - "23"); // 77
+			
+			/* 
+				任何值做- * /运算时都会自动转换为Number
+				我们可以利用这一特点做隐式的类型转换
+					可以通多为一个值 -0 *1 /1来将其转换为Number
+			 */
+			console.log(typeof("123" - 0)) // 'number'
+			console.log(typeof("123" * 1)) // 'number'
+			console.log(typeof("123" / 1)) // 'number'
+
+			/* 
+				任何原始值和NaN做算术运算结果都为NaN
+				备注：如果操作数包含字符串，则会做字符串的拼接
+			 */
+			console.log(NaN + 1) // NaN
+			console.log(NaN + "hello") // 'NaNhello'
+			console.log(NaN - "hello") // NaN
+			console.log(NaN + true) // NaN
+			console.log(NaN + null) // NaN
+			console.log(NaN + undefined) // NaN
+			console.log(NaN + NaN) // NaN
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul></ul>
+    <script>
+        /**
+         * DocumentFragment：
+         *  - 描述：文档片段，它被作为一个轻量版的Document使用，就像标准的document一样，存储由节点组成
+         *  的文档结构。与document相比，最大的区别是它不是真实DOM树的一部分，继承的parentNode属性总是null，
+         *  它的变化不会触发DOM树的重新渲染，且不会对性能产生影响。DocumentFragment有一种特殊的行为，该行为
+         *  使得它非常有用，即当请求把一个DocumentFragment节点插入文档树时，插入的不是DocumentFragment自身，
+         *  而是它的所有子孙节点。这使得DocumentFragment成了有用的占位符，暂时存放那些一次插入文档的节点
+         *  - 用法：通常的用法是使用DocumentFragment创建并组成一个DOM子树，然后使用Node接口方法（如appendChild()
+         *  或insertBefore()）将其插入真实DOM树中（因为文档片段存在于内存中，并不在DOM树中，所以将子元素插入到
+         *  文档片段时不会引起页面的回流，因此，使用文档片段通常会带来更好的性能）
+         *  - 语法：document.createDocumentFragment()
+         */ 
+
+        // 使用示例
+        var browserCore = ['Webkit->Blink', 'Gecko', 'Trident', 'Presto->Blink', 'Webkit']
+        var fragment = document.createDocumentFragment()
+        browserCore.forEach(v => {
+            var li = document.createElement('li')
+            li.textContent = v
+            fragment.appendChild(li)
+        })
+        document.getElementsByTagName('ul')[0].appendChild(fragment)
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .box {
+            width: 300px;
+            height: 415px;
+            /* 块级盒子水平居中对齐 */
+            margin: 100px auto;
+            background-color: #fff;
+        }
+
+        .box img {
+            /* 解决图片撑破div的问题 */
+            width: 100%;
+        }
+
+        .box .review {
+            height: 70px;
+            font-size: 14px;
+            /* 因为段落盒子没有指定宽度，所以padding不会撑开盒子的宽度 */
+            padding: 0 28px;
+            margin-top: 30px;
+        }
+
+        .box .appraise {
+            font-size: 12px;
+            color: #b0b0b0;
+            padding: 0 28px;
+            margin-top: 20px;
+        }
+
+        .box .info {
+            font-size: 14px;
+            margin-top: 15px;
+            padding: 0 28px;
+        }
+
+        .box .info h4 {
+            display: inline-block;
+            /* 取消标题默认的加粗效果 */
+            font-weight: 400;
+        }
+
+        .box .info span {
+            color: #ff6700;
+        }
+
+        .box .info em {
+            /* 取消em的倾斜效果 */
+            font-style: normal;
+            color: #ebe4e0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <img src="../images/img.jpg" alt="">
+        <p class="review">快递牛，整体不错蓝牙可以说秒连。红米给力</p>
+        <div class="appraise">来自于 117384232 的评价</div>
+        <div class="info">
+            <h4><a href="#">Redmi AirDots真无线蓝...</a></h4>
+            <em>|</em>
+            <span>99.9元</span>
+        </div>
+    </div>
+</body>
+
+</html>

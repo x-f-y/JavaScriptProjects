@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 新增基本数据类型 Symbol
+         *  - 语法：Symbol([description])
+         *  - 可选参数 description 仅仅是对 symbol 的描述，无其它的意义
+         *  - 每个从 Symbol() 返回的 symbol 值都是唯一的。一个 symbol 值能作为对象属性的标识符；这是该数据类型仅有的目的
+         *  - 使用 typeof 检查 Symbol 类型，会返回 symbol
+         *  - Symbol 不是构造函数，不能使用 new 关键字调用
+         *  - Symbol 类型不能被转换为 Number 类型
+         *  - Symbol 定义的对象属性不能使用 for...in 循环遍历，可以用 Reflect.ownKeys() 或者 Object.getOwnPropertySymbols() 来代替
+         */ 
+
+        let s = Symbol()
+        console.log(s, typeof s) // Symbol() 'symbol'
+
+        // new Symbol() // 报错，Symbol is not a constructor
+
+        console.log(String(s)) // 'Symbol()'
+        console.log(Boolean(s)) // true
+        // console.log(Number(s)) // 报错，Cannot convert a Symbol value to a number
+
+        let obj = {
+            name: '张三',
+            age: 20,
+            dance: function(){
+                console.log('我会跳舞')
+            },
+            [Symbol('nickName')]: '小张',
+            [Symbol('sing')]: function(){
+                console.log(我会唱歌)
+            }
+        }
+        console.log(Reflect.ownKeys(obj)) // ['name', 'age', 'dance', Symbol(nickName), Symbol(sing)]
+        console.log(Object.getOwnPropertySymbols(obj)) // [Symbol(nickName), Symbol(sing)]
+
+        /**
+         * Symbol(key) 和 Symbol.for(key) 的区别
+         *  Symbol(key)
+         *      - 每次都会创建一个新的 symbol 类型
+         *  Symbol.for(key)
+         *      - 用 Symbol.for() 方法创建的 symbol 会被放入一个全局的 symbol 注册表中，该方法并不是每次都会创建一个新的 symbol，
+         *        它会首先检查给定的 key 是否已经在注册表中。如果是，则会直接返回上次存储的那个。否则，它会再新建一个 symbol
+         */ 
+
+        let s1 = Symbol('name')
+        let s2 = Symbol('name')
+        console.log(s1 === s2) // false
+        let s3 = Symbol.for('gender')
+        let s4 = Symbol.for('gender')
+        console.log(s3 === s4) // true
+
+        /**
+         * 新增基本数据类型 BigInt
+         *  - 表示方式：在一个整型字面量后面加上 n 或者调用函数 BigInt(整数值/字符串值)（注意没有 new 运算符）
+         *      注意：不能对浮点数使用BigInt()函数
+         *  - BigInt 可以表示任意大的整数，包括大于 2^53 - 1(Number.MAX_SAFE_INTEGER) 的整数
+         *  - 使用 typeof 检查 BigInt 类型，会返回 bigint
+         *  - BigInt 类型的值不能和任何 Number 实例混合运算，两者必须转换成同一种类型
+         *      注意：在这两种类型来回转换时要小心，因为 BigInt 变量在转换成 Number 变量时可能会丢失精度
+         *  - 当使用 BigInt 时，带小数的运算会被取整
+         *  - BigInt 和 Number 不是严格相等的，但是是宽松相等的
+         */ 
+
+        let bi = 18n
+        console.log(bi, typeof bi) // 18n 'bigint'
+        let bi2 = BigInt(18)
+        console.log(bi2, typeof bi2) // 18n 'bigint'
+        let bi3 = BigInt('23')
+        console.log(bi3, typeof bi3) // 23n 'bigint'
+        // let bi4 = new BigInt('23') // 报错，BigInt is not a constructor
+        // BigInt(2.4) // 报错，The number 2.4 cannot be converted to a BigInt because it is not an integer
+        // BigInt('2.4') // 报错，Cannot convert 2.4 to a BigInt
+
+        console.log(2 ** 53 === 2 ** 53 + 1) // true
+
+        // console.log(1 + 18n) // 报错，Cannot mix BigInt and other types, use explicit conversions
+
+        console.log(4n / 2n) // 2n
+        console.log(5n / 2n) // 2n
+
+        console.log(4n == 4) // true
+        console.log(4n === 4) // false
+    </script>
+</body>
+</html>

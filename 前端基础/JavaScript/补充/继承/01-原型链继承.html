@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Father(){
+            this.a = 'a'
+            this.x = [1, 2, 3]
+        }
+        Father.prototype.b = function(){
+            console.log('b')
+        }
+        function Son(){
+            this.c = 'c'
+        }
+        // 关键：子类型的原型为父类型的实例对象
+        Son.prototype = new Father()
+        // 修正子类型constructor属性的指向
+        Son.prototype.constructor = Son
+        // 注意：往子类型的原型上添加方法应该写在 Son.prototype = new Father() 之后，否则调用该方法时会报错
+        Son.prototype.d = function(){
+            console.log('d')
+        }
+        var s = new Son()
+        console.log(s.a) // a
+        s.b() // b
+        console.log(s.c) // c
+        s.d() // d
+        console.log(s.constructor) // f Son(){ this.c = 'c' }
+
+        /**
+         * 这种继承方式的缺点（引用值共享）：
+         *  如果父类型中的公有属性是引用数据类型，由于该属性被子类型的所有实例所共享，一旦一个实例
+         *  对该属性进行了修改，那么这种修改也会影响到其他实例
+         */ 
+
+        s.x.push(4)
+        console.log(s.x) // [1, 2, 3, 4]
+        var s2 = new Son()
+        console.log(s2.x) // [1, 2, 3, 4]
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>03_光照</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const geometry = new THREE.BoxGeometry(4, 4, 4);
+        // 定义漫反射网格材质（这种材质受光照的影响）
+        const material = new THREE.MeshLambertMaterial({
+            color: 'red',
+            transparent: true,
+            opacity: 0.7
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(0, 0, 0);
+        scene.add(mesh);
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        // 创建一个点光源，参数为光照颜色
+        const pointLight = new THREE.PointLight(0xffffff);
+        // 设置点光源的距离衰减为0，表示光照不会随着距离的增加而变暗
+        pointLight.decay = 0;
+        // 设置点光源的位置
+        pointLight.position.set(2.3, 4.0, 3.5);
+        // 将点光源添加到场景中
+        scene.add(pointLight);
+
+        // 可视化点光源，参数为要模拟的点光源和球形辅助对象的尺寸
+        const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.1);
+        scene.add(pointLightHelper);
+
+        // 创建一个平行光，参数为光照颜色
+        const directionalLight = new THREE.DirectionalLight(0xffffff);
+        // 设置平行光的位置和其指向的目标对象，根据平行光的position属性和其指向的目标对象的position属性可以计算出光照方向
+        directionalLight.position.set(1, 4, 6);
+        directionalLight.target = mesh;
+        // 将平行光添加到场景中
+        scene.add(directionalLight);
+
+        // 可视化平行光，参数为要模拟的平行光和平面的尺寸
+        const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 0.1);
+        scene.add(directionalLightHelper);
+
+        // 创建一个环境光，参数为光照颜色
+        const ambientLight = new THREE.AmbientLight('rgb(20%, 20%, 20%)');
+        // 将环境光添加到场景中
+        scene.add(ambientLight);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.render(scene, camera);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+
+        // window的resize事件会在窗口调整大小时触发
+        window.addEventListener('resize', () => {
+            // 重新设置输出的canvas的大小
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            // 重新设置摄相机视锥体的宽高比
+            camera.aspect = window.innerWidth / window.innerHeight;
+            // 更新摄像机投影矩阵，在任何参数被改变以后必须被调用
+            camera.updateProjectionMatrix();
+            // 渲染
+            renderer.render(scene, camera);
+        });
+    </script>
+</body>
+</html>

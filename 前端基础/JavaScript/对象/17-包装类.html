@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				在JS中为我们提供了三个包装类，通过这三个包装类可以将基本数据类型转换为对象
+				String()
+					可以将基本数据类型字符串转换为String对象
+				Number()
+					可以将基本数据类型数字转换为Number对象
+				Boolean()
+					可以将基本数据类型布尔值转换为Boolean对象
+				但是注意：我们在实际开发中不会使用基本数据类型的对象
+					如果使用基本数据类型的对象，在做一些比较时可能会带来一些不可预期的结果
+			 */
+			var a = new String("hello");
+			var b = new Number(12);
+			var c = new Boolean(false);
+			console.log(a) // String {'hello'}
+			console.log(b) // Number {12}
+			console.log(c) // Boolean {false}
+			var a1 = "hello";
+			var b1 = 12;
+			var c1 = false;
+			console.log(a === a1); // false
+			console.log(b == b1); // true
+			console.log(c == c1); // true
+			if(c){
+				alert("hello");//这一行代码会执行
+			}
+			/* 
+				方法和属性只能添加给对象，不能添加给基本数据类型
+				当我们对一些基本数据类型添加属性或方法时，浏览器会临时使用包装类
+					将其转换为对象，然后再调用对象的属性和方法，调用完以后，再将其
+					转换为基本数据类型
+			 */
+			var s = 123;
+			s = s.toString();
+			s.hello = "你好";
+			console.log(s); // '123'
+			console.log(typeof s); // 'string'
+			console.log(s.hello); // undefined
+
+			var arr = [1, 2, 3, 4]
+			arr.length = 2
+			console.log(arr) // [1, 2]
+
+			var str = 'abcd'
+			str.length = 2
+			console.log(str) // 'abcd'
+
+			var str2 = 'abc'
+			str2 += 1
+			var test = typeof(str2)
+			if(test.length == 6){
+				test.sign = "typeof的返回结果可能为String"
+			}
+			console.log(test.sign) // undefined
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

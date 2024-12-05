@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #aaa;
+        }
+        .operation {
+            display: flex;
+            width: 420px;
+            margin: 20px auto;
+            justify-content: space-between;
+        }
+        .active {
+            color: #fff;
+            background-color: #dec27f;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="1200" height="600">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <div class="operation">
+        <button id="thinLine" class="active">细线条</button>
+        <button id="mediumLine">中线条</button>
+        <button id="coarseLine">粗线条</button>
+        <button id="eraser">橡皮擦</button>
+        <input type="color" id="chooseColor">
+        <button id="clearAll">清除所有</button>
+        <button id="save">保存</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+        ctx.lineJoin = 'round'
+        ctx.lineCap = 'round'
+        ctx.lineWidth = 5
+
+        const thinLine = document.getElementById('thinLine')
+        const mediumLine = document.getElementById('mediumLine')
+        const coarseLine = document.getElementById('coarseLine')
+        const eraser = document.getElementById('eraser')
+        const chooseColor = document.getElementById('chooseColor')
+        const clearAll = document.getElementById('clearAll')
+        const save = document.getElementById('save')
+
+        let canDraw = false
+        let x = 0, y = 0
+        canvas.addEventListener('mousedown', (e) => {
+            canDraw = true
+            x = e.offsetX
+            y = e.offsetY
+            ctx.beginPath()
+            ctx.moveTo(x, y)
+        })
+        document.addEventListener('mouseup', () => {
+            canDraw = false
+        })
+        canvas.addEventListener('mouseleave', () => {
+            canDraw = false
+        })
+        canvas.addEventListener('mousemove', (e) => {
+            if(canDraw){
+                ctx.lineTo(e.offsetX, e.offsetY)
+                ctx.stroke()
+            }
+        })
+
+        thinLine.addEventListener('click', (e) => {
+            ctx.globalCompositeOperation = 'source-over'
+            ctx.lineWidth = 5
+            e.target.classList.add('active')
+            mediumLine.classList.remove('active')
+            coarseLine.classList.remove('active')
+            eraser.classList.remove('active')
+        })
+        mediumLine.addEventListener('click', (e) => {
+            ctx.globalCompositeOperation = 'source-over'
+            ctx.lineWidth = 10
+            e.target.classList.add('active')
+            thinLine.classList.remove('active')
+            coarseLine.classList.remove('active')
+            eraser.classList.remove('active')
+        })
+        coarseLine.addEventListener('click', (e) => {
+            ctx.globalCompositeOperation = 'source-over'
+            ctx.lineWidth = 20
+            e.target.classList.add('active')
+            thinLine.classList.remove('active')
+            mediumLine.classList.remove('active')
+            eraser.classList.remove('active')
+        })
+        eraser.addEventListener('click', (e) => {
+            ctx.globalCompositeOperation = 'destination-out'
+            ctx.lineWidth = 30
+            e.target.classList.add('active')
+            thinLine.classList.remove('active')
+            mediumLine.classList.remove('active')
+            coarseLine.classList.remove('active')
+        })
+        chooseColor.addEventListener('change', () => {
+            ctx.strokeStyle = chooseColor.value
+        })
+        clearAll.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+        })
+        save.addEventListener('click', () => {
+            const url = canvas.toDataURL()
+            const a = document.createElement('a')
+            a.download = 'picture'
+            a.href = url
+            a.click()
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				函数也可以作为对象的属性
+				如果一个函数作为一个对象的属性保存
+				那么称这个函数是这个对象的方法
+				调用这个函数就是调用这个对象的方法
+			 */
+			var obj = new Object();
+			obj.name = "猪八戒";
+			obj.sayName = function(){
+				console.log(obj.name);
+			};
+			obj.sayName();
+			var obj2 = {
+				name:"孙悟空",
+				sayHello:function(){
+					console.log(obj2.name);
+				}
+			};
+			obj2.sayHello();
+			
+			/* 
+				枚举对象中的属性
+				使用for...in...语句  对象中有几个属性，循环体就会执行几次
+				每次执行时，会将对象中的一个属性的名字赋值给变量
+					语法：
+					for(var 变量 in 对象){
+						...
+					}
+				备注：for...in语句会以任意顺序迭代一个对象的除Symbol以外的可枚举属性，包括继承的可枚举属性，
+				但不包括Object.prototype上自带的可枚举属性（但包括Object.prototype上自己挂载的属性）
+			 */
+			var obj3 = {
+				name:"孙悟空",
+				age:18,
+				gender:"男",
+				address:"花果山",
+				[Symbol('height')]: 180
+			};
+			var obj4 = {
+				animal: '猴子'
+			}
+			Object.defineProperty(obj3, 'weight', {
+				value: 70,
+				enumerable: false
+			})
+			Object.setPrototypeOf(obj3, obj4)
+			Object.prototype.aaa = 'bbb'
+			// 原型链：obj3 --> obj4 --> Object.prototype 
+			for(var n in obj3){
+				console.log(n); // 打印 name age gender address animal aaa
+			}
+			for(var n in obj3){
+				if(obj3.hasOwnProperty(n)){
+					console.log(n) // 打印 name age gender address
+				}
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

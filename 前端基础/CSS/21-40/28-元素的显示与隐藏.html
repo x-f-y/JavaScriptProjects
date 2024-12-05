@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 
+            - display显示隐藏
+                - display:none;隐藏对象
+                - display：block;除了转换为块级元素之外，同时还有显示元素的意思
+                - 注意：display隐藏元素后，不再占有原来的位置
+            - visibility显示隐藏
+                - visibility:visible;元素可见
+                - visibility:hidden;元素隐藏
+                - 注意：visibility隐藏元素后，继续占有原来的位置
+            - overflow溢出显示隐藏
+                - overflow:visible(默认值)|hidden|scroll|auto
+                - auto与scroll的区别
+                    - auto：溢出时才显示滚动条，不溢出就不显示滚动条
+                    - scroll：不管是否溢出，都显示滚动条
+         */
+        .peppa {
+            /* display: none; */
+            visibility: hidden;
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+        }
+
+        .george {
+            width: 100px;
+            height: 100px;
+            background-color: skyblue;
+        }
+
+        .content {
+            /* overflow:hidden; */
+            /* overflow: auto; */
+            overflow: scroll;
+            width: 200px;
+            height: 200px;
+            border: 3px solid #bfa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="peppa">佩奇</div>
+    <div class="george">乔治</div>
+    <div class="content">
+        《小猪佩奇》，又名《粉红猪小妹》（台湾名为粉红猪），英文名为《Peppa
+        Pig》，是由英国人阿斯特利(Astley)、贝克(Baker)、戴维斯(Davis)创作、导演和制作的一部
+        英国学前电视动画片，也是历年来最具潜力的学前儿童品牌。故事围绕小猪佩奇与家人的愉快经历，幽默
+        而有趣，藉此宣扬传统家庭观念与友情，鼓励小朋友们体验生活。
+    </div>
+</body>
+
+</html>

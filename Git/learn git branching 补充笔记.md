@@ -1,0 +1,21 @@
+- `git merge main`    将`main`分支合并到当前分支（两次`merge`可以让`main`和`bugFix`都指向最新提交）
+- `git rebase bugFix`    将当前分支的提交记录移动（复制）到`bugFix`分支后面（两次`rebase`可以让`main`和`bugFix`都指向最新提交）
+- HEAD总是指向当前分支上最新的一次提交记录
+- `git rebase 分支1 分支2`    将分支2的提交记录移动（复制）到分支1后面，若未指定分支2，则使用当前分支（HEAD）
+- `git checkout/switch 分支名`的意思是切换到对应分支，而`git checkout/switch 提交记录`的意思是分离HEAD，让HEAD指向对应的提交记录（提交记录可以是哈希值和标签，也可以是`^`或`~`的相对引用）
+- `git branch -f main HEAD^`    将main分支强制移动（指向）到HEAD^所指向的提交记录
+- 本地分支的撤销更改：`git reset HEAD^`    将当前分支回退到HEAD^所指向的提交记录（注意：在reset后，原先的变更还在，但是处于未加入暂存区状态）
+- 远程分支的撤销更改：`git revert HEAD`    创建一个新的提交记录，这个新的提交记录所做的变更与HEAD所指向的提交记录所做的变更相反，从而达到撤销更改的目的（不改变提交历史）
+- `git cherrry-pick commitHash1 commitHash2 ...`    将`commitHash1`、`commitHash2`等多个提交记录复制到当前所在的位置（HEAD）（备注：`git cherrry-pick`命令的参数，不一定是提交记录的哈希值，也可以是分支名）
+- `git rebase`时，使用--interactive（缩写-i）选项会通过vim编辑器打开一个文件，该文件列出了即将重写的提交列表，通过编辑该文件，可以实现：调整提交记录的顺序、删除不想要的提交等操作
+- `git tag v1 c1`    创建一个标签，命名为`v1`，指向提交记录`C1`，如果不指定提交记录，那么标签会指向HEAD所指向的位置（备注：git中的标签可以像分支一样被引用，但和分支不同的是，标签并不会随着新的提交而移动，也不能切换到某个标签上进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置）
+- `git describe`命令用来查找对于某个给定的提交记录，其最接近的标签。语法是：`git describe <ref>`，其中ref可以是任何能被git识别成提交记录的引用，如果没有指定ref的话，git会使用目前所在的位置（HEAD）。该命令的输出结果是`<tag>_<numCommits>_g<hash>`，其中`tag`表示的是离ref最近的标签，`numCommits`表示这个标签与ref相差有多少个提交记录，`hash`表示给定的ref所指向的提交记录的哈希值的前几位（备注：如果找到的标签直接指向给定的提交记录，那么git describe的输出结果就是该标签名称）
+- 一个合并提交至少有两个parent提交，遇到这样的结点时，使用`^`返回上一代时该选择哪条路径就不是很清晰了，此时可以在操作符`^`后面跟一个数字，该数字与`~`后面跟的数字不同，并不是用来指定向上返回几代，而是指定合并提交的某个parent提交。git默认选择合并提交的“第一个”parent提交，在操作符`^`后跟一个数字可以改变这一默认行为（备注：`^`和`~`操作符支持链式操作，例如`git switch HEAD~;git switch HEAD^2;git switch HEAD~2`可以简写为`git switch ~^2~2`）
+- 运行`git clone`命令后，本地会多出一个名为origin/main的分支，这种类型的分支就叫做远程分支（事实上，克隆时，git会为远程仓库中的每个分支在本地仓库中创建一个对应的远程分支），其中origin为远程仓库名，main为分支名。远程分支有一个特别的属性，在你切换到远程分支时，自动进入分离HEAD状态，当添加新的提交时，origin/main也不会更新，这是因为origin/main只有在远程仓库中相应的分支更新了以后才会更新
+- `git fetch`做了什么？1. 从远程仓库下载本地仓库中缺失的提交记录；2. 更新远程分支指针（如origin/main）。注意：`git fetch`并不会改变本地仓库的状态，它不会更新main分支，也不会修改磁盘上的文件
+- `git branch -u origin/main foo`或者`git branch --set-upstream-to=origin/main foo`    将本地仓库中的`foo`分支设置为跟踪远程仓库（origin）中的`main`分支（备注：如果没有指定第二个参数，则默认为当前分支）。这样一来：当我们在本地的`foo`分支上执行`git pull`或者`git push`时，git会自动将变化同步到远程仓库中的`main`分支上
+- `git push origin main:master`    将本地仓库中的main分支推送到远程仓库（origin）中的master分支，如果要推送的目的分支（这里是master）不存在，则git会在远程仓库中创建这个分支。注意：源分支（这里是main）可以是任何git能识别的位置，例如：main、main~、HEAD^等
+- `git fetch origin main:master`    将远程仓库中（origin）的main分支下载到本地仓库中的origin/master远程分支上，如果目的分支（这里是master）不存在，则git会在本地仓库中创建这个分支。备注：如果`git fetch`没有参数，则会从远程仓库中下载所有的提交记录到本地仓库中各个对应的远程分支上
+- 没有source的push和fetch：`git push origin :foo`会删除远程仓库中的`foo`分支（当然也会删除本地仓库中的`origin/foo`远程分支）；`git fetch origin :bar`会在本地创建一个新的`bar`分支
+- `git pull origin foo`相当于`git fetch origin foo; git merge origin/foo`；`git pull origin bar:bugFix`相当于`git fetch origin bar:bugFix; git merge bugFix`
+

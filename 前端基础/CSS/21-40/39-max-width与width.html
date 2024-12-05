@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box1 {
+            width: 400px;
+            height: 300px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+        }
+        /* .box1 a {
+            display: block;
+            width: 300px;
+        } */
+        .box1 img {
+            width: 50%;
+        }
+        .box2 {
+            /* width: 200px; */
+            width: 400px;
+            height: 300px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+        }
+        .box2 img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        1. 将width设置为百分比是相对于其包含块（大多数情况下，包含块就是这个元素最近的祖先块级元素的内容区）来说的
+        2. 给img设置max-width:100%;时，若图片本身宽度大于其包含块的宽度，则图片会被压缩至其包含块的宽度；
+           若图片本身宽度小于其包含块的宽度，则图片大小不变，保持其本身的宽度
+        3. min-width会覆盖max-width，max-width会覆盖width
+     -->
+     
+     <!-- dog.jpg 300*200 -->
+
+    <div class="box1">
+        <a href="javascript:;">
+            <!-- 给a设置样式，img宽度为150px    不给a设置样式，img宽度为200px -->
+            <img src="../images/dog.jpg" alt="">
+        </a>
+    </div>
+
+    <div class="box2">
+        <a href="javascript:;">
+            <!-- box2宽度为200px时，img宽度为200px    box2宽度为400px时，img宽度为300px -->
+            <img src="../images/dog.jpg" alt="">
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			function F(){}
+			Object.prototype.a = function(){
+				console.log('a()');
+			}
+			Function.prototype.b = function(){
+				console.log('b()');
+			}
+			var f = new F();
+			//f---__proto__ --->F.prototype---__proto__--->Object.prototype---__proto__--->null
+			f.a();//a()
+			// f.b();//报错 f.b is not a function
+			//F---__proto__ --->Function.prototype---__proto__ --->Object.prototype---__proto__--->null
+			F.a();//a()
+			F.b();//b()
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

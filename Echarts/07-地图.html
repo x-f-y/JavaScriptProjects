@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/echarts.min.js"></script>
+</head>
+<body>
+    <div id="echarts" style="width: 1000px; height: 800px; border: 1px solid #f00; margin: 0 auto;"></div>
+    <script>
+        function sendAjax(method, url){
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.responseType = "json";
+                xhr.open(method, url);
+                xhr.send();
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState === 4){
+                        if(xhr.status >= 200 && xhr.status < 300){
+                            resolve(xhr.response);
+                        }else{
+                            reject(xhr.status);
+                        }
+                    }
+                }
+            })
+        }
+
+        const myChart = echarts.init(document.querySelector('#echarts'));
+        const airData = [
+            {name: '北京市', value: 39.92},
+            {name: '天津市', value: 39.13},
+            {name: '河北省', value: 147},
+            {name: '山西省', value: 39},
+            {name: '内蒙古自治区', value: 58},
+            {name: '辽宁省', value: 50},
+            {name: '吉林省', value: 51},
+            {name: '黑龙江省', value: 114},
+            {name: '上海市', value: 31.22},
+            {name: '江苏省', value: 67},
+            {name: '浙江省', value: 84},
+            {name: '安徽省', value: 117},
+            {name: '福建省', value: 29},
+            {name: '江西省', value: 96},
+            {name: '山东省', value: 92},
+            {name: '河南省', value: 113},
+            {name: '湖北省', value: 273},
+            {name: '湖南省', value: 175},
+            {name: '广东省', value: 38},
+            {name: '广西壮族自治区', value: 59},
+            {name: '海南省', value: 54},
+            {name: '重庆市', value: 66},
+            {name: '四川省', value: 58},
+            {name: '贵州省', value: 71},
+            {name: '云南省', value: 25.04},
+            {name: '西藏自治区', value: 24},
+            {name: '陕西省', value: 61},
+            {name: '甘肃省', value: 99},
+            {name: '青海省', value: 57},
+            {name: '宁夏回族自治区', value: 52},
+            {name: '新疆维吾尔自治区', value: 84},
+            {name: '台湾省', value: 88},
+            {name: '香港特别行政区', value: 66},
+            {name: '澳门特别行政区', value: 77},
+            {name: '南海诸岛', value: 55}
+        ]; // 空气质量数据
+        const scatterData = [
+            {value: [117.283042, 31.86119]},
+            {value: [87.617733, 43.792818]}
+        ]; // 散点数据
+        // 使用ajax获取地图矢量数据
+        sendAjax('GET', './map/china.json').then(chinaMap => {
+            // console.log(chinaMap);
+            // 注册地图
+            echarts.registerMap('china', chinaMap);
+            const option = {
+                geo: { // 地理坐标系组件
+                    map: 'china', // 属性值为使用 registerMap 注册的地图名称
+                    roam: true, // 开启鼠标平移和缩放
+                    label: {
+                        show: true // 显示标签
+                    },
+                    zoom: 1.2, // 当前视角的缩放比例
+                    // center: [87.617733, 43.792818] // 当前视角的中心点 [经度,纬度]（tip：各个区域的经纬度可以在地图矢量数据的json文件中找到）
+                },
+                series: [
+                    {
+                        type: 'map', // 地图
+                        data: airData,
+                        geoIndex: 0, // 将空气质量数据和geo关联起来（只有一个geo的情况下设置为0）
+                    },
+                    {
+                        type: 'effectScatter',
+                        data: scatterData,
+                        coordinateSystem: 'geo', // 使用地理坐标系
+                        rippleEffect: {
+                            scale: 10
+                        },
+                    }
+                ],
+                visualMap: { // 视觉映射组件
+                    min: 0,
+                    max: 300,
+                    inRange: {
+                        color: ['white', 'red'] // 控制颜色渐变的范围
+                    },
+                    calculable: true // 显示拖拽用的手柄（手柄能拖拽调整选中范围）
+                }
+            };
+            myChart.setOption(option);
+        }, status => {
+            console.warn(status);
+        })
+    </script>
+</body>
+</html>

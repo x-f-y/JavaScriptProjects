@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/echarts.min.js"></script>
+</head>
+<body>
+    <div id="echarts" style="width: 600px; height: 400px;"></div>
+    <script>
+        const myChart = echarts.init(document.querySelector('#echarts'));
+        const option = {
+            radar: { // 雷达图坐标系组件，只适用于雷达图
+                indicator: [ // 雷达图的指示器，用来指定雷达图中的多个维度
+                    {name: '易用性', max: 100},
+                    {name: '功能', max: 100},
+                    {name: '拍照', max: 100},
+                    {name: '跑分', max: 100},
+                    {name: '续航', max: 100}
+                ],
+                shape: 'circle' // 可选值：'polygon'（默认值） 和 'circle'
+            },
+            series: [
+                {
+                    type: 'radar', // 雷达图
+                    data: [
+                        {name: '华为手机', value: [80, 90, 80, 82, 90]}, // value项数组是具体的数据，每个值跟radar.indicator一一对应
+                        {name: '中兴手机', value: [70, 82, 75, 70, 78]}
+                    ],
+                    label: {
+                        show: true // 显示标签
+                    },
+                    areaStyle: {} // 填充区域
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

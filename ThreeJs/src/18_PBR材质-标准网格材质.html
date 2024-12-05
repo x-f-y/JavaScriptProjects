@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>18_PBR材质-标准网格材质</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        // 设置渲染器的输出编码（在当前版本的threejs中，输出编码默认值就是THREE.SRGBColorSpace，所以这里也可以不用设置）
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        container.appendChild(renderer.domElement);
+
+        // 加载环境贴图
+        // 上下左右前后6张贴图构成一个立方体空间
+        // 'px.jpg', 'nx.jpg'：x轴正方向、负方向贴图  p:正positive  n:负negative
+        // 'py.jpg', 'ny.jpg'：y轴贴图
+        // 'pz.jpg', 'nz.jpg'：z轴贴图
+        const cubeTexture = new THREE.CubeTextureLoader()
+            .setPath('../resources/envMap/0/')
+            .load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
+        // 为了避免颜色偏差，纹理的.colorSpace属性和渲染器的.outputColorSpace属性的属性值应该保持一致
+        cubeTexture.colorSpace = THREE.SRGBColorSpace;
+
+        const scene = new THREE.Scene();
+        // 如果希望环境贴图影响场景scene中所有mesh，那么可以把环境贴图对应的纹理对象设置为场景scene的environment属性值
+        // scene.environment = cubeTexture;
+
+        const loader = new GLTFLoader();
+
+        loader.load('../resources/model/metal.glb', gltf => {
+            gltf.scene.traverse(obj => {
+                if(obj.isMesh){
+                    // console.log(obj.material); // MeshStandardMaterial
+                    // 设置材质与金属的相似度，非金属材质使用0.0，金属使用1.0，0.0到1.0之间的值可用于生锈金属的外观。如果还提供了metalnessMap，则两个值相乘
+                    obj.material.metalness = 1.0;
+                    // 设置材质的粗糙程度，0.0表示平滑的镜面反射，1.0表示完全漫反射。如果还提供roughnessMap，则两个值相乘
+                    obj.material.roughness = 0.35;
+                    // 设置环境贴图
+                    obj.material.envMap = cubeTexture;
+                    // 设置环境贴图反射率（通过乘以环境贴图的颜色来缩放环境贴图的效果，设置为0，相当于没有环境贴图）
+                    obj.material.envMapIntensity = 1.0;
+                }
+            });
+            scene.add(gltf.scene);
+        });
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 600);
+        camera.position.set(40, 40, 40);
+        camera.lookAt(0, 0, 0);
+
+        new OrbitControls(camera, renderer.domElement);
+
+        const axesHelper = new THREE.AxesHelper(100);
+        scene.add(axesHelper);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+        directionalLight.position.set(400, 200, 300);
+        scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        requestAnimationFrame(function animate(){
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        });
+    </script>
+</body>
+</html>

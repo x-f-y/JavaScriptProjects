@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .title {
+            display: flex;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .title .source {
+            width: 1000px;
+        }
+        .title .wrap {
+            flex: 1;
+            display: flex;
+        }
+        .title .wrap span{
+            margin-left: 3px;
+            flex: 1;
+        }
+        .body {
+            display: flex;
+            height: 500px;
+        }
+        .body canvas {
+            display: block;
+        }
+        .body .wrap {
+            flex: 1;
+            display: flex;
+        }
+        .body .wrap div {
+            flex: 1;
+            margin-left: 3px;
+            line-height: 500px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <span class="source">Source</span>
+        <div class="wrap">
+            <span>Hovered color</span>
+            <span>Selected color</span>
+        </div>
+    </div>
+    <div class="body">
+        <canvas id="canvas" width="1000" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+        <div class="wrap">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        const hovered = document.querySelector('.body .wrap div:first-child')
+        const selected = document.querySelector('.body .wrap div:last-child')
+
+        const img = new Image()
+        img.src = '/image/scenery.png'
+        img.onload = function(){
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            const color = getColor(e.offsetX, e.offsetY)
+            hovered.textContent = color
+            hovered.style.backgroundColor = color
+        })
+
+        canvas.addEventListener('click', (e) => {
+            const color = getColor(e.offsetX, e.offsetY)
+            selected.textContent = color
+            selected.style.backgroundColor = color
+        })
+
+        function getColor(x, y){
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+            const index = 4 * (y * imgData.width + x)
+            const r = imgData.data[index]
+            const g = imgData.data[index+1]
+            const b = imgData.data[index+2]
+            const a = imgData.data[index+3]
+            return `rgba(${r},${g},${b},${a})`
+        }
+    </script>
+</body>
+</html>

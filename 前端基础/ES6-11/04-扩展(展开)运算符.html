@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div></div>
+    <div></div>
+    <div></div>
+    <script>
+        /* 扩展运算符的应用 */
+        // 1. 数组克隆（浅）
+        let arr = ['E', 'G', 'M'];
+        let newArr = [...arr];
+        console.log(newArr); // ['E', 'G', 'M']
+        console.log(newArr === arr) // false
+
+        // 2. 对象克隆（浅）
+        let obj = {
+            name: 'zs',
+            age: 18,
+            gender: 'female'
+        }
+        let newObj = {...obj}
+        console.log(newObj) // {name: 'zs', age: 18, gender: 'female'}
+        console.log(obj === newObj) // false
+
+        // 3. 数组合并
+        let arr2 = ['A', 'B', 'C']
+        let newArr2 = [...arr2, ...arr]
+        console.log(newArr2) // ['A', 'B', 'C', 'E', 'G', 'M']
+        console.log([...[1, 2, 3], ...[3, 4, 5]]) // [1, 2, 3, 3, 4, 5]
+
+        // 4. 对象合并
+        let obj2 = {
+            mather: 'mom',
+            father: 'papa'
+        }
+        console.log({...obj, ...obj2}) // {name: 'zs', age: 18, gender: 'female', mather: 'mom', father: 'papa'}
+        console.log({...{ a: 1, b: 2 }, ...{ a: 0, c: 3 }}) // {a: 0, b: 2, c: 3}
+
+        // 5. 字符串转化为数组
+        let str = "abcd"
+        let arr3 = [...str]
+        console.log(arr3) // ['a', 'b', 'c', 'd']
+
+        // 6. 将伪数组转为真正的数组
+        const divs = document.querySelectorAll('div');
+        console.log(Array.isArray(divs)); // false
+        let divArr = [...divs];
+        console.log(Array.isArray(divArr)); // true
+
+        // 7. 数组去重
+        let arr4 = [1, 2, 3, 2, 2, 1, 3, 4, 2, 5]
+        let newArr3 = [...new Set(arr4)]
+        console.log(newArr3) // [1, 2, 3, 4, 5]
+
+        // 8. 字符串去重
+        let str2 = 'abecdeafa' 
+        console.log([...new Set(str2)].join('')) // 'abecdf'
+    </script>
+</body>
+</html>

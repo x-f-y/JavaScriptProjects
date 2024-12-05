@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #f1f1f1;
+        }
+
+        .box1 {
+            width: 0;
+            height: 0;
+            /* 将line-height和font-size设置为0是为了照顾兼容性 */
+            line-height: 0;
+            font-size: 0;
+            border-width: 30px;
+            border-style: solid;
+            border-color: pink #bfa skyblue yellowgreen;
+        }
+
+        .box2 {
+            width: 0;
+            height: 0;
+            margin: 50px auto;
+            border: 20px solid transparent;
+            border-left-color: chocolate;
+        }
+
+        .box3 {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 10px auto;
+            background-color: #fff;
+        }
+
+        .box3 span {
+            position: absolute;
+            top: -16px;
+            left: 50px;
+			/* 这里不需要display:block; */
+            width: 0;
+            height: 0;
+            /* 照顾兼容性 */
+            line-height: 0;
+            font-size: 0;
+            border: 8px solid transparent;
+            border-bottom-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3">
+        <span></span>
+    </div>
+</body>
+
+</html>

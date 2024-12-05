@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--
+        1. Vue中的数据代理：
+            通过vm对象来代理vm._data对象中属性的操作（读/写）
+        2. Vue中数据代理的好处：
+            更加方便的操作vm._data对象中的数据（不用在{{}}中写_data.）
+        3. 基本原理：
+            通过Object.defineProperty()把vm._data对象中所有的属性添加到vm上
+            为每一个添加到vm上的属性，都指定一个getter和setter
+            在getter和setter内部去操作（读/写）vm._data对象中对应的属性
+        4. 备注：vm._data === vmOptions.data，不同的是：vm._data中用到了数据劫持（监测），这样的好处是：当_data中数据发生改变时，
+        可以被Vue监测到，从而触发视图的更新
+    -->
+    <script>
+        /* 数据代理：通过一个对象代理对另一个对象中属性的操作（读/写） */
+        const data = {
+            x: 100,
+            y: 200
+        }
+        const vm = {
+            _data: data
+        }
+        for(const key in data){
+            Object.defineProperty(vm, key, {
+                get(){
+                    return data[key]
+                },
+                set(value){
+                    data[key] = value
+                }
+            })
+        }
+        console.log(vm)
+    </script>
+</body>
+
+</html>

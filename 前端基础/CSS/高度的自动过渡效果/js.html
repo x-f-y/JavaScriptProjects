@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 300px;
+      margin: 30px auto;
+      input {
+        width: 100%;
+        border: 1px solid #000;
+        font-size: 16px;
+        padding: 5px 0.5em;
+        outline: none;
+      }
+      .dropdown-list {
+        height: 0;
+        overflow: hidden;
+        list-style-type: none;
+        border: 1px solid #000;
+        border-top: none;
+        margin-top: -1px;
+        li {
+          padding: 5px 0.5em;
+        }
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <input type="text">
+    <ul class="dropdown-list">
+      <li>Lorem, ipsum dolor.</li>
+      <li>Lorem ipsum dolor sit amet.</li>
+      <li>Lorem, ipsum.</li>
+      <li>Lorem ipsum amet consect.</li>
+      <li>Lorem ipsum dolor sit.</li>
+    </ul>
+  </div>
+
+  <script>
+    const inp = document.querySelector('.container input');
+    const dropdownList = document.querySelector('.container .dropdown-list');
+
+    inp.addEventListener('focus', function(){
+      dropdownList.style.transition = 'none';
+      // 修改元素的高度值，并不会立即触发回流，而是将该触发回流的操作放入一个队列中
+      dropdownList.style.height = 'auto';
+      // 获取布局属性，立即清空队列，触发回流，重新计算布局树，获取准确的测量值
+      const finalHeight = dropdownList.offsetHeight;
+      // 再将高度设置回0并不会导致页面闪一下（没有高度->有高度->没有高度），因为浏览器还没来得及把页面绘制出来
+      // 由于js代码的运行和页面的渲染过程都运行在浏览器的渲染主线程，所以要等当前函数运行结束之后才能开始渲染页面
+      dropdownList.style.height = '0';
+      requestAnimationFrame(() => {
+        dropdownList.style.transition = '0.6s';
+        dropdownList.style.height = finalHeight + 'px';
+      });
+    });
+    
+    inp.addEventListener('blur', function(){
+      dropdownList.style.transition = '0.6s';
+      dropdownList.style.height = '0';
+    });
+  </script>
+</body>
+</html>

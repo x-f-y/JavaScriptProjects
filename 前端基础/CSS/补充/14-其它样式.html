@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        .container {
+            width: 800px;
+            margin: 0 auto;
+        }
+        .box1 {
+            background-color: #008c8c;
+            margin-top: 10px;
+            display: list-item;
+            list-style-type: circle;
+            /* list-style-position: outside; */
+            list-style-position: inside;
+        }
+        .box2 {
+            margin: 10px 0;
+        }
+        .box2 img {
+            width: 300px;
+            height: 300px;
+            border: 2px solid #008c8c;
+        }
+        .box3 {
+            border: 5px solid #008c8c;
+        }
+        .box3 img {
+            width: 100px;
+        }
+        .box4 {
+            width: 500px;
+            height: 214px;
+            margin-top: 10px;
+            border: 2px solid chocolate;
+            text-align: justify;
+        }
+        .box4::after {
+            content: "";
+            display: inline-block; /* text-align属性只对行盒和行块盒有效，但行盒不能设置宽高，所以这里设置为inline-block */
+            width: 100%; /* 保证换行，使得设置了text-align:justify;的盒子的所有子元素（after伪元素除外）都可以分散对齐 */
+        }
+        .box5 {
+            margin-top: 10px;
+            background-color: yellowgreen;
+            direction: rtl;
+        }
+        .poem {
+            margin-top: 10px;
+            color: #333;
+            font-size: 1.4em;
+            writing-mode: vertical-rl;
+        }
+        .poem .author {
+            color: #aaa;
+            font-size: 0.8em;
+            text-align: end;
+        }
+        .poem .author .year {
+            text-orientation: upright;
+            text-combine-upright: all;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        1. display:list-item;
+            - 设置为该属性的盒子，本质上仍然是一个块盒，但同时该盒子会附带另一个盒子。元素本身生成的盒子为主盒子，
+            附带的盒子为次盒子，次盒子和主盒子水平排列
+            - 涉及的css属性：list-style-type、list-style-position、list-style-image
+            - 速写属性：list-style
+        2. 图片失效时的宽高问题
+            - 如果img元素的地址无效，那么img元素的特性和普通行盒一样，无法设置宽高
+        3. 行盒中包含行块盒或可替换元素
+            - 这种情况下，行盒的高度与它内部的行块盒或可替换元素的高度无关
+        4. text-align:justify;
+            - 其中的文字（行盒或者行块盒）分散对齐，最后一行除外
+        5. direction
+            - 设置开始到结束的方向
+        6. writing-mode
+            - 设置文字书写的方向
+     -->
+
+    <div class="container">
+        <div class="box1">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita, odit!
+        </div>
+        <div class="box2">
+            <img src="abcdefg" alt="无效的图片">
+        </div>
+        <span class="box3">
+            <img src="../images/4.jpg" alt="">
+        </span>
+        <div class="box4">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla corrupti, atque nobis ullam sed dolores ducimus repudiandae amet distinctio. Perspiciatis perferendis velit officiis amet debitis aperiam aliquam omnis ducimus. Amet assumenda id veniam perferendis earum sequi, in sapiente dignissimos architecto. Voluptatum deleniti placeat, officia molestiae eum quia ad commodi itaque a voluptate saepe quos esse voluptatibus eaque maiores dicta. Totam natus ab sunt dicta ratione eos debitis quaerat, dolor voluptates, eum saepe quod architecto iure facere molestiae mollitia tempore.
+        </div>
+        <div class="box5">
+            Where there is a will, there is a way
+        </div>
+        <div class="poem">
+            <h2>临江仙</h2>
+            <div class="author">
+                <span>杨慎</span>
+                <span class="year">1488</span>
+                <span class="to">~</span>
+                <span class="year">1559</span>
+            </div>
+            <p>滚滚长江东逝水</p>
+            <p>浪花淘尽英雄</p>
+            <p>是非成败转头空</p>
+            <p>青山依旧在</p>
+            <p>几度夕阳红</p>
+            <p>白发渔樵江渚上</p>
+            <p>惯看秋月春风</p>
+            <p>一壶浊酒喜相逢</p>
+            <p>古今多少事</p>
+            <p>都付笑谈中</p>
+        </div>
+    </div>
+</body>
+</html>

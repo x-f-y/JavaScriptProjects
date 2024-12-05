@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>get</button>
+    <button>post</button>
+    <button>delete</button>
+    <button>jsonp</button>
+    <script>
+        function handle(data){
+            console.log(data)
+        }
+
+        const btns = document.getElementsByTagName('button')
+        
+        btns[0].onclick = function(){
+            request('get', '/get?a=100&b=200')
+        }
+        btns[1].onclick = function(){
+            request('post', '/post', {
+                body: 'name=zs&age=18',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+        }
+        btns[2].onclick = function(){
+            request('delete', '/delete')
+        }
+        btns[3].onclick = function(){
+            const script = document.createElement('script')
+            script.src = 'http://localhost/api/jsonp?callback=handle'
+            script.onload = function(){
+              script.remove()
+            }
+            document.head.appendChild(script)
+        }
+
+        function request(method, path, options = {}) {
+            fetch('http://localhost/api' + path, {
+                method,
+                ...options
+            }).then(result => {
+                return result.json()
+            }).then(result => {
+                console.log(result)
+            })
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
+</head>
+<body onload="main()">
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 顶点着色器
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position; // 顶点坐标
+            attribute vec2 a_TexCoord; // 纹理坐标
+            varying vec2 v_TexCoord; // 向片元着色器传递纹理坐标
+            void main(){
+                gl_Position = a_Position;
+                v_TexCoord = a_TexCoord;
+            }
+        `;
+
+        // 片元着色器
+        const FSHADER_SOURCE = `
+            precision mediump float;
+            uniform sampler2D u_Sampler0;
+            uniform sampler2D u_Sampler1;
+            varying vec2 v_TexCoord; // 接收纹理坐标
+            void main(){
+                vec4 color0 = texture2D(u_Sampler0, v_TexCoord);
+                vec4 color1 = texture2D(u_Sampler1, v_TexCoord);
+                // 颜色矢量的分量乘法————两个矢量中对应的分量相乘作为新矢量的分量
+                gl_FragColor = color0 * color1;
+            }
+        `;
+
+        // 由于纹理图像的加载是异步进行的，所以无法预测哪一个先加载完成。只有当两副纹理图像都加载完成后，程序才能开始绘图，所以定义两个变量来指示对应的纹理是否加载完成
+        let g_texUnit0 = false, g_TexUnit1 = false;
+
+        function initVertexBuffers(gl){
+            const n = 4; // 顶点个数
+            const verticesTexCoords = new Float32Array([
+                // 顶点坐标和纹理坐标
+                -0.5,  0.5,   0.0, 1.0,
+                -0.5, -0.5,   0.0, 0.0,
+                 0.5,  0.5,   1.0, 1.0,
+                 0.5, -0.5,   1.0, 0.0
+            ]);
+
+            // 创建缓冲区对象并写入数据
+            const vertexTexCoordBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexTexCoordBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, verticesTexCoords, gl.STATIC_DRAW);
+
+            const FSIZE = verticesTexCoords.BYTES_PER_ELEMENT;
+
+            // 将顶点坐标分配给a_Position并开启它
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, FSIZE * 4, 0);
+            gl.enableVertexAttribArray(a_Position);
+
+            // 将纹理坐标分配给a_TexCoord并开启它
+            const a_TexCoord = gl.getAttribLocation(gl.program, 'a_TexCoord');
+            gl.vertexAttribPointer(a_TexCoord, 2, gl.FLOAT, false, FSIZE * 4, FSIZE * 2);
+            gl.enableVertexAttribArray(a_TexCoord);
+
+            return n;
+        }
+
+        function loadTexture(gl, n, image, u_Sampler, texUnit){
+            // 创建纹理对象
+            const texture = gl.createTexture();
+
+            // 对纹理图像进行y轴反转
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+
+            // 激活纹理单元
+            if(texUnit === 0){
+                gl.activeTexture(gl.TEXTURE0);
+                g_texUnit0 = true;
+            }else if(texUnit === 1){
+                gl.activeTexture(gl.TEXTURE1);
+                g_TexUnit1 = true;
+            }
+
+            // 将纹理对象绑定到纹理单元上
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+
+            // 配置纹理对象的参数
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+            // 将纹理图像分配给纹理对象
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+
+            // 将纹理单元传递给片元着色器
+            gl.uniform1i(u_Sampler, texUnit);
+
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            if(g_texUnit0 && g_TexUnit1){
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, n);
+            }
+        }
+
+        function main(){
+            const canvas = document.getElementById('canvas');
+            const gl = canvas.getContext('webgl');
+            initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+            // 设置顶点信息
+            const n = initVertexBuffers(gl);
+
+            const image0 = new Image();
+            const image1 = new Image();
+            image0.src = '../resources/sky.jpg';
+            image1.src = '../resources/circle.gif';
+            image0.onload = function(){
+                const u_Sampler0 = gl.getUniformLocation(gl.program, 'u_Sampler0');
+                loadTexture(gl, n, image0, u_Sampler0, 0);
+            }
+            image1.onload = function(){
+                const u_Sampler1 = gl.getUniformLocation(gl.program, 'u_Sampler1');
+                loadTexture(gl, n, image1, u_Sampler1, 1);
+            }
+        }
+    </script>
+</body>
+</html>

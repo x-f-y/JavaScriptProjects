@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        - 给盒子设置的width和height是该盒子内容（content）的宽度和高度
+        - 盒子模型之边框border
+            - border-width  设置边框的宽度
+            - border-style  设置边框的样式 常用的值有solid实线边框、dashed虚线边框、dotted点线边框
+            - border-color  设置边框的颜色
+            - 边框也可以分开写 border-top border-bottom border-left border-right
+            - border-collapse   设置表格的边框是否被合并为一个单一的边框(collapse|separate(默认))（给table设置）
+			- border-spacing    设置相邻单元格的距离（给table设置）
+            - 注意：border会影响盒子的实际大小
+        - 盒子模型之内边距padding
+            - padding可以分开写 padding-top padding-bottom padding-left padding-right
+            - padding的复合写法
+                - padding: 上下左右px;
+                - padding: 上下px 左右px;
+                - padding: 上px 左右px 下px;
+                - padding: 上px 右px 下px 左px;
+            - 注意：padding会影响盒子的实际大小（会撑开盒子）
+            - padding不会撑开盒子的情况
+				- 不管盒子是否设置了高度，只要加了padding-top或padding-bottom值，就会撑大盒子的高度
+				- 若盒子没有设置宽度，则盒子的宽度为父盒子的100%，此时为盒子设置padding-left或padding-right值时，不会撑开父盒子
+				- 若盒子设置了宽度，此时再为盒子设置padding-left或padding-right值时，盒子的宽度会撑开父盒子
+        - 盒子模型之外边距margin（控制盒子与盒子之间的距离）
+            - margin可以分开写 margin-top margin-bottom margin-left margin-right
+            - margin的复合写法和padding完全一致
+            - 使用margin可以让块级盒子水平居中对齐，需满足以下两个条件：
+                - 盒子指定了宽度
+                - 盒子的左右外边距都设置为auto
+            - 要想让行内元素或行内块元素水平居中对齐，可以给其父元素添加text-align:center;
+     -->
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            /* border-width: 5px;
+            border-style: solid;
+            border-color: pink; */
+            /* 边框的复合写法 没有特定的书写顺序 */
+            border: 5px solid pink;
+        }
+        table {
+            width: 400px;
+            height: 300px;
+            margin: 0 auto;
+            font-size: 18px;
+            text-align: center;
+            /* 合并相邻的边框 */
+            border-collapse: collapse;
+        }
+        th {
+            height: 65px;
+        }
+        th, td {
+            border: 1px solid pink;
+        }
+        .header {
+            width: 800px;
+            height: 200px;
+            background-color: pink;
+            /* 使用margin让块级盒子水平居中对齐 */
+            margin: 20px auto;
+            /* 使用text-align:center让该盒子内部的行内元素和行内块元素水平居中对齐 */
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+    <table>
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>刘德华</td>
+                <td>男</td>
+                <td>24</td>
+            </tr>
+            <tr>
+                <td>张学友</td>
+                <td>男</td>
+                <td>23</td>
+            </tr>
+            <tr>
+                <td>郭富城</td>
+                <td>男</td>
+                <td>23</td>
+            </tr>
+            <tr>
+                <td>黎明</td>
+                <td>男</td>
+                <td>25</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="header">
+        <span>里面的文字</span>
+    </div>
+    <div class="header">
+        <img src="../images/icon.png" alt="">
+    </div>
+</body>
+
+</html>

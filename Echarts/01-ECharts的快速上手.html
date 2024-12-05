@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- step1：引入echarts -->
+    <script src="./lib/echarts.min.js"></script>
+</head>
+<body>
+    <!-- step2：准备容器 -->
+    <div id="echarts" style="width: 600px; height: 400px"></div>
+    <script>
+        // step3：初始化echarts实例，参数是一个dom元素，决定图表呈现的位置
+        const myChart = echarts.init(document.querySelector('#echarts'));
+        // step4：准备配置项
+        const option = {
+            title: {
+                text: '成绩', // 主标题文本
+                link: 'http://www.itcast.cn', // 主标题文本超链接
+                textStyle: {
+                    color: '#008c8c' // 主标题文字颜色
+                }
+            },
+            xAxis: {
+                type: 'category', // 类目轴
+                data: ['小明', '小红', '小王'] // category轴的取值范围
+            },
+            yAxis: {
+                type: 'value' // 数值轴
+            },
+            series: [
+                {
+                    name: '语文', // 系列名称
+                    type: 'bar', // 柱状图
+                    // type: 'line', // 折线图
+                    // type: 'pie', // 饼图
+                    data: [70, 92, 87],
+                }
+            ]
+        };
+        // step5：设置图表实例的配置项
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

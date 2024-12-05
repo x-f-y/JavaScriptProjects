@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        // 杯身
+        ctx.lineWidth = 3
+        ctx.strokeRect(100, 200, 200, 200)
+
+        // 杯柄
+        ctx.beginPath()
+        ctx.lineWidth = 10
+        ctx.arc(300, 300, 50, -Math.PI / 2, Math.PI / 2, false)
+        ctx.stroke()
+
+        // 蒸汽
+        ctx.beginPath()
+        ctx.lineWidth = 1
+        ctx.arc(125, 100, 25, -Math.PI / 2, Math.PI / 2, true)
+        ctx.arc(125, 150, 25, -Math.PI / 2, Math.PI / 2, false)
+        ctx.moveTo(175, 75)
+        ctx.arc(175, 100, 25, -Math.PI / 2, Math.PI / 2, true)
+        ctx.arc(175, 150, 25, -Math.PI / 2, Math.PI / 2, false)
+        ctx.moveTo(225, 75)
+        ctx.arc(225, 100, 25, -Math.PI / 2, Math.PI / 2, true)
+        ctx.arc(225, 150, 25, -Math.PI / 2, Math.PI / 2, false)
+        ctx.moveTo(275, 75)
+        ctx.arc(275, 100, 25, -Math.PI / 2, Math.PI / 2, true)
+        ctx.arc(275, 150, 25, -Math.PI / 2, Math.PI / 2, false)
+        ctx.stroke()
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../tools/vue.js"></script>
+</head>
+
+<body>
+    <!--
+        关于VueComponent：
+            - school组件本质上是一个名为VueComponent的构造函数，且不是程序员定义的，是Vue.extend生成的
+            - 我们只需要写<school></school>或<school/>，Vue解析时会帮我们创建school组件的实例对象，即Vue帮我们执行的new VueComponent(options)
+            - 特别注意：每次调用Vue.extend(options)，返回的都是一个全新的VueComponent
+            - 关于this指向：
+                1. 组件配置中
+                    data函数、methods中的函数、watch中的函数、computed中的函数，它们的this均是【VueComponent实例对象】
+                2. new Vue()配置中
+                    data函数、methods中的函数、watch中的函数、computed中的函数，它们的this均是【Vue实例对象】
+            - VueComponent的实例对象，以后简称vc（也可称之为：组件实例对象）,Vue的实例对象，以后简称vm
+        一个重要的内置关系：
+            VueComponent.prototype.__proto__ === Vue.prototype
+         为什么要有这个关系?
+            让组件实例对象（vc）可以访问到Vue原型上的属性、方法
+     -->
+    <div id="root">
+        <button @click="showInfo">点我提示学生姓名</button>
+        <hello></hello>
+        <school></school>
+    </div>
+    <script>
+        Vue.config.productionTip = false
+
+        // 向Vue的原型对象上添加属性和方法
+        Vue.prototype.x = 99
+        Vue.prototype.sayHello = function () {
+            console.log('hello')
+        }
+
+        // 创建school组件
+        const school = Vue.extend({
+            name: 'school',
+            template: `
+                <div>
+                    <h2>学校名称：{{name}}</h2>
+                    <h2>学校地址：{{address}}</h2>
+                    <button @click="showInfo">点我提示学校名</button>
+                </div>
+            `,
+            data() {
+                return {
+                    name: '尚硅谷',
+                    address: '北京'
+                }
+            },
+            methods: {
+                showInfo() {
+                    console.log(this) // 这里的this是VueComponent实例对象（vc）
+                    alert(this.name)
+                }
+            },
+        })
+
+        // 创建hello组件
+        const hello = Vue.extend({
+            name: 'hello',
+            template: `
+                <div>
+                    <h1>{{msg}}</h1>
+                    <button @click="showInfo">点我显示x</button>
+                </div>
+            `,
+            data() {
+                return {
+                    msg: '你好啊！'
+                }
+            },
+            methods: {
+                showInfo() {
+                    console.log(this.x) // 99
+                    this.sayHello() // hello
+                }
+            }
+        })
+
+        console.log(school) // VueComponent(){}
+        console.log(hello) // VueComponent(){}
+        console.log(school === hello) // false
+
+        //创建vm
+        const vm = new Vue({
+            el: '#root',
+            components: {
+                school,
+                hello
+            },
+            data: {
+                name: '张三'
+            },
+            methods: {
+                showInfo() {
+                    console.log(this) // 这里的this是Vue实例对象（vm）
+                    alert(this.name)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

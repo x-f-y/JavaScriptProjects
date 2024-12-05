@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            /**
+             * ctx.translate(x, y)
+             * ctx.rotate(angle)
+             * ctx.scale(x, y)
+             * 备注：位移、旋转和缩放都是相对于坐标系而言的
+             */
+
+            // 位移
+            ctx.translate(50, 50)
+            ctx.fillRect(0, 0, 100, 100)
+
+            // 旋转
+            ctx.setTransform(1, 0, 0, 1, 0, 0) // 重置变换矩阵
+            ctx.rotate(Math.PI / 4)
+            ctx.fillRect(200, 100, 100, 30)
+
+            // 缩放
+            ctx.setTransform(1, 0, 0, 1, 0, 0) // 重置变换矩阵
+            ctx.scale(4, 2)
+            ctx.fillRect(50, 100, 50, 100)
+        }
+    </script>
+</body>
+</html>

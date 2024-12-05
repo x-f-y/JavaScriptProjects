@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#box1 {
+				width: 50px;
+				height: 50px;
+				top: 200px;
+				left: 200px;
+				background-color: red;
+				position: absolute;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				//获取div
+				var box1 = document.getElementById("box1");
+				//创建一个变量来保存div移动的方向
+				//可以通过修改dir来控制div移动的方向
+				var dir = 0;
+				//定义一个变量来保存div移动的速度
+				var speed = 1;
+				//开启一个定时器来控制div的移动
+				setInterval(function() {
+					//各按键的keyCode	上38 下40 左37 右39
+					switch (dir) {
+						case 38:
+							box1.style.top = box1.offsetTop - speed + "px";
+							break;
+						case 40:
+							box1.style.top = box1.offsetTop + speed + "px";
+							break;
+						case 37:
+							box1.style.left = box1.offsetLeft - speed + "px";
+							break;
+						case 39:
+							box1.style.left = box1.offsetLeft + speed + "px";
+							break;
+						default:
+							break;
+					}
+				}, 1);
+				
+				//给document绑定onkeydown事件
+				document.onkeydown = function(event) {
+					//处理兼容性
+					event = event || window.event;
+					//当用户按了ctrl键后加快移动速度
+					if (event.ctrlKey) {
+						speed = 3;
+					}
+					//使dir等于按键的keyCode
+					dir = event.keyCode;
+					//松开按键时div不再移动
+					document.onkeyup = function(){
+						dir = 0;
+						speed = 1;
+					}
+				};
+			};
+		</script>
+	</head>
+	<body>
+		<div id="box1"></div>
+	</body>
+</html>

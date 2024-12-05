@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../reset.css">
+    <style>
+        .red {
+            color: red;
+            background-color: darkred;
+        }
+        .big {
+            font-size: 5em;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        CSS样式书写位置：
+            1. 内部样式表，书写在style元素中
+            2. 内联样式表（元素样式表），直接书写在元素的style属性中
+            3. 外部样式表，将样式书写到独立的CSS文件中【推荐】，然后使用link标签引入。好处如下：
+                - 外部样式可以解决多页面样式重复的问题
+                - 有利于浏览器缓存，从而提高页面响应速度
+                - 有利于代码分离（HTML和CSS），更容易阅读和维护
+            4. 备注：style标签和link标签通常放在head标签内部
+     -->
+    <h2 class="red big">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque, porro.</h2>
+    <p style="text-align: center; font-size: 3em;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum recusandae dolor officia quos debitis nam quidem voluptates commodi nobis aspernatur?</p>
+</body>
+</html>

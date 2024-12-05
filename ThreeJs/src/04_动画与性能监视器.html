@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>04_动画与性能监视器</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import Stats from "three/addons/libs/stats.module.js";
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const geometry = new THREE.BoxGeometry(4, 4, 4);
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x008c8c,
+            transparent: true,
+            opacity: 0.7
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(0, 0, 0);
+        scene.add(mesh);
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        // 创建性能监视器
+        const stats = new Stats();
+        // 设置监视器面板显示的模式，传入id（0：fps，1：ms，2：mb）（在页面上点击监视器可切换模式）
+        stats.setMode(1);
+        // 将监视器添加到页面中
+        document.body.appendChild(stats.domElement);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(canvasWidth, canvasHeight);
+        container.appendChild(renderer.domElement);
+
+        // 给物体添加旋转动画
+        requestAnimationFrame(function animate(){
+            // 方式一：通过修改欧拉角属性来实现旋转
+            /*mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.01;
+            mesh.rotation.z += 0.01;*/
+            // 方式二：通过调用内置的旋转方法来实现旋转
+            mesh.rotateX(0.01); // 注意参数使用的是弧度制，而不是角度制
+            mesh.rotateY(0.01);
+            mesh.rotateZ(0.01);
+            stats.update(); // 更新帧率
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        });
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+    </script>
+</body>
+</html>

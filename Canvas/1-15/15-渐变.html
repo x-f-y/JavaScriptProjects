@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="700">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        /**
+         * 渐变主要分为线性渐变和径向渐变两种，在绘图中我们可以用线性或者径向的渐变来填充或者描边，常用api如下：
+         *  1. ctx.createLinearGradient(x0, y0, x1, y1) 创建一个线性渐变
+         *      备注：参数为渐变线段的开始坐标和结束坐标
+         *  2. ctx.createRadialGradient(x0, y0, r0, x1, y1, r1) 创建一个径向渐变
+         *      备注：参数为开始圆的坐标、半径和结束圆的坐标、半径
+         *  3. 注意：上述两个方法返回一个CanvasGradient对象，想要应用这个渐变，需要把这个返回值赋值给fillStyle或者strokeStyle
+         *  4. gradient.addColorStop(offset, color) 该方法添加一个由偏移值和颜色值指定的断点到渐变
+         */
+
+        // 创建线性渐变
+        const gradient1 = ctx.createLinearGradient(20, 20, 420, 130)
+        gradient1.addColorStop(0, 'red')
+        gradient1.addColorStop(0.5, 'green')
+        gradient1.addColorStop(1, 'blue')
+
+        // 创建径向渐变
+        const gradient2 = ctx.createRadialGradient(140, 205, 12, 200, 265, 120)
+        gradient2.addColorStop(0, '#ffcccc')
+        gradient2.addColorStop(1, 'red')
+
+        // 应用线性渐变
+        ctx.fillStyle = gradient1
+        ctx.fillRect(20, 20, 400, 110)
+
+        // 应用径向渐变
+        ctx.beginPath()
+        ctx.fillStyle = gradient2
+        ctx.arc(200, 265, 120, 0, Math.PI * 2, false)
+        ctx.fill()
+
+        // 创建线性渐变
+        const gradient3 = ctx.createLinearGradient(50, 430, 450, 430)
+        gradient3.addColorStop(0, 'red')
+        gradient3.addColorStop(0.25, 'yellow')
+        gradient3.addColorStop(0.5, 'pink')
+        gradient3.addColorStop(0.75, 'green')
+        gradient3.addColorStop(1, 'blue')
+
+        // 应用线性渐变
+        ctx.font = '80px 楷体'
+        ctx.textAlign = 'left'
+        ctx.textBaseline = 'middle'
+        ctx.strokeStyle = gradient3
+        ctx.strokeText('hello canvas', 50, 430, 400)
+
+        /**
+         * 另一种不常用的渐变，圆锥渐变
+         *  ctx.createConicGradient(startAngle, x, y)
+         *  其中startAngle是开始渐变的弧度，x和y是渐变中心点的坐标
+         */
+
+        // 创建圆锥渐变
+        const gradient4 = ctx.createConicGradient(Math.PI / 2, 200, 580)
+        gradient4.addColorStop(0, "red");
+        gradient4.addColorStop(0.25, "orange");
+        gradient4.addColorStop(0.5, "yellow");
+        gradient4.addColorStop(0.75, "green");
+        gradient4.addColorStop(1, "blue");
+
+        // 应用圆锥渐变
+        ctx.beginPath()
+        ctx.fillStyle = gradient4
+        ctx.arc(200, 580, 90, 0, Math.PI * 2)
+        ctx.fill()
+    </script>
+</body>
+</html>

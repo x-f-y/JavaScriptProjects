@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        canvas {
+            display: block;
+            box-sizing: border-box;
+            margin: 0 auto;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        canvas.width = document.documentElement.clientWidth - 5
+        canvas.height = document.documentElement.clientHeight - 5
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            class Ball{
+                constructor(x, y) {
+                    this.x = x
+                    this.y = y
+                    this.r = 30
+                    this.color = '#' + Math.random().toString(16).padEnd(9, '0').substring(2, 8)
+                }
+                draw(){
+                    ctx.beginPath()
+                    ctx.fillStyle = this.color
+                    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false)
+                    ctx.fill()
+                }
+            }
+
+            const ballArr = []
+
+            document.onmousemove = function(e){
+                // 鼠标移动时创建小球
+                ballArr.push(new Ball(e.pageX, e.pageY))
+            }
+
+            requestAnimationFrame(function fn(){
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                for(let i = 0; i < ballArr.length; i++){
+                    if(ballArr[i].r <= 0){
+                        // 半径减为0时销毁小球
+                        ballArr.splice(i, 1)
+                    }else{
+                        ballArr[i].draw()
+                        ballArr[i].r--
+                    }
+
+                }
+                requestAnimationFrame(fn)
+            })
+        }
+    </script>
+</body>
+</html>

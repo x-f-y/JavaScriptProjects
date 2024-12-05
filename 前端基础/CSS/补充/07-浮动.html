@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 500px;
+            height: 400px;
+            background-color: lightblue;
+        }
+        .container div {
+            height: 100px;
+            background-color: red;
+        }
+        .left {
+            float: left;
+        }
+        .right {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        包含块
+            与常规流一致，大多数情况下，包含块就是这个元素最近的祖先块级元素的内容区
+     -->
+
+    <!-- 
+        浮动的视觉格式化模型（排列方式）
+            规则一：任意元素都可以浮动，浮动之后一律为块盒（display属性为block）
+            规则二：关于auto值
+                1. width和height取值为auto，表示适应内容的宽度和高度
+                2. margin（margin-top/right/bottom/left）取值为auto，表示四个方向上的外边距为0
+            规则三：关于百分比（与常规流一致）
+     -->
+
+    <div class="container">
+        <div class="left">
+            Lorem ipsum dolor sit amet.
+        </div>
+        <div class="right">
+            Lorem, ipsum dolor.
+        </div>
+    </div>
+</body>
+</html>

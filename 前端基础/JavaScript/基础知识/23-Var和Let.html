@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/**
+			 * ES6新增let命令，用来声明变量。let的用法和var有以下几点区别：
+			 * 	1. 浏览器的预解析策略不同	浏览器在运行代码之前会预解析，首先解析函数声明，变量定义，解析完后再对函数变量进行运算、赋值等。
+			 * 		对于var变量，无论var变量处于当前作用域的第几行，都将var变量提升到作用域的头部并初始化为undefine。
+			 * 		对于let变量，let变量也被提升到当前作用域的头部，但不初始化。
+			 * 	2. 声明后未赋值，表现相同
+			 * 	3. 使用未声明的变量，表现不同
+			 * 	4. 重复声明同一个变量时，表现不同
+			 * 	5. 变量作用范围，表现不同
+			 */
+
+			/* var varT;
+			let letT;
+			console.log(varT); //输出undefined
+			console.log(letT); //输出undefined */
+
+			/* console.log(varT); //输出undefined
+			console.log(letT); //直接报错：ReferenceError: letT is not defined
+			var varT = 'test var OK.';
+			let letT = 'test let OK.'; */
+
+			/* var varT = 'test var OK.';
+			let letT = 'test let OK.';
+			var varT = 'varT changed.';
+			//let letT = 'letT changed.'; //直接报错：SyntaxError: Identifier 'letT' has already been declared
+			console.log(varT); //输出varT changed.
+			console.log(letT); //输出test let OK. */
+
+			/* var varT = 'test var OK.';
+			let letT = 'test let OK.';
+			{
+				var varT = 'varT changed.';
+				let letT = 'letT changed.';
+			}
+			console.log(varT); //输出"varT changed."，内部"{}"中声明的varT变量覆盖外部的varT声明
+			console.log(letT); //输出"test let OK."，内部"{}"中声明的letT和外部的letT不是同一个变量 */
+
+			/**
+			 * 使用let语句声明一个变量，该变量的范围限于声明它的代码块中，可以在声明变量时为变量赋值，
+			 * 	也可以稍后在脚本中给变量赋值。使用let声明的变量，在声明前无法使用，否则将会导致错误，
+			 * 	如果未在let语句中初始化您的变量，则将自动为其分配JavaScript值undefined
+			 */
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

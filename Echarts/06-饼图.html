@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/echarts.min.js"></script>
+</head>
+<body>
+    <div id="echarts" style="width: 600px; height: 400px"></div>
+    <script>
+        const myChart = echarts.init(document.querySelector('#echarts'));
+        const pieData = [
+            {name: '淘宝', value: 11231},
+            {name: '京东', value: 22673},
+            {name: '唯品会', value: 6123},
+            {name: '1号店', value: 8989},
+            {name: '聚美优品', value: 6700},
+        ];
+        const option = {
+            series: [
+                {
+                    type: 'pie', // 饼图
+                    data: pieData,
+                    label: {
+                        show: true, // 显示标签
+                        formatter: arg => arg.name + '平台' + arg.value + '元\n' + arg.percent + '%' // 自定义标签的内容
+                    },
+                    // radius: 80, // 外半径为80px
+                    radius: '80%', // 外半径为可视区（容器高宽中较小一项）尺寸的80%长度    min(600px,400px)/2 * 80% = 160px
+                    // radius: ['50%', '75%'], // 内半径为 min(600px,400px)/2 * 50% = 100px，外半径为 min(600px,400px)/2 * 75% = 150px
+                    // roseType: 'area', // 南丁格尔图，所有扇区圆心角相同
+                    roseType: 'radius', // 南丁格尔图，扇区圆心角根据数据所占的百分比决定
+                    selectedMode: 'single', // 单选模式
+                    // selectedMode: 'multiple', // 多选模式
+                    selectedOffset: 30 // 选中扇区的偏移距离
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        /**
+         * 画文字相关api
+         *  1. ctx.strokeText(text, x, y [, maxWidth]) 在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的
+         *  2. ctx.fillText(text, x, y, [maxWidth]) 在指定的(x,y)位置填充指定的文本，绘制的最大宽度是可选的
+         *  3. ctx.font = value 指定用来绘制文本的样式，这个字符串采取和CSS font属性相同的语法，默认的字体是'10px sans-serif'
+         *  4. ctx.textAlign = value 文本对齐选项，可选值有：start、end、left、right、center，默认值是start
+         *  5. ctx.textBaseline = value 基线对齐选项，可选值有：top、hanging、middle、alphabetic、ideographic、bottom，
+         *  默认值是alphabetic
+         *  6. ctx.direction = value 控制文本方向，可选值有：ltr、rtl、inherit，默认值是inherit
+         *      备注：direction属性会对textAlign属性产生影响。如果direction属性设置为ltr，则textAlign属性的left和start效果相同，
+         *      right和end的效果相同；如果direction属性设置为rtl，则textAlign属性的left和end效果相同，right和start效果相同
+         *  7. ctx.measureText(text) 返回一个关于被测量文本对象包含的信息（例如它的宽度）
+         */
+
+        // 辅助线
+        ctx.beginPath()
+        ctx.moveTo(250, 0)
+        ctx.lineTo(250, 500)
+        ctx.moveTo(0, 250)
+        ctx.lineTo(500, 250)
+        ctx.stroke()
+
+        ctx.font = 'italic bold 48px serif'
+        ctx.direction = 'ltr'
+        ctx.strokeStyle = 'gold'
+        ctx.strokeText('hi canvas', 0, 100)
+        ctx.direction = 'rtl'
+        ctx.fillStyle = 'skyblue'
+        ctx.fillText('hi canvas', 250, 400, 100)
+
+        ctx.font = '50px sans-serif'
+        ctx.direction = 'ltr'
+        // ctx.direction = 'rtl'
+        ctx.fillStyle = 'pink'
+        // ctx.textAlign = 'start'
+        // ctx.textAlign = 'left'
+        // ctx.textAlign = 'end'
+        // ctx.textAlign = 'right'
+        ctx.textAlign = 'center'
+        // ctx.textBaseline = 'top'
+        // ctx.textBaseline = 'bottom'
+        ctx.textBaseline = 'middle'
+
+        // 预测量文本的宽度
+        const text = ctx.measureText('hello')
+        console.log(text.width) // 117.5537109375
+        ctx.fillText('hello', 250, 250)
+    </script>
+</body>
+</html>

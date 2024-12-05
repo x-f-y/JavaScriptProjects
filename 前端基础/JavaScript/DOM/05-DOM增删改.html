@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div></div>
+	<p></p>
+	<section>
+		<span>hello</span>
+		<span>hi</span>
+		<span>good</span>
+	</section>
+  <main>
+    <span>hello</span>
+    <span>hi</span>
+  </main>
+	<script>
+		/**
+		 * 创建节点：
+		 * 	document.createElement(tagName)
+		 * 	document.createAttribute(attrName)
+		 * 	document.createTextNode(text)
+		 * 	document.createComment(comment)
+		 * 	document.createDocumentFragment() 创建文档碎片节点
+		 * 插入节点：
+		 * 	parentNode.appendChild(node)
+		 * 		备注：如果被插入的节点已经存在于当前文档的文档树中，那么该方法会将它从原先的位置移动到新的位置（剪切）
+		 * 	parentNode.insertBefore(aNode, bNode) 记忆法：parentNode insert aNode before bNode
+     *  element.insertAdjacentElement(position, element)  将一个给定的元素节点插入到相对于当前元素的指定位置
+     *  element.insertAdjacentHTML(position, text)  将指定的文本解析为 Element 元素，并将结果节点插入到 DOM 树中的指定位置
+     *    备注：insertAdjacentElement()方法与insertAdjacentHTML()方法中参数position的取值：
+     *      - 'beforebegin'：元素自身的前面
+     *      - 'afterbegin'：插入元素内部的第一个子节点之前
+     *      - 'beforeend'：插入元素内部的最后一个子节点之后
+     *      - 'afterend'：元素自身的后面
+		 * 删除节点：
+		 * 	parentNode.removeChild(node)
+		 * 	node.remove()
+		 * 修改节点：
+		 * 	parentNode.replaceChild(newNode, oldNode)
+		 */ 
+
+		var div = document.getElementsByTagName('div')[0]
+		var p = document.getElementsByTagName('p')[0]
+		var spans = document.getElementsByTagName('span')
+		var firstSpan = spans[0]
+		var secondSpan = spans[1]
+		var thirdSpan = spans[2]
+
+		// 为元素节点添加属性的第一种方式（常用）
+		div.title = 'hello'
+		// 为元素节点添加属性的第二种方式（常用）
+		div.setAttribute('id', 'abc')
+		// 为元素节点添加属性的第三种方式（不常用）
+		var attrNode = document.createAttribute('abc')
+		attrNode.value = '123'
+		div.setAttributeNode(attrNode)
+
+		// 为元素节点添加文本的第一种方式（常用）
+		div.textContent = 'hello' // innerText和innerHTML也可以
+		// 为元素节点添加文本的第二种方式（不常用）
+		var textNode = document.createTextNode('今天天气不错')
+		p.appendChild(textNode)
+
+		// 删除节点的第一种方式（常用）
+		firstSpan.parentNode.removeChild(firstSpan)
+		// 删除节点的第二种方式（不常用）
+		var section = document.getElementsByTagName('section')[0]
+		section.removeChild(secondSpan)
+		// 删除节点的第三种方式（常用）
+		thirdSpan.remove()
+
+		// 演示createComment()方法的使用
+		var comment = document.createComment('this is a comment')
+		document.body.insertBefore(comment, div)
+
+		// 演示replaceChild()方法的使用
+		var footer = document.createElement('footer')
+		document.body.replaceChild(footer, section)
+
+    // 演示insertAdjacentElement()方法的使用
+    const main = document.querySelector('main');
+    const span = document.createElement('span');
+    span.textContent = 'hello world';
+    const strong = document.createElement('strong');
+    strong.textContent = 'strong';
+    main.insertAdjacentElement('afterbegin', span);
+    main.insertAdjacentElement('afterend', strong);
+
+    // 演示insertAdjacentHTML()方法的使用
+    main.insertAdjacentHTML('beforebegin', '<i id="one">hello</i>');
+    main.insertAdjacentHTML('beforeend', '<em id="two">hi</em>');
+	</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        function initVertexBuffers(gl){
+            const n = 3; // 顶点个数
+            const vertices = new Float32Array([0.0, 0.5, -0.5, -0.5, 0.5, -0.5]); // 各个顶点的（x,y）坐标
+            // 创建缓冲区对象
+            const vertexBuffer = gl.createBuffer();
+            // 将缓冲区对象绑定到目标
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+            // 向缓冲区对象中写入数据
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+            // 获取attribute变量的存储位置
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            // 将缓冲区对象分配给attribute变量
+            gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+            // 开启attribute变量
+            gl.enableVertexAttribArray(a_Position);
+            return n;
+        }
+
+        // 顶点着色器
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            uniform mat4 u_xformMatrix; // 旋转变换矩阵
+            void main(){
+                gl_Position = u_xformMatrix * a_Position;
+            }
+        `;
+
+        // 片元着色器
+        const FSHADER_SOURCE = `
+            void main(){
+                gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+            }
+        `;
+
+        const canvas = document.getElementById('canvas');
+        const gl = canvas.getContext('webgl');
+        initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+        // 设置顶点信息
+        const n = initVertexBuffers(gl);
+        const angle = 123.0; // 绕z轴旋转角度
+        // 为旋转矩阵创建Matrix4对象
+        const xformMatrix = new Matrix4();
+        /**
+         * Matrix4对象所支持的方法和属性：
+         *  方法和属性名称                     描述
+         *  Matrix4.setIdentify()           将Matrix4实例初始化为单位阵
+         *  Matrix4.setTranslate(x,y,z)     将Matrix4实例设置为平移变换矩阵
+         *  Matrix4.setRotate(angle,x,y,z)  将Matrix4实例设置为旋转变换矩阵，旋转的角度为angle（角度制而非弧度制），旋转轴为
+         *                                  (x,y,z)，旋转轴(x,y,z)无须归一化
+         *  Matrix4.setScale(x,y,z)         将Matrix4实例设置为缩放变换矩阵
+         *  Matrix4.translate(x,y,z)        将Matrix4实例乘以一个平移变换矩阵，所得的结果还存储在Matrix4中
+         *  Matrix4.rotate(angle,x,y,z)     将Matrix4实例乘以一个旋转变换矩阵（旋转的角度为angle（角度制而非弧度制），旋转轴为
+         *                                  (x,y,z)，旋转轴(x,y,z)无须归一化），所得的结果还存储在Matrix4中
+         *  Matrix4.scale(x,y,z)            将Matrix4实例乘以一个缩放变换矩阵，所得的结果还存储在Matrix4中
+         *  Matrix4.set(m)                  将Matrix4实例设置为m，m必须也是一个Matrix实例
+         *  Matrix4.elements                包含了Matrix4实例的矩阵元素的类型化数组（Float32Array）
+         */
+        // 将xformMatrix设置为旋转矩阵
+        xformMatrix.setRotate(angle, 0, 0, 1);
+        // 获取u_xformMatrix变量的存储位置
+        const u_xformMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix');
+        // 将旋转矩阵传输给顶点着色器
+        gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix.elements);
+
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, n);
+    </script>
+</body>
+</html>

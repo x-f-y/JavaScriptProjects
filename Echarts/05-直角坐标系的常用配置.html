@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/echarts.min.js"></script>
+</head>
+<body>
+    <div id="echarts" style="width: 600px; height: 400px;"></div>
+    <script>
+        const myChart = echarts.init(document.querySelector('#echarts'));
+        const xDataArr = ['张三', '李四', '王五', '闰土', '小明', '茅台', '二妞', '大强'];
+        const yDataArr = [88, 92, 63, 77, 94, 80, 72, 86];
+        const option = {
+            // 1. 网格配置
+            grid: {
+                show: true,
+                borderWidth: 1,
+                borderColor: '#008c8c',
+                top: 80,
+                left: 80,
+                // width: 400,
+                // height: 250,
+            },
+            // 2. 坐标轴配置
+            xAxis: {
+                type: 'category', // 类目轴的数据需要通过data配置项来指定
+                data: xDataArr,
+                position: 'bottom' // 可选值：top、bottom
+            },
+            yAxis: {
+                type: 'value', // 数值轴的数据会自动从series.data中读取
+                position: 'left' // 可选值：left、right
+            },
+            // 3. 区域缩放配置
+            dataZoom: [
+                {
+                    type: 'slider', // 可选值：inside（内置型数据区域缩放组件）、slider（滑动条型数据区域缩放组件）
+                    xAxisIndex: 0 // 设置滑动条型组件控制的x轴，只有一个x轴的情况下设置为0
+                },
+                {
+                    type: 'slider',
+                    yAxisIndex: 0, // 设置滑动条型组件控制的y轴，只有一个y轴的情况下设置为0
+                    start: 0, // 数据窗口范围的起始百分比
+                    end: 80 // 数据窗口范围的结束百分比
+                }
+            ],
+            series: [
+                {
+                    name: '语文',
+                    type: 'bar',
+                    data: yDataArr,
+                    markPoint: {
+                        data: [
+                            {name: '最大值', type: 'max'},
+                            {name: '最小值', type: 'min'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {name: '平均值', type: 'average'}
+                        ]
+                    },
+                    label: {
+                        show: true,
+                        rotate: 60,
+                        position: 'top'
+                    },
+                    barWidth: '30%'
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

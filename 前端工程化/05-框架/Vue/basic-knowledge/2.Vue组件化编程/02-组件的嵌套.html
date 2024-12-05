@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../tools/vue.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script>
+        Vue.config.productionTip = false
+
+        // 创建student组件
+        const student = {
+            template: `
+                <div>
+                    <h2>学生姓名：{{name}}</h2>
+                    <h2>学生年龄：{{age}}</h2>
+                </div>
+            `,
+            data() {
+                return {
+                    name: '张三',
+                    age: 18
+                }
+            }
+        }
+
+        // 创建school组件
+        const school = {
+            template: `
+                <div>
+                    <h2>学校名称：{{name}}</h2>
+                    <h2>学校地址：{{address}}</h2>
+                    <student></student>
+                </div>
+            `,
+            data() {
+                return {
+                    name: '尚硅谷',
+                    address: '北京'
+                }
+            },
+            components: {
+                student
+            }
+        }
+
+        // 创建hello组件
+        const hello = {
+            template: `
+                <div>
+                    <h1>{{msg}}</h1>
+                </div>
+            `,
+            data() {
+                return {
+                    msg: '欢迎来到尚硅谷学习！'
+                }
+            }
+        }
+
+        // 创建app组件
+        const app = {
+            template: `
+                <div>
+                    <hello></hello>
+                    <school></school>
+                </div>
+            `,
+            components: {
+                hello,
+                school
+            }
+        }
+
+        // 创建vm
+        new Vue({
+            el: '#root',
+            template:`
+              <div>
+                <app></app>
+              </div>
+            `,
+            components: {
+                app
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 
+            媒体查询（Media Query）
+                - 语法：@media not|only mediatype and (expression){
+                            CSS-Code;
+                        }
+                - 语法解释：每条媒体查询语句都由一个可选的媒体类型和任意数量的媒体特性表达式构成。可以使用多种逻辑操作符合并多条
+                  媒体查询语句。媒体查询语句不区分大小写
+                - 语法构成：
+                    1. 媒体类型：
+                        - all 适用于所有设备，默认使用该值
+                        - print 适用于在打印预览模式下在屏幕上查看的分页材料和文档
+                        - screen 主要用于屏幕设备，例如电脑屏幕，平板电脑，智能手机等
+                        - speech 主要用于屏幕阅读器等发声设备
+                    2. 常用媒体特性：
+                        - width 定义输出设备中的页面可见区域宽度
+                        - min-width 定义输出设备中的页面最小可见区域宽度
+                        - max-width 定义输出设备中的页面最大可见区域宽度
+                        - height 定义输出设备中的页面可见区域高度
+                        - min-height 定义输出设备中的页面最小可见区域高度
+                        - max-height 定义输出设备中的页面最大可见区域高度
+                        - resolution 定义设备的分辨率。如：96dpi, 300dpi, 118dpcm
+                        - min-resolution 定义设备的最小分辨率
+                        - max-resolution 定义设备的最大分辨率
+                        - orientation 定义输出设备中的页面可见区域高度是否大于或等于宽度
+                        - 注意：每条媒体特性表达式都必须用括号括起来
+                    3. 逻辑操作符：
+                        - and 用于将多个媒体查询规则组合成单条媒体查询，当每个查询规则都为真时则该条媒体查询为真，它还用于将媒体功能
+                          与媒体类型结合在一起
+                        - not 用于否定媒体查询，如果出现在以逗号分隔的查询列表中，它将仅否定应用了该查询的特定查询。使用该运算符时
+                          必须指定媒体类型
+                        - only 仅在整个查询匹配时才用于应用样式，并且对于防止较早的浏览器应用所选样式很有用。当不使用only时，旧版本
+                          的浏览器会将screen and (max-width: 500px)简单地解释为screen，忽略查询的其余部分，并将其样式应用于所有屏幕。
+                          如果使用only运算符，则还必须指定媒体类型。only关键字可防止不支持带有媒体功能的媒体查询的旧版浏览器应用给定
+                          的样式。 它对现代浏览器没有影响
+                        - ,（逗号） 用于将多个媒体查询合并为一个规则，逗号分隔列表中的每个查询都与其他查询分开处理，列表的行为类似于
+                          逻辑或or运算符
+                - 语法实例：
+                    - @media speech, (expression1), screen and (expression2), print and (expression3) and (expression4) { ... }
+                    - @media not all and (expression1) { ... }
+                        - 以上媒体查询等价于@media not (all and (expression1)) { ... }
+                    - @media not screen and (expression1), print and (expression2) { ... }
+                        - 以上媒体查询等价于@media (not (screen and (expression1))), print and (expression2) { ... }
+                    - @media screen and (expression1), not print and (expression2), speech and (expression3) { ... }
+                        - 以上媒体查询等价于@media screen and (expression1), (not (print and (expression2))), speech and (expression3) { ... }
+                - 习惯：媒体查询一般从小到大写，因为这样可以利用CSS层叠性来缩减代码
+         */
+
+        /* 屏幕宽度小于540px时，显示蓝色 */
+        @media screen and (max-width: 539px) {
+            body {
+                background-color: blue;
+            }
+        }
+        /* 屏幕宽度在[540,980)范围内时，显示绿色 */
+        /* @media screen and (min-width: 540px) and (max-width: 979px) {
+            body {
+                background-color: green;
+            }
+        } */
+        /* 利用CSS层叠性缩减代码 */
+        @media screen and (min-width: 540px) {
+            body {
+                background-color: green;
+            }
+        }
+        /* 屏幕宽度大于等于980px时，显示红色 */
+        @media screen and (min-width: 980px) {
+            body {
+                background-color: red;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+</html>

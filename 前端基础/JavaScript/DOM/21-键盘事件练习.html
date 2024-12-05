@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#box1 {
+				width: 100px;
+				height: 100px;
+				top: 200px;
+				left: 200px;
+				background-color: red;
+				position: absolute;
+			}
+		</style>
+		<script type="text/javascript">
+			/**
+			 * bug:如果一致按着方向键不松手，则div会一直移动，但是当按下按键开始第一次移动时，到第二次移动会间隔一段时间，即卡顿
+			 * 	具体优化方案见BOM/div移动练习
+			 */
+			window.onload = function() {
+				/**
+				 * 使div可以根据不同的方向键向不同的方向移动
+				 */
+				//获取div
+				var box1 = document.getElementById("box1");
+				//给document绑定onkeydown事件
+				document.onkeydown = function(event) {
+					//处理兼容性
+					event = event || window.event;
+					//定义一个变量来保存移动的速度
+					var speed = 10;
+					//当用户按了ctrl键后加快移动速度
+					if(event.ctrlKey){
+						speed = 60;
+					}
+					//各按键的keyCode	上38 下40 左37 右39
+					switch (event.keyCode) {
+						case 38:
+							box1.style.top = box1.offsetTop - speed + "px";
+							break;
+						case 40:
+							box1.style.top = box1.offsetTop + speed + "px";
+							break;
+						case 37:
+							box1.style.left = box1.offsetLeft - speed + "px";
+							break;
+						case 39:
+							box1.style.left = box1.offsetLeft + speed + "px";
+							break;
+						default:
+							break;
+					}
+				};
+			};
+		</script>
+	</head>
+	<body>
+		<div id="box1"></div>
+	</body>
+</html>

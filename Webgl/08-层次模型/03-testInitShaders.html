@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./initShaders.js"></script>
+</head>
+<body onload = main()>
+    <canvas id="canvas" width="400" height="400">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const VSHADER_SOURCE = `
+            attribute vec4 a_Position;
+            void main(){
+                gl_Position = a_Position;
+                gl_PointSize = 10.0;
+            }
+        `;
+
+        const FSHADER_SOURCE = `
+            precision mediump float;
+            uniform vec4 u_FragColor;
+            void main(){
+                gl_FragColor = u_FragColor;
+            }
+        `;
+
+        function main(){
+            const canvas = document.getElementById('canvas');
+            const gl = canvas.getContext('webgl');
+            /**
+             * initShaders()函数的作用是：编译GLSL ES代码，创建和初始化着色器供WebGL使用。具体地，分为以下7个步骤：
+             *  1. 创建着色器对象  gl.createShader()
+             *  2. 向着色器对象中填充着色器程序的源代码  gl.shaderSource()
+             *  3. 编译着色器  gl.compileShader()
+             *  4. 创建程序对象  gl.createProgram()
+             *  5. 为程序对象分配着色器  gl.attachShader()
+             *  6. 连接程序对象  gl.linkProgram()
+             *  7. 使用程序对象  gl.useProgram()
+             * 备注：
+             *  - 着色器对象：着色器对象管理一个顶点着色器或一个片元着色器。每一个着色器都有一个着色器对象
+             *  - 程序对象：程序对象是管理着色器对象的容器。WebGL中，一个程序对象必须包含一个顶点着色器和一个片元着色器
+             */
+            initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+            const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+            const u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
+            gl.vertexAttrib4f(a_Position, 0.0, 0.0, 0.0, 1.0);
+            gl.uniform4f(u_FragColor, 1.0, 0.0, 0.0, 1.0);
+
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.POINTS, 0, 1);
+        }
+    </script>
+</body>
+</html>

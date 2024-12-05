@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 
+            定位=定位模式（position）+边偏移（top、right、bottom、left）
+            position=static（静态定位）|fixed（固定定位）|relative（相对定位）|absolute（绝对定位）|粘性定位（sticky）
+         */
+        /* 
+            - static 静态定位（默认值）
+                - 静态定位按照标准流特性摆放位置，没有边偏移
+                - 在布局时很少用到
+            - relative 相对定位
+                - 相对定位是相对于自己原来的位置移动的
+                - 原来在标准流的位置继续占有，后面的盒子仍然以标准流的方式对待它（不脱标）
+            - absolute 绝对定位
+                - 绝对定位是相对于它的祖先元素来说的，如果没有祖先元素或者祖先元素没有定位，则以浏览器为准定位（Document文档）
+                - 如果祖先元素有定位（relative、absolute、fixed、sticky），则以最近一级的有定位的祖先元素为参考点移动位置
+                - 绝对定位不再占有原来的位置（脱标）
+            - fixed 固定定位
+                - 固定定位是以浏览器的可视窗口为参考点移动元素的
+                - 不随滚动条滚动
+                - 固定定位不占有原先的位置（脱标）
+                - 小技巧：固定在版心右侧位置
+                    - 1、先让固定定位的盒子left=50%，向右移动浏览器可视窗口的一半
+                    - 2、再让margin-left=版心宽度的一半，盒子向右移动版心宽度的一半，就可以让该盒子贴着版心右侧对齐了
+            - sticky 粘性定位（可以认为是相对定位和固定定位的混合）
+                - 以浏览器的可视窗口为参照点移动元素（固定定位特点）
+                - 粘性定位占有原先的位置（不脱标）（相对定位特点）
+                - 必须指定top、left、right、bottom4个值之一
+         */
+        /* 子绝父相（子元素使用绝对定位，不占有位置，父元素使用相对定位，占有位置） */
+        body {
+            height: 1500px;
+        }
+
+        /* 版心 */
+        .heart {
+            width: 1200px;
+            height: 100%;
+            margin: 0 auto;
+            background-color: #bfa;
+        }
+
+        .box1 {
+            position: relative;
+            top: 80px;
+            left: 50px;
+            width: 100px;
+            height: 100px;
+            border: 2px solid pink;
+        }
+
+        .box2 {
+            width: 100px;
+            height: 100px;
+            border: 2px solid blue;
+        }
+
+        .father {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            padding: 20px;
+            border: 3px solid yellowgreen;
+        }
+
+        .son {
+            position: absolute;
+            left: 50px;
+            top: 50px;
+            width: 100px;
+            height: 100px;
+            border: 2px solid red;
+        }
+
+        .box3 {
+            width: 100px;
+            height: 100px;
+            border: 3px solid yellow;
+        }
+
+        img {
+            position: fixed;
+            top: 300px;
+            left: 120px;
+        }
+
+        .box4 {
+            position: fixed;
+            top: 150px;
+            left: 50%;
+            margin-left: 604px;
+            width: 80px;
+            height: 100px;
+            background-color: gray;
+        }
+		
+		.box5 {
+			position: sticky;
+			bottom: 100px;
+			width: 100%;
+			height: 30px;
+			background-color: orange;
+		}
+		
+		.box6 {
+			position: sticky;
+			bottom: 200px;
+			width: 100%;
+			height: 40px;
+			background-color: orangered;
+		}
+    </style>
+</head>
+
+<body>
+    <div class="heart">
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="father">
+            <div class="son"></div>
+            <div class="box3"></div>
+        </div>
+        <div>
+            <img src="../images/pvp.png" alt="">
+        </div>
+		<!-- 粘性定位 -->
+		<div class="box6"></div>
+    </div>
+    <div class="box4"></div>
+	<!-- 粘性定位 -->
+	<div class="box5"></div>
+	<div style="height: 300px;"></div>
+</body>
+
+</html>

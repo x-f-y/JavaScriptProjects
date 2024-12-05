@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        CSS三大特性
+        - 层叠（覆盖）  后面的规则会覆盖前面的规则
+        - 继承  常见的可以继承的属性如下：
+            1. 字体系列属性
+                - font-family
+                - font-weight
+                - font-size
+                - font-style
+            2. 文本系列属性
+                - text-indent
+                - text-align
+                - line-height
+                - color
+                - text-transform
+                - word-spacing
+                - letter-spacing 设置文字间隙
+            3. 列表布局属性 
+                - list-style-type
+                - list-style-image
+                - list-style-position
+            4. 元素可见性 visibility
+            5. 光标属性 cursor
+        - 优先级  !important>内联样式>id选择器>类选择器/[结构]伪类选择器/属性选择器>元素（标签）选择器/伪元素选择器>继承/通配符选择器（*） 
+     -->
+    <!-- 
+        各个选择器的权重：
+        继承/通配符选择器（*）                 0,0,0,0               0
+        元素（标签）选择器/伪元素选择器         0,0,0,1               1
+        类选择器/[结构]伪类选择器/属性选择器    0,0,1,0               10
+        id选择器                              0,1,0,0              100
+        内联样式                              1,0,0,0              1000
+        !important                              ∞                   ∞ 
+        
+        注意：上面所说的0和1指的是256进制，所以可以这样认为：虽然复合选择器有权重叠加，但几乎没有权重进位
+      -->
+    <!-- 
+        插语：浏览器对样式冲突的解决方案
+            1. 比较重要性 作者样式表中的!important样式 > 作者样式表中的普通样式 > 浏览器默认样式表中的样式
+            2. 比较特殊性 权重计算
+            3. 比较源次序 样式层叠（覆盖）
+     -->
+    <style>
+        body {
+            /* 这样写法最大的优势就是里面子元素可以根据自己文字大小自动调整行高 */
+            font: 12px/1.5 "Microsoft YaHei";
+            color: pink;
+        }
+
+        div {
+            /* 子元素继承了boby的行高1.5 所以当前div的行高就是16*1.5=24px */
+            font-size: 16px;
+        }
+
+        p {
+            /* 子元素继承了boby的行高1.5 所以当前div的行高就是14*1.5=21px */
+            font-size: 14px;
+        }
+
+        /* li没有指定文字大小，继承body的文字大小为12px，所以它的行高为12*1.5=18px */
+    </style>
+</head>
+
+<body>
+    <div>粉红色的回忆</div>
+    <p>粉红色的会议</p>
+    <ul>
+        <li>我没有指定文字大小</li>
+    </ul>
+    <!-- 注意：这里的超链接颜色是浏览器设置的默认蓝色 -->
+    <a href="#">这是一个链接</a>
+</body>
+
+</html>

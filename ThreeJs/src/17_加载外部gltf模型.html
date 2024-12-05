@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>17_加载外部gltf模型</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+        .process {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -100%);
+            width: 320px;
+            height: 36px;
+            border-radius: 18px;
+            border: 1px solid #bfa;
+        }
+        .process .per {
+            height: 100%;
+            text-align: center;
+            line-height: 36px;
+            background-color: #008c8c;
+            border-radius: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 600);
+        camera.position.set(-168, 175, -118); // 相机控件可视化调试获得的坐标
+        camera.lookAt(-4, -9, -8); // 相机控件可视化调试获得的坐标
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(-4, -9, -8);
+        controls.update();
+        controls.addEventListener('change', () => {
+            // console.log('camera.position', camera.position); // 辅助设置相机的位置
+            // console.log('controls.target', controls.target); // 辅助设置相机的观察点
+            renderer.render(scene, camera);
+        });
+
+        const axesHelper = new THREE.AxesHelper(100);
+        scene.add(axesHelper);
+
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.decay = 0;
+        pointLight.position.set(-168, 175, -118);
+        scene.add(pointLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(60, 90, 96);
+        scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        // 创建进度条
+        const process = document.createElement('div');
+        process.className = 'process';
+        const per = document.createElement('div');
+        per.className = 'per';
+        process.appendChild(per);
+        document.body.appendChild(process);
+
+        /**
+         * glTF文件以标准和二进制形式出现。这些有不同的扩展名：
+         *  - 标准 .gltf 文件未压缩，可能附带一个额外的 .bin 数据文件
+         *  - 二进制 .glb 文件将所有数据包含在一个文件中
+         */
+
+        // 加载模型
+        const gltfLoader = new GLTFLoader();
+        // .load()方法的第三个参数（是一个函数）会在模型的加载过程中被调用，第四个参数（是一个函数）会在模型加载失败后调用
+        gltfLoader.load('../resources/model/factory.gltf', gltf => {
+            // console.log(gltf); // 通常只需要用到gltf.animations、gltf.cameras、gltf.scene
+            scene.add(gltf.scene);
+            // 模型加载完成后隐藏进度条
+            process.style.setProperty('display', 'none');
+        }, xhr => {
+            // 计算模型加载进度
+            const loadProcess = xhr.loaded / xhr.total * 100;
+            // 更新进度条
+            per.style.setProperty('width', Math.round(loadProcess) + '%');
+            per.textContent = Math.round(loadProcess) + '%';
+        }, error => {
+            console.error('Failed to load model: ' + error.message);
+        });
+        /*gltfLoader.load('../resources/model/su7.glb', gltf => {
+            scene.add(gltf.scene);
+        });*/
+
+        requestAnimationFrame(function animate(){
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        });
+    </script>
+</body>
+</html>

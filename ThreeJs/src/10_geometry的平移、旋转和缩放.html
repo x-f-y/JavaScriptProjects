@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>10_geometry的平移、旋转和缩放</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const geometry = new THREE.PlaneGeometry(2, 2);
+
+        // geometry的平移、旋转和缩放实际上是在改变顶点的位置、法向量等属性（而对于mesh的平移、旋转和缩放实际上是在改变mesh对象的position、rotation和scale属性）
+        geometry.translate(1, 1, 1);
+        geometry.rotateX(Math.PI / 4);
+        geometry.rotateY(Math.PI / 4);
+        geometry.rotateZ(Math.PI / 4);
+        geometry.scale(2, 2, 1);
+        console.log(geometry.attributes.position, geometry.attributes.normal);
+        console.log(geometry.getAttribute('position'), geometry.getAttribute('normal'));
+
+        // 根据边界矩形将几何体居中
+        // geometry.center();
+
+        const material = new THREE.MeshLambertMaterial({
+            color: 'red',
+            side: THREE.DoubleSide
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.decay = 0;
+        pointLight.position.set(2.3, 4.0, 3.5);
+        scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.render(scene, camera);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+    </script>
+</body>
+</html>

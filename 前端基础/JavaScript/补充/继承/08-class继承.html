@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Father {
+            constructor(name) {
+                this.name = name
+                this.hobbies = ['game', 'basketball']
+            }
+            sayName(){
+                console.log('My name is ' + this.name + '.')
+            }
+        }
+
+        class Son extends Father {
+            constructor(name){
+                super(name)
+                this.age = 24
+            }
+            sayAge(){
+                console.log('I\'m ' + this.age + " years old.")
+            }
+        }
+
+        var son = new Son('joker')
+        console.log(son.age) // 24
+        son.sayAge() // I'm 24 years old.
+        console.log(son.name) // joker
+        son.sayName() // My name is joker.
+        console.log(son.constructor) // class Son extends Father { ... }
+    </script>
+</body>
+</html>

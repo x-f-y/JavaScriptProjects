@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			var json = '{"name":"孙悟空","age":18,"gender":"男"}';
+			/**
+			 * eval()函数
+			 * 	该函数可以用来执行一段字符串形式的JS代码，并将结果返回
+			 * 	如果使用eval()执行的字符串中含有{}，它会将{}当成是代码块，
+			 * 	如果不希望将其当成代码块解析，则需要在字符串前后加上()将其括起来
+			 */
+			// var str = 'alert("hello");';
+			// eval(str);
+			console.log(eval('('+json+')'))
+			/**
+			 * eval()这个函数的功能虽然很强大，但是在开发中尽量不要使用，一方面是因为它的执行
+			 * 	性能比较差，另一方面，它还具有安全隐患
+			 */
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let obj = {};
+        let str = "One";
+        obj.food = "apple";
+        obj["color" + str] = "red"; // 使用表达式作为属性名，必须使用方括号
+        console.log(obj); // {food: 'apple', colorOne: 'red'}
+
+        // es6之后，用字面量创建对象时，可以用表达式作为对象的属性名
+        let propKey = "foo";
+        let obj2 = {
+            [propKey]: true,
+            ["color" + "Two"]: "white"
+        };
+        console.log(obj2); // { foo: true, colorTwo: 'white' }
+    </script>
+</body>
+</html>

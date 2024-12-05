@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 类选择器、伪类选择器、属性选择器的权重都是10 */
+
+        /* 选择有value属性的input */
+        input[value] {
+            color: pink;
+        }
+
+        /* 选择type=text的input */
+        input[type="text"] {
+         color: pink;   
+        }
+
+        /* 选择class属性值以icon开头的div */
+        div[class^="icon"] {
+            color: red;
+        }
+
+        /* 选择class属性值以data结尾的section */
+        section[class$="data"] {
+            color: red;
+        }
+
+        /* 选择class属性值中包含x的p */
+        p[class*="x"] {
+            color: #bfa;
+        }
+
+        /* 选择class属性值中包含单词a的p  */
+        p[class~="a"] {
+            color: #008c8c;
+        }
+
+        /* 选择lang属性值为“zh”或者是以“zh-”为前缀的div */
+        /* [attr|=value]选择器典型的应用场景是用来匹配语言的简写代码，如zh-CN（简体中文）、zh-TW（繁体中文）可以用zh作为value */
+        div[lang|="zh"] {
+          color: purple;
+        }
+        
+        /*
+          补充：
+          1. [attr operator value i]  举例：a[href*="insensitive" i]
+            在属性选择器的右方括号前添加一个用空格隔开的字母 i（或 I），可以在匹配属性值时忽略大小写（支持 ASCII 字符范围之内的字母）
+          2. [attr operator value s]  举例：a[href*="cAsE" s]
+            在属性选择器的右方括号前添加一个用空格隔开的字母 s（或 S），可以在匹配属性值时区分大小写（支持 ASCII 字符范围之内的字母）
+          3. 和 JS 不同，CSS 可以在不使用双引号的情况下直接使用带连字符的属性名。例如：div[data-lang="zh-TW"]
+        */ 
+    </style>
+</head>
+
+<body>
+    <input type="text" value="请输入用户名">
+    <input type="text">
+
+    <input type="text" name="" id="">
+    <input type="password" name="" id="">
+
+    <div class="icon1">小图标1</div>
+    <div class="icon2">小图标2</div>
+    <div class="icon3">小图标3</div>
+    <div class="icon4">小图标4</div>
+    <div>我是打酱油的</div>
+
+    <section class="icon1-data">我是安琪拉</section>
+    <section class="icon2-data">我是哥斯拉</section>
+    <section class="icon3-ico">我是谁</section>
+
+    <p class="axy">1</p>
+    <p class="yux">2</p>
+    <p class="abc">3</p>
+
+    <p class="abc">1</p>
+    <p class=" a ">2</p>
+    <p class="y a x">3</p>
+</body>
+
+</html>

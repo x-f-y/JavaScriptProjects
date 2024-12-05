@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        - -moz- 代表firefox浏览器私有属性
+        - -ms- 代表ie浏览器私有属性
+        - -webkit- 代表safari、chrome浏览器私有属性
+        - -o- 代表opera浏览器私有属性
+     -->
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            margin: 100px auto;
+            border: 2px solid skyblue;
+            /* 兼容firefox */
+            -moz-border-radius: 50px;
+            /* 兼容ie */
+            -ms-border-radius: 50px;
+            /* 箭筒safari、chrome */
+            -webkit-border-radius: 50px;
+            /* 兼容opera */
+            -o-border-radius: 50px;
+            border-radius: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+</body>
+
+</html>

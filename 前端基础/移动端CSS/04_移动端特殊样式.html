@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        a {
+            /* 设置点击超链接时出现的高亮颜色为透明 */
+            -webkit-tap-highlight-color: transparent;
+        }
+        button,input[type="button"] {
+            /* ios的按钮都是经过美化的，下面的css样式可以重置按钮的这些特殊样式 */
+            -moz-appearance: none;
+            -webkit-appearance: none;
+        }
+        img,a {
+            /* 长按图片和链接时，禁止弹出菜单 */
+            -webkit-touch-callout: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="javascript:;">这是一个超链接</a>
+    <input type="button" value="这是一个按钮">
+    <img src="./images/dog.jpg" alt="">
+</body>
+</html>

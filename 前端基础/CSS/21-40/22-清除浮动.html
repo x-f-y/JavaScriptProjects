@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 3.为父元素添加after伪元素清除浮动（固定写法） */
+        /* .clearfix1::after {
+            content: "";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .clearfix1 {
+            *zoom: 1;
+        } */
+
+        /* 4.给父元素添加双伪元素清除浮动（固定写法） */
+		/* 伪元素一般使用双冒号，伪类一般使用单冒号（伪元素使用单冒号也不会报错，但不建议这样使用） */
+        .clearfix2::before,
+        .clearfix2::after {
+            content: "";
+            display: table;
+        }
+
+        .clearfix2::after {
+            clear: both;
+        }
+
+        .clearfix2 {
+            /* 兼容IE6、IE7 */
+            *zoom: 1;
+        }
+
+        .box {
+            width: 800px;
+            border: 1px solid blue;
+            margin: 0 auto;
+            /* 2.为父元素添加overflow属性清除浮动 */
+            /* overflow: hidden; */
+        }
+
+        .box .damao {
+            float: left;
+            width: 300px;
+            height: 200px;
+            background-color: pink;
+        }
+
+        .box .ermao {
+            float: left;
+            width: 200px;
+            height: 200px;
+            background-color: skyblue;
+        }
+
+        .footer {
+            height: 200px;
+            background-color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        为什么需要清除浮动？
+        - 由于父级盒子很多情况下，不方便给高度（父级盒子的高度需要由子元素撑开），但是子盒子
+          浮动又不占有原文档流的位置，这时候就会对后面元素的排版造成影响
+     -->
+    <!-- 
+         清除浮动的方法：
+            - 额外标签法（隔墙法）
+                - 新添加的标签必须是添加了清除浮动样式的块级元素或者<br />,不能是行内元素
+            - 父级添加overflow属性(auto、scroll、hidden都可以，但一般用overflow:hidden)(bfc)
+            - 父级添加after伪元素
+            - 父级添加双伪元素
+      -->
+    <!-- 
+         - clear: left|right|both;(实际工作中，基本只用clear: both;)
+         - 清除浮动的本质是清除浮动元素造成的影响
+         - 清除浮动的策略是闭合浮动：只让浮动在父盒子内部影响，不影响父盒子外面的其他盒子
+         - 如果父级盒子本身有高度，则不需要清除浮动
+         - 清除浮动之后，父级就会根据浮动的子盒子自动检测高度，父级盒子有了高度，也就不会影响下面的标准流盒子了
+      -->
+    <div class="box clearfix1 clearfix2">
+        <div class="damao">大毛</div>
+        <div class="ermao">二毛</div>
+        <!-- 1.添加标签清除浮动 -->
+        <!-- <div style="clear:both;"></div> -->
+        <!-- <br style="clear:both;" /> -->
+    </div>
+    <div class="footer">footer</div>
+</body>
+
+</html>

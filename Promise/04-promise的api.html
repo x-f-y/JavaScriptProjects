@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript">
+		/**
+		 * Promise的api
+		 * 	Promise(executor){} 	构造函数
+		 * 		executor	执行器	(resolve,reject) => {}
+		 * 		executor会在Promise内部立即同步调用
+		 * 	Promise.prototype.then(onResolved,onRejected) 
+		 * 		onResolved	成功的回调函数	value => {}
+		 * 		onRejected	失败的回调函数	reason => {}
+		 * 		返回一个新的promise对象
+		 * 	Promise.prototype.catch(onRejected)
+		 * 		onRejected	失败的回调函数	reason => {}
+		 * 		返回一个新的promise对象
+		 * 	Promise.prototype.finally(onFinally)
+		 * 		onFinally  	结束后调用的回调函数	该回调函数不接收参数
+		 * 		返回一个设置了 finally 回调函数的 Promise 对象
+		 * 	Promise.resolve(value)
+		 * 		value	成功的数据或promise对象
+		 * 		返回一个成功/失败的Promise对象
+		 * 		如果传入的参数为非Promise类型的对象，则返回的结果为成功的Promise对象
+		 * 		如果传入的参数为Promise对象，则参数的结果决定了resolve的结果
+		 * 	Promise.reject(reason)
+		 * 		reason	失败的原因
+		 * 		无论传递的参数是非Promise类型的对象还是成功的Promise对象，返回的结果都是一个失败的promise对象
+		 * 	Promise.all(promises)
+		 * 		promises 包含n个promise的数组
+		 * 		返回一个新的promise，只有所有的promise都成功才成功，只要有一个失败了就直接失败
+		 * 	Promise.race(promises)
+		 * 		promises 包含n个promise的数组
+		 * 		返回一个新的promise，第一个完成的promise的结果状态就是最终的结果状态
+		 * 	Promise.allSettled(promises)
+		 * 		promises 包含n个promise的数组
+		 * 		返回一个新的promise，该promise永远是成功的，且成功的结果是参数数组中所有promise组成的数组
+		 *  Promise.any(promises)
+		 * 		promises 包含n个promise的数组
+		 * 		返回一个新的promsie，当其中任意一个promise的状态是成功的，就返回那个成功的promise值
+		 */
+
+		/* let p = new Promise((resolve, reject) => {
+			//在Promise内部封装异步操作
+			//(resolve,reject)=>{}是执行器函数（executor）
+			console.log(111);
+			//修改promise对象的状态
+			reject('error');
+		});
+		console.log(222);
+		//执行catch方法
+		p.catch(reason => {
+			console.log(reason);
+		}) */
+
+		/* let p1 = Promise.resolve(123);
+		console.log(p1);
+		let p2 = Promise.resolve(new Promise((resolve,reject) => {
+			// resolve('ok');
+			reject('error');
+		}));
+		console.log(p2);
+		p2.catch(reason => {
+			console.log(reason);
+		}) */
+
+		/* let p = Promise.reject(123);
+		let p1 = Promise.reject(new Promise((resolve,reject) => {
+			resolve('ok');
+		}));
+		console.log(p1); */
+
+		/* let p1 = new Promise((resolve,reject) => {
+			resolve('ok');
+		});
+		// let p2 = Promise.resolve('success');
+		let p2 = Promise.reject(new Promise((resolve,reject) => {
+			resolve('bad');
+		}));
+		let p3 = Promise.resolve('on yeah');
+		let p4 = Promise.resolve(new Promise((resolve,reject) => {
+			resolve('good');
+		}));
+		const result = Promise.all([p1,p2,p3,p4]);
+		console.log(result); */
+
+		/* let p1 = new Promise((resolve,reject) => {
+			setTimeout(() => {
+				resolve('ok');
+			},1000);
+		});
+		let p2 = Promise.reject('bad');
+		let p3 = Promise.resolve('on yeah');
+		let p4 = Promise.resolve(new Promise((resolve,reject) => {
+			resolve('good');
+		}));
+		const result = Promise.race([p1,p2,p3,p4]);
+		console.log(result); */
+
+		/*let p = new Promise((resolve, reject) => {
+			// resolve('success')
+			reject('fail')
+		}).then(value => {
+			console.log('成功', value)
+		}).catch(reason => {
+			console.log('失败', reason)
+		}).finally(() => {
+			console.log('hello finally')
+		})
+		console.log(p)*/
+
+		let p = Promise.allSettled([Promise.reject('fail'), Promise.resolve('success'), new Promise((resolve, reject) => {
+			reject('error')
+		})])
+		console.log(p)
+	</script>
+</head>
+
+<body>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        img:nth-child(2) {
+            width: 50px;
+            height: 50px;
+        }
+        div {
+            width: 50px;
+            height: 50px;
+        }
+        div:nth-of-type(1) {
+            border: 1px solid red;
+            margin-bottom: 2px;
+            background: url(./images/apple50.jpg) no-repeat;
+        }
+        div:nth-of-type(2) {
+            border: 1px solid orange;
+            background: url(./images/apple100.jpg) no-repeat;
+            background-size: 50px 50px;
+        }
+        .sprites {
+            width: 18px;
+            height: 15px;
+            background: url(./images/jd-sprites.png) no-repeat -81px 0;
+            /* 将精灵图缩小为原图的二分之一 */
+            background-size: 200px auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        多倍图（这里以iPhone8、2倍图为例） ——> 需求：在移动端页面中显示一张50*50（css像素）的图片
+            1. 不使用多倍图
+                - 直接放一张50*50的图片，由于iPhone8的设备像素比是2，因此该图片会被放大为100*100，会造成图片模糊
+            2. 使用多倍图
+                - 准备一张比实际需要大两倍的图片（这里是100*100），然后手动将该图片缩小为该图的二分之一（这里是50*50）
+                    - 如果图片采用的是img标签，那么缩小采用的方式是直接设置width和height为原来的一半
+                    - 如何图片采用的是背景图，那么缩小采用的方式是设置background-size为50% 50%
+                    - 如何图片采用的是精灵图，那么缩小采用的方式见下文
+     -->
+    <!-- 不使用多倍图 ——> 模糊 -->
+    <img src="./images/apple50.jpg" alt="">
+    <!-- 使用多倍图 ——> 清晰 -->
+    <img src="./images/apple100.jpg" alt="">
+
+    <!-- 需求：将一张50*50的图片作为一个50*50的div的背景图片 -->
+    <!-- 不使用多倍图 ——> 模糊 -->
+    <div></div>
+    <!-- 使用多倍图 ——> 清晰 -->
+    <div></div>
+
+    <!-- 
+        精灵图多倍图（这里以2倍图为例）
+            1. 原图缩小为原来的二分之一，记缩小后的宽度为m
+            2. 测量出所需图片的尺寸（w，h）以及横向偏移x和纵向偏移y
+            3. 写代码
+                width: wpx;
+                height: hpx;
+                background： url(...) no-repeat -xpx -ypx;
+                background-size: mpx auto;
+     -->
+    <div class="sprites"></div>
+</body>
+</html>

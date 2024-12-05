@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			let arr = ['00:07:07','00:40:43','00:20:31','00:47:39','00:24:22','00:25:38','00:23:30',
+			'00:15:59','00:09;54','00:14:49','00:10:50','00:18:38','00:23:02','00:55:51','00:15:04',
+			'00:28:34','00:44:34','00:10:29','00:11:53','00:20:23'];
+			let hour = 0;
+			let minute = 0;
+			let second = 0;
+			arr.forEach(value => {
+				let hourTemp = parseInt(value.substr(0,2));
+				let minuteTemp = parseInt(value.substr(3,2));
+				let secondTemp = parseInt(value.substr(6,2));
+				second += secondTemp;
+				if(second >= 60){
+					minute += parseInt(second / 60);
+					second %= 60;
+				}
+				minute += minuteTemp;
+				if(minute >= 60){
+					hour += parseInt(minute / 60);
+					minute %= 60;
+				}
+				hour += hourTemp;
+			});
+			console.log('总时间：'+hour+':'+minute+':'+second);
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

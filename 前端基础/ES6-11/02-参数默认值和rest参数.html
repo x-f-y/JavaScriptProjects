@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 参数的默认值
+         *  具有默认值的参数，一般位置要靠后（潜规则）
+         */
+
+        function fn(x, y = 'world') {
+            console.log(x, y);
+        }
+        fn(2); // 2 'world'
+        fn(2, 3); // 2 3
+
+        function connect({ host = '127.0.0.1', username, password, port }){
+            console.log(host, username, password, port);
+        }
+        connect({
+            host:'atguigu.com',
+            username:'root',
+            password:'root',
+            port:3306
+        }); // atguigu.com root root 3306
+        connect({
+            username: 'admin',
+            password: 'admin',
+            port: '8080'
+        }) // 127.0.0.1 admin admin 8080
+        
+        /**
+         * rest参数（剩余参数）
+         *  以...修饰最后一个参数，把多余的参数都放到一个数组中，可以用来替代 arguments
+         *  注意：rest参数只能是最后一个参数（如果不是，则会报错）
+         */ 
+
+        function fun(a, b, ...values) {
+            console.log(a, b, values);
+        }
+        fun(6, 1, 100, 9, 10); // 6 1 [100, 9, 10]
+    </script>
+</body>
+</html>

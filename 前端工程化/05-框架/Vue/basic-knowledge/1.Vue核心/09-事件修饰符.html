@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin-top: 20px;
+        }
+    </style>
+    <script src="../tools/vue.js"></script>
+</head>
+
+<body>
+    <!--
+        Vue中的事件修饰符：
+            - prevent 阻止默认事件（常用）
+            - stop 阻止事件冒泡（常用）
+            - once 事件只触发一次（常用）
+            - capture 使用事件的捕获模式
+            - self 只有event.target是当前操作的元素时才触发事件
+            - passive 事件的默认行为立即执行，无需等待事件回调执行完毕
+     -->
+    <div id="root">
+        <!-- 阻止默认事件 -->
+        <a href="http://www.atguigu.com" @click.prevent="showInfo">点我提示信息</a>
+
+        <div style="height: 50px;" @click="showInfo">
+            <!-- 阻止事件冒泡 -->
+            <button @click.stop="showInfo">点我提示信息</button>
+            <!-- 修饰符可以连续写，先阻止默认事件，再阻止冒泡（连续写时顺序不一样表示的意义也不一样） -->
+             <a href="http://www.atguigu.com" @click.prevent.stop="showInfo">点我提示信息</a>
+        </div>
+
+        <!-- 事件只触发一次 -->
+        <button @click.once="showInfo">点我提示信息</button>
+
+        <!-- 使用事件的捕获模式，在捕获阶段处理事件，默认是在冒泡阶段处理事件 -->
+        <div style="padding: 5px; background-color: skyblue;" @click.capture="showMsg(1)">
+            box1
+            <div style="padding: 5px; background-color: orange;" @click="showMsg(2)">box2</div>
+        </div>
+
+        <!-- 只有event.target是当前操作的元素时才触发事件 -->
+        <div style="height: 50px;" @click.self="showInfo">
+            <button @click="showInfo">点我提示信息</button>
+        </div>
+
+        <!-- 事件的默认行为立即执行，无需等待事件回调执行完毕 -->
+        <!-- wheel与scroll的区别：wheel=>鼠标滚轮滚动时触发，scroll=>滚动条滚动时触发 -->
+        <!-- 鼠标滚轮滚动时，滚动条也会随之滚动，这是浏览器的默认行为 -->
+        <ul style="width: 200px; height: 200px; background-color: peru; overflow: auto;" @wheel.passive="demo">
+            <li style="height: 100px;">1</li>
+            <li style="height: 100px;">2</li>
+            <li style="height: 100px;">3</li>
+            <li style="height: 100px;">4</li>
+        </ul>
+    </div>
+    <script>
+        Vue.config.productionTip = false
+        new Vue({
+            el: '#root',
+            methods: {
+                showInfo(e) {
+                    // 阻止默认事件
+                    // e.preventDefault()
+
+                    // 阻止事件冒泡
+                    // e.stopPropagation()
+
+                    alert('同学你好')
+                    // console.log(e.target)
+                },
+                showMsg(number) {
+                    console.log(number)
+                },
+                demo() {
+                    for(let i = 0; i < 100000; i++){
+                        console.log('#')
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            /**
+             * 1.判断在当前路径中是否包含检测点
+             *  api:
+             *      ctx.isPointInPath(x, y)
+             *      ctx.isPointInPath(x, y, fillRule)
+             *      ctx.isPointInPath(path, x, y)
+             *      ctx.isPointInPath(path, x, y, fillRule)
+             *  参数：
+             *      x和y 被检测点的横坐标和纵坐标
+             *      fillRule 用来决定点在路径内还是路径外的算法。允许的值有：
+             *          - "nonzero" 默认值，非零环绕规则
+             *          - "evenodd" 奇偶环绕规则
+             *      path Path2D应用的路径
+             *  返回值：返回一个Boolean值，当检测点包含在当前或指定的路径内，返回true；否则返回false
+             * 2. 检测某点是否在路径的描边线上
+             *  api：
+             *      ctx.isPointInStroke(x, y)
+             *      ctx.isPointInStroke(path, x, y)
+             *  参数：
+             *      x和y 检测点的x坐标和y坐标
+             *      path Path2D路径
+             *  返回值：返回一个布尔值，当这个点在路径的描边线上，则返回true，否则返回false
+             */
+
+            // isPointInPath(x,y)
+            ctx.rect(10, 10, 100, 100)
+            ctx.stroke()
+            console.log(ctx.isPointInPath(110, 10)) // true
+            console.log(ctx.isPointInPath(20, 20)) // true
+            console.log(ctx.isPointInPath(5, 5)) // false
+
+            // isPointInPath(path,x,y)
+            const path1 = new Path2D()
+            path1.rect(150, 10, 100, 100)
+            ctx.stroke(path1)
+            console.log(ctx.isPointInPath(path1, 250, 10)) // true
+            console.log(ctx.isPointInPath(path1, 160, 20)) // true
+            console.log(ctx.isPointInPath(path1, 145, 5)) // false
+
+            // isPointInStroke(x,y)
+            ctx.beginPath()
+            ctx.arc(200, 200, 50, 0, Math.PI * 2)
+            ctx.stroke()
+            console.log(ctx.isPointInStroke(200, 200)) // false
+            console.log(ctx.isPointInStroke(250, 200)) // true
+
+            // isPointInStroke(path,x,y)
+            const path2 = new Path2D()
+            path2.arc(200, 350, 50, 0, Math.PI * 2)
+            ctx.stroke(path2)
+            console.log(ctx.isPointInStroke(path2, 200, 350)) // false
+            console.log(ctx.isPointInStroke(path2, 250, 350)) // true
+        }
+    </script>
+</body>
+</html>

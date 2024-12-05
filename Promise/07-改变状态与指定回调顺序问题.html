@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript">
+		/**	promise改变状态与指定回调函数谁先谁后
+		 * 		如果执行器函数(executor)中为同步任务，如直接调用resolve()或reject()，则先改变状态，再指定回调函数
+		 * 		如果执行器函数中为异步任务，如fs文件操作、数据库操作、ajax、定时器，则先指定回调函数，再改变状态
+		 * 	什么时候才能得到数据（即什么时候调用then）
+		 * 		如果先指定的回调函数, 那么当状态发生改变时, 回调函数就会调用, 得到数据
+		 * 		如果先改变的状态, 那么当指定回调函数时, 回调函数就会调用, 得到数据
+		 * 总结：
+		 * 	executor中为同步任务		改变状态->指定回调->执行回调
+		 * 	executor中为异步任务		指定回调->改变状态->执行回调
+		 */
+		let p = new Promise((resolve, reject) => {
+			//同步任务
+			resolve('ok');
+			//异步任务
+			setTimeout(() => {
+				reject('error');
+			})
+		});
+		p.then(value => {
+			console.log(value);
+		}, reason => {
+			console.warn(reason)
+		});
+	</script>
+</head>
+
+<body>
+</body>
+
+</html>

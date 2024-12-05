@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #container {
+      position: relative;
+      width: 90%;
+      margin: 10px auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script>
+    const container = document.getElementById('container'); // 容器元素
+    const imgWidth = 250; // 每张图片的固定宽度
+    const imgNum = 50; // 图片的总数量
+
+    // 创建图片元素
+    function createImgs(){
+      for(let i = 0; i < imgNum; i++){
+        const img = new Image();
+        const h = (Math.round(Math.random() * 40) + 40) * 5; // // 每张图片高度随机 [200, 400]
+        img.src = `https://picsum.photos/${imgWidth}/${h}.jpg?random=${i+1}`;
+        img.style.setProperty('width', imgWidth + 'px');
+        img.style.setProperty('position', 'absolute');
+        img.style.setProperty('transition', '0.5s');
+        img.onload = setPosition;
+        container.appendChild(img);
+      }
+    }
+
+    createImgs();
+
+    // 计算并设置每张图片的位置
+    function setPosition(){
+      // 计算一共有多少列，以及每张图片之间的间隙
+      function cal(){
+        const containerWidth = container.clientWidth; // 容器总空间
+        const space = containerWidth - 20; // 可供分配的空间（至少留出20px空隙）
+        const column = Math.floor(space / imgWidth); // 列的数量
+        const spaceNum = column + 1; // 间隙数量
+        const leftSpace = containerWidth - column * imgWidth; // 剩余空间
+        const gapSpace = leftSpace / spaceNum;
+        return {
+          column,
+          gapSpace
+        }
+      }
+      const info = cal();
+      const nextTops = new Array(info.column).fill(0); // 数组的长度为列数，每一项为该列下一张图片的纵坐标
+      for(let i = 0; i < imgNum; i++){
+        const img = container.children[i]; // 当前图片
+        const top = Math.min(...nextTops); // 当前图片的纵坐标应该是nextTops中的最小值
+        const columnIndex = nextTops.indexOf(top); // 当前图片放置在第几列
+        const left = (columnIndex + 1) * info.gapSpace + columnIndex * imgWidth; // 当前图片的横坐标
+        img.style.setProperty('left', left + 'px');
+        img.style.setProperty('top', top + 'px');
+        // 更新nextTops数组
+        nextTops[columnIndex] += (img.height + info.gapSpace);
+      }
+      // 设置容器的高度
+      container.style.setProperty('height', Math.max(...nextTops) - info.gapSpace + 'px');
+    }
+
+    let timeId;
+    window.onresize = function(){
+      if(timeId){
+        clearTimeout(timeId);
+      }
+      timeId = setTimeout(setPosition, 300);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- img元素与a元素配合使用可以实现点击图片进行跳转 -->
+    <a href="https://baike.baidu.com/item/%E5%A4%AA%E9%98%B3%E7%B3%BB/173281" target="_blank">
+        <!-- 对于img元素的usemap属性，其值为#加上与该元素相关联的map的name属性值，与锚点类似 -->
+        <img usemap="#solarMap" src="images/solar.png" alt="太阳系">
+    </a>
+
+    <!-- img元素与map元素和area元素一起配合使用可以为图像的各个部分添加超链接 -->
+    <map name="solarMap">
+        <!-- 
+            area元素在图片上定义一个热点区域，可以关联一个超链接，area元素仅在map元素内部使用
+                shape属性：相关联的热点的形状，circle为圆形、rect为矩形、poly为多边形
+                coords属性：给热点区域设定具体的坐标值，
+                    shape属性值为circle时，该属性值为x,y,r
+                    shape属性值为rect时，其属性值为x1,y1,x2,y2，x1和y1是矩形左上角的坐标，x2和y2是矩形右下角的坐标
+                    shape属性值为poly时，其属性值多边形各个顶点的坐标
+         -->
+        <area shape="circle" coords="234,274,16" href="https://baike.baidu.com/item/%E5%9C%B0%E7%90%83/6431" target="_blank">
+        <area shape="rect" coords="296,254,363,322" href="https://baike.baidu.com/item/%E6%9C%A8%E6%98%9F/222105" target="_blank">
+        <area shape="poly" coords="483,267,450,321,511,326" href="https://baike.baidu.com/item/%E5%A4%A9%E7%8E%8B%E6%98%9F/21805" target="_blank">
+    </map>
+
+    <!-- img元素与figure元素和figcaption元素一起配合使用，有利于SEO -->
+    <!-- figure元素通常用于将与单个概念相关的元素包裹起来，例如插图或代码实例 -->
+    <figure>
+        <a href="https://baike.baidu.com/item/%E9%B2%81%E7%8F%AD/346165" target="_blank">
+            <img src="images/luban.png" alt="鲁班">
+        </a>
+        <!-- 
+            figcaption元素是与其相关联的图片的说明/标题，用于描述父元素（figure元素）里的其他数据
+            figcaption元素是figure元素的第一个或者最后一个子节点
+         -->
+        <figcaption>
+            <h2>鲁班</h2>
+        </figcaption>
+    </figure>
+</body>
+</html>

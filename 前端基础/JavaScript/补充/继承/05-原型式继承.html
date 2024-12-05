@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function inherit(obj){
+            function F(){}
+            F.prototype = obj
+            return new F()
+        }
+
+        var father = {
+            name: 'father',
+            sayName: function(){
+                console.log(this.name)
+            }
+        }
+        
+        var son = inherit(father)
+        console.log(son.name) // father
+        son.sayName() // father
+
+        // 备注：ES6中新增了Object.create()方法，规范了原型式继承（inherit()方法和Object.create()方法的作用类似）
+        var son2 = Object.create(father)
+        console.log(son2.name) // father
+        son2.sayName() // father
+
+        /**
+         * 这种继承方式的缺点：
+         *  缺少“类”的概念
+         */ 
+    </script>
+</body>
+</html>

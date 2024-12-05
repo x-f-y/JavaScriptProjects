@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>13_group层级模型</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshLambertMaterial({color: 0x008c8c});
+        const mesh1 = new THREE.Mesh(geometry, material);
+        mesh1.position.set(-1, 0, 0);
+        const mesh2 = new THREE.Mesh(geometry, material);
+        mesh2.position.set(1, 0, 0);
+
+        /*// 创建一个Group，它几乎和Object3D是相同的，其目的是使得组中对象在语法上的结构更加清晰
+        const group = new THREE.Group();
+        // 向Group中添加对象
+        group.add(mesh1, mesh2);
+        // 对group进行平移、旋转和缩放，那么该group的子对象mesh1和mesh2也会跟着平移、旋转和缩放
+        group.translateZ(1);
+        group.rotateZ(Math.PI / 4);
+        group.scale.set(0.5, 0.5, 0.5);
+        // 将group添加到场景中
+        scene.add(group);
+        // 事实上，调用A.add(B)方法，是将对象B添加到了对象A的children属性指向的数组中
+        // 与A.add(B)相反的是A.remove(B)，从对象A的children属性指向的数组中移除对象B
+        console.log(scene.children); // [group, axesHelper, pointLight, ambientLight]
+        console.log(group.children); // [mesh1, mesh2]*/
+
+        const group_1 = new THREE.Group();
+        // 可以通过设置.name属性为Object3D对象命名
+        group_1.name = '一号楼';
+        group_1.position.set(-2, 1.5, 0);
+        for(let i = 0; i < 5; i++){
+            const geometry = new THREE.BoxGeometry(0.7, 3, 0.5);
+            const material = new THREE.MeshLambertMaterial({color: 0x008c8c});
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.name = `${group_1.name}-${i+1}单元`;
+            mesh.position.x = i * 1.2;
+            group_1.add(mesh);
+        }
+
+        const group_2 = new THREE.Group();
+        group_2.name = '二号楼';
+        group_2.position.set(-2, 1, 1);
+        for(let i = 0; i < 5; i++){
+            const geometry = new THREE.BoxGeometry(0.7, 2, 0.5);
+            const material = new THREE.MeshLambertMaterial({color: 'pink'});
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.name = `${group_2.name}-${i+1}单元`;
+            mesh.position.x = i * 1.2;
+            group_2.add(mesh);
+        }
+
+        const model = new THREE.Group();
+        model.name = '小区';
+        model.add(group_1, group_2);
+        scene.add(model);
+
+        // 可以使用.traverse()方法递归遍历当前对象及其所有后代对象
+        model.traverse(obj => {
+            // console.log(obj.name);
+            if(obj.isMesh){ // 判断条件也可以写成obj.type === 'Mesh'
+                console.log(obj.name);
+            }
+        })
+
+        // 可以调用.getObjectByName()方法从当前对象及其所有后代对象中查找name属性值为给定值的对象
+        const m = scene.getObjectByName('二号楼-3单元');
+        m.material.color.set(0xff0000);
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.decay = 0;
+        pointLight.position.set(2.3, 4.0, 3.5);
+        scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.render(scene, camera);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+    </script>
+</body>
+</html>

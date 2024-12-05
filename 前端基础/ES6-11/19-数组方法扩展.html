@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>div1</div>
+    <div>div2</div>
+    <div>div3</div>
+    <ul>
+        <li>li1</li>
+        <li>li2</li>
+        <li>li3</li>
+        <li>li4</li>
+    </ul>
+    <script>
+        /* 数组静态方法扩展 */
+        // 注意：实例对象不能调用静态方法，因为实例对象的构造函数不在实例的隐式原型链上
+
+        /**
+         * 1. Array.from(arrayLike[, mapFn[, thisArg]]) -> 对一个类（伪）数组或可迭代对象创建一个新的，浅拷贝的数组实例
+         *  参数一：想要转换成数组的伪数组对象或可迭代对象
+         *  参数二：如果指定了该参数，新数组中的每个元素会执行该回调函数
+         *  参数三：可选参数，执行回调函数 mapFn 时 this 对象
+         *  注意：可迭代对象(即实现了iterator接口的对象)包括Array、String、Arguments、Set、Map、HTMLCollection、NodeList等
+         *      注意：Object不是可迭代对象（不能使用for...of遍历）
+         */ 
+        function fun(){
+            console.log(arguments); // Arguments(6) [12, null, true, Array(2), 'hello', {…}, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+            console.log(Array.isArray(arguments)); // false
+            let arr = Array.from(arguments);
+            console.log(arr); // [12, null, true, Array(2), 'hello', {…}]
+            console.log(Array.isArray(arr)); // true
+        }
+        fun(12,null,true,[3,4],"hello",{name:"孙悟空"});
+
+        let set = new Set([1, 5, 4, 6, 7])
+        console.log(set); // Set(5) {1, 5, 4, 6, 7}
+        console.log(Array.isArray(set)) // false
+        let setArr = Array.from(set)
+        console.log(setArr) // [1, 5, 4, 6, 7]
+        console.log(Array.isArray(setArr)) // true
+
+        let map = new Map()
+        map.set('name', 'zs')
+        map.set('age', 18)
+        console.log(map); // Map(2) {'name' => 'zs', 'age' => 18}
+        console.log(Array.isArray(map)) // false
+        let mapArr = Array.from(map)
+        console.log(mapArr) // [Array(2), Array(2)]
+        console.log(Array.isArray(mapArr)) // true
+
+        let str = 'abc'
+        console.log(Array.isArray(str)) // false
+        let strArr = Array.from(str)
+        console.log(strArr) // ['a', 'b', 'c']
+        console.log(Array.isArray(strArr)) // true
+
+        let divList = document.getElementsByTagName('div')
+        console.log(divList); // HTMLCollection(3) [div, div, div]
+        console.log(Array.isArray(divList)) // false
+        let divArr = Array.from(divList)
+        console.log(divArr) // [div, div, div]
+        console.log(Array.isArray(divArr)) // true
+
+        let lis = document.querySelectorAll('ul li')
+        console.log(lis); // NodeList(4) [li, li, li, li]
+        console.log(Array.isArray(lis)) // false
+        let liArr = Array.from(lis)
+        console.log(liArr) // [li, li, li, li]
+        console.log(Array.isArray(liArr)) // true
+        
+        let obj = {name: 'zs', age: 18}
+        let newDivList = Array.from(divList, function(item){
+            console.log(this) // {name: 'zs', age: 18} (如果是普通函数，这里的this是obj；如果是箭头函数，这里的this是Window)
+            return item.innerText
+        }, obj)
+        console.log(newDivList) // ['div1', 'div2', 'div3']
+
+        let newliArr = Array.from(liArr, (item) => {
+            return item.textContent
+        })
+        console.log(newliArr) // ['li1', 'li2', 'li3', 'li4']
+
+        /**
+         * 2. Array.of(element0[, element1[, ...[, elementN]]]) -> 创建一个具有可变数量参数的新数组实例，而不考虑参数的数量或类型
+         */ 
+        console.log(Array.of(7));
+        let arr = Array.of(null, undefined, false, 34, 18n, Symbol('test'), 'hello', [1, 2], { name: 'as' }, function fn(){})
+        console.log(arr) // [null, undefined, false, 34, 18n, Symbol(test), 'hello', Array(2), {…}, ƒ]
+
+        /* 数组实例方法扩展 */
+
+        /**
+         * 1. arr.copyWithin(target[, start[, end]]) -> 浅复制数组的一部分到同一数组中的另一个位置，并返回它，不会改变原数组的长度
+         *  参数一：复制序列到该位置，如果是负数，target 将从末尾开始计算
+         *  参数二：开始复制元素的起始位置，如果是负数，start 将从末尾开始计算，如果不传此参数，将会从0开始复制
+         *  参数三：开始复制元素的结束位置，如果是负数，end 将从末尾开始计算，如果不传此参数，将会一直复制至数组结尾
+         *  注意：该方法会改变原数组且复制的序列包含 start 不包含 end (含头不含尾)
+         */ 
+        let arr1 = [1, 2, 3, 4, 5, 6, 7, 8]
+        /* arr1.copyWithin(0, 4, 6)
+        console.log(arr1) // [5, 6, 3, 4, 5, 6, 7, 8] */
+        /* arr1.copyWithin(2, 5)
+        console.log(arr1) // [1, 2, 6, 7, 8, 6, 7, 8] */
+        /* arr1.copyWithin(3)
+        console.log(arr1) // [1, 2, 3, 1, 2, 3, 4, 5] */
+        arr1.copyWithin(-5, -3, -1)
+        console.log(arr1) // [1, 2, 3, 6, 7, 6, 7, 8]
+
+        /**
+         * 2. arr.fill(value[, start[, end]]) -> 用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。不包括终止索引
+         *  start默认值是0，end默认值为this.length
+         *  注意：该方法会改变原数组
+         */ 
+        let arr2 = [1, 2, 3, 4, 5]
+        /* arr2.fill(4)
+        console.log(arr2) // [4, 4, 4, 4, 4] */
+        /* arr2.fill(4, 3)
+        console.log(arr2) // [1, 2, 3, 4, 4] */
+        arr2.fill(4, 1, 3)
+        console.log(arr2) // [1, 4, 4, 4, 5]
+
+        /**
+         * 3. arr.keys() -> 返回一个包含数组中每个索引键的Array Iterator对象
+         *    arr.values() -> 返回一个新的 Array Iterator 对象，该对象包含数组每个索引的值
+         *    arr.entries() -> 返回一个新的Array Iterator对象，该对象包含数组中每个索引的键/值对
+         */ 
+        let arr3 = ['a', 'b', 'c']
+        for(let k of arr3.keys()){
+            console.log(k) // 0 1 2
+        }
+        for(let v of arr3.values()){
+            console.log(v) // a b c
+        }
+        for(let kv of arr3.entries()){
+            console.log(kv) // [0, 'a'] [1, 'b'] [2, 'c']
+        }
+
+        /**
+         * 4. arr.find(callback[, thisArg]) -> 返回数组中满足提供的测试函数的第一个元素的值，若没有找到对应元素则返回 undefined
+         *    arr.findIndex(callback[, thisArg]) -> 返回数组中满足提供的测试函数的第一个元素的索引，若没有找到对应元素则返回 -1
+         *  注意：找到满足条件的元素之后就返回，停止查找
+         */ 
+        let arr4 = ['a', 'b', 'c', 'd']
+        let arr5 = [{ id: '001' }, { id: '002' }, { id: '003' }]
+        console.log(arr4.find((item, index, array) => {
+            console.log(item, index, array, this) // 这里的this是Window
+            return item === 'b'
+        }, obj)) // b
+        console.log(arr5.find(function(item, index, array){
+            console.log(item, index, array, this) // 这里的this是obj
+            return item.id === '002'
+        }, obj)) // {id: '002'}
+        console.log(arr4.findIndex(item => item === 'c')) // 2
+        console.log(arr5.findIndex(item => item.id === '003')) // 2
+
+        /**
+         * 5. arr.includes(valueToFind[, fromIndex]) -> 用来判断一个数组是否包含一个指定的值，返回一个布尔值
+         */ 
+        let minzhu = ['西游记', '水浒传', '三国演义', '红楼梦']
+        console.log(minzhu.includes('水浒传')) // true
+        console.log(minzhu.includes('水浒传', 2)) // false
+        console.log(minzhu.includes('水浒传', -3)) // true
+        console.log(minzhu.includes('金瓶梅')) // false
+
+        /**
+         * 6. arr.flat([depth]) -> 按照一个可指定的深度递归遍历数组，并将所有元素与遍历到的子数组中的元素合并为一个新数组返回
+         *  参数depth可选，默认值是1
+         *  注意：该方法会移除数组中的空项
+         *  注意：参数使用 Infinity ，可展开任意深度的嵌套数组
+         */ 
+        let arr6 = [1, [2, , [], 4], 5]
+        let arr7 = [1, 2, [3, 4, [5, 6, [7]]]]
+        let arr8 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]]
+        console.log(arr6.flat()); // [1, 2, [], 4, 5]
+        console.log(arr7.flat(3)) // [1, 2, 3, 4, 5, 6, 7]
+        console.log(arr7.flat(2)) // [1, 2, 3, 4, 5, 6, [7]]
+        console.log(arr8.flat(Infinity)); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+        /**
+         * 7. arr.flatMap(function callback(currentValue[, index[, array]]) {}[, thisArg])
+         *  该方法首先使用映射函数（map）映射每个元素，然后将结果压缩成一个新数组。它与 map 连着深度值为 1 的 flat 几乎相同
+         */ 
+        let arr9 = [1, 2, 3, 4]
+        console.log(arr9.map(item => [item * 10])) // [[10], [20], [30], [40]]
+        console.log(arr9.map(item => [item, [item + 1]])) // [[1, [2]], [2, [3]], [3, [4]], [4, [5]]]
+        console.log(arr9.flatMap(item => [item * 10])) // [10, 20, 30, 40]
+        console.log(arr9.flatMap(item => [item, [item + 1]])) // [1, [2], 2, [3], 3, [4], 4, [5]]
+</script>
+</body>
+</html>

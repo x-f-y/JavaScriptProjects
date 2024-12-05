@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			window.onload = function(){
+				let a = undefined;
+				let b = null;
+				console.log(typeof a,typeof b);//undefined object
+				//判断是否是undefined时可以用typeof，也可以用===
+				console.log(typeof a === 'undefined',a === undefined);//true true
+				//判断是否是null时可以用===，不能用typeof
+				console.log(typeof b === 'null',b === null);//false true
+				
+				let c = ['123',true,34];
+				let d = function(){
+					alert('hello');
+				};
+				let e = {};
+				console.log(typeof c,typeof d,typeof e);//object function object
+				//判断是否是函数，数组时可以使用instanceof
+				console.log(c instanceof Function, d instanceof Function, e instanceof Function) // false true false
+				console.log(c instanceof Array, d instanceof Array, e instanceof Array) // true false false
+				//判断是否是对象时使用typeof obj === 'object' && obj !== null && !Array.isArray(obj)
+				console.log(typeof c === 'object' && c !== null && !Array.isArray(c)) // false
+				console.log(typeof d === 'object' && d !== null && !Array.isArray(d)) // false
+				console.log(typeof e === 'object' && e !== null && !Array.isArray(e)) // true
+				
+				/**
+				 * 总结：
+				 * 	判断数值，字符串，布尔类型时用typeof（返回的是一个字符串）
+				 * 	判断null、undefined时使用===（判断undefined时也可以使用typeof）
+				 * 	判断对象时使用typeof obj === 'object' && obj !== null && !Array.isArray(obj)
+				 * 	判断函数，数组时使用instanceof（判断函数时也可以使用typeof，判断数组时也可以使用Array.isArray()）
+				 */
+				
+				/**
+				 * undefined与null的区别
+				 * 	undefined代表定义了但未赋值   null代表定义并赋值了，只是值为null
+				 * 什么时候给变量赋值为null？
+				 * 	初始赋值时将变量赋值为null，表明该变量将要赋值为对象
+				 * 	结束时将变量赋值为nul，表示让该对象成为垃圾对象（被垃圾回收器回收）
+				 */
+				
+				/**
+				 * 一个小问题
+				 * 	js中的函数的参数传递是值传递还是引用传递？
+				 * 		答：JS采取的都是按值传递的策略, 其中对象类型较为特殊,
+				 * 		实际为按值传递了引用(即传递引用的副本,而不是按引用传递引用)。
+				 */
+				let object = {age:1};
+				function fun(obj){
+					obj.age = 2;
+				}
+				fun(object);
+				console.log(object.age);//2
+				let object2 = {age:1};
+				function fun2(obj){
+					obj = {age:2};
+				}
+				fun2(object2);
+				console.log(object2.age);//1
+			};
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>12_clone与copy</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;
+
+        const scene = new THREE.Scene();
+
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshLambertMaterial();
+        // material.color.b = 0;
+        // material.color.set('yellow');
+        // material.color.set('#ffff00');
+        // material.color.set('rgb(255, 255, 0)');
+        // material.color.set('rgb(100%, 100%, 0%)');
+        // material.color.set(0xffff00);
+        // 创建颜色对象，参数分别是在0到1之间的r、g、b值，默认为1
+        const color = new THREE.Color(1, 1, 0);
+        // 从color中拷贝r、g、b值到当前材质的颜色
+        material.color.copy(color);
+        const mesh = new THREE.Mesh(geometry, material);
+        // console.log(mesh.geometry === geometry, mesh.material === material); // true true
+
+        /**
+         * M = N.clone() 表示返回一个和N相同的对象赋值给M
+         * A.copy(B) 表示将B对象属性的值赋值给A对象对应的属性
+         */
+        const mesh2 = mesh.clone();
+        // mesh2和mesh独立，但mesh2的geometry、material和mesh的geometry、material共享
+        console.log(mesh2 === mesh); // false
+        console.log(mesh2.geometry === mesh.geometry); // true
+        console.log(mesh2.material === mesh.material); // true
+        // 将mesh2的颜色设置为红色，可以发现mesh的颜色也变成了红色（如果想使用不同的颜色，需要将材质也克隆一份：mesh2.material = mesh.material.clone()）
+        mesh2.material.color.set(0xff0000);
+        // 将mesh.position对象的xyz属性值赋值给mesh2.position对象的xyz属性
+        mesh2.position.copy(mesh.position);
+        mesh.position.y += 2;
+        scene.add(mesh, mesh2); // 可以一次向场景中添加多个物体
+
+        const axesHelper = new THREE.AxesHelper(3);
+        scene.add(axesHelper);
+
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.decay = 0;
+        pointLight.position.set(2.3, 4.0, 3.5);
+        scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight('rgb(30%, 30%, 30%)');
+        scene.add(ambientLight);
+
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        camera.position.set(6, 6, 14);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.render(scene, camera);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', () => {
+            renderer.render(scene, camera);
+        });
+    </script>
+</body>
+</html>

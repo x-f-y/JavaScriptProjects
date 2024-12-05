@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/**
+			 *  ES5方式
+			 */ 
+
+			//定义构造函数
+			/* function Phone(brand,price){
+				//向实例对象中添加属性和方法
+				this.brand = brand;
+				this.price = price;
+				this.call = function(){
+					console.log('我可以打电话')
+				}
+			}
+			//添加静态属性和方法
+			Phone.color = 'red';
+			Phone.change = function(){
+				console.log('我可以改变世界');
+			};
+			//向原型对象中添加属性和方法
+			Phone.prototype.size = '5.5inch';
+			Phone.prototype.photo = function(){
+				console.log('我可以拍照');
+			};
+			//创建实例对象
+			let nokia = new Phone('nokia',1999);
+			console.log(nokia)
+			console.log(Phone.color);
+			Phone.change();
+			console.log(nokia.size);
+			nokia.photo();
+			nokia.call() */
+			
+			/**
+			 * ES6 class 方式
+			 * 	- 在实例上添加属性
+			 * 		- 在构造函数(constructor)中使用 this.xxx = yyy（常用）
+			 * 		- 直接在class中使用 xxx = yyy（不常用）
+			 * 	- 在实例上添加方法
+			 * 		- 在构造函数(constructor)中使用 this.xxx = function(){...}（不常用）
+			 * 		- 直接在class中使用 xxx = function(){...}（不常用）
+			 * 	- 在原型上添加属性
+			 * 		- 在class外部使用 className.prototype.xxx = yyy（不常用）
+			 * 	- 在原型上添加方法
+			 * 		- 直接在class中使用 funName(){...}（常用）
+			 * 		- 在class外部使用 className.prototype.xxx = function(){...}（不常用）
+			 * 	- 添加静态属性
+			 * 		- 直接在class中使用 staric xx = yyy（常用）
+			 * 	- 添加静态方法
+			 * 		- 直接在class中使用 static funName(){...}（常用）
+			 */ 
+			
+			class Phone{
+				// 通过构造函数添加实例属性和方法
+				constructor(brand,price) {
+					this.brand = brand;
+					this.price = price;
+					this.call = function () {
+						console.log('我可以打电话')
+					}
+				}
+				// 直接添加实例属性和方法
+				name = '我的电话'
+				location = function(){
+					console.log('我可以定位')
+				}
+				//添加静态属性和方法
+				static color = 'red'
+				static change(){
+					console.log('我可以改变世界');
+				}
+				// 向原型对象中添加方法
+				photo(){ // 注意：不能写成photo:function(){...}的形式
+					console.log('我可以拍照');
+				}
+			}
+			// 给Phone的原型对象添加属性和方法
+			Phone.prototype.size = '5.5inch'
+			Phone.prototype.talk = function(){
+				console.log('我可以聊天')
+			}
+			//创建实例对象
+			let nokia = new Phone('nokia',1999); // 实例对象上有name、brand、price属性和call、location方法；原型对象上有size属性和photo、talk方法
+			console.log(nokia)
+			console.log(Phone.color);
+			Phone.change();
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

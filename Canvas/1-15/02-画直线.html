@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        /* 使用原生js操作canvas画一条直线（第1步和第2步是固定的） */
+        // 1. 获取canvas（画布）
+        const canvas = document.getElementById('canvas')
+        // 2. 获取上下文对象（画笔）
+        const ctx = canvas.getContext('2d')
+        // 3. 开启路径（该方法的作用是通过清空子路径列表从而开始一个新的路径）
+        ctx.beginPath()
+        // 4. 设置画笔的颜色和线宽
+        ctx.strokeStyle = 'green'
+        ctx.lineWidth = 5
+        // 5. 确定起始点（该方法的作用是将一个新的子路径的起始点移动到(x, y)坐标）
+        ctx.moveTo(100, 100)
+        // 6. 确定结束点（该方法的作用是使用直线连接子路径的终点到(x, y)坐标，注意：该方法并不会真正的绘制）
+        ctx.lineTo(400, 400)
+        // 7. 关闭路径（不是必需的，该方法的作用是将画笔移动到当前子路径的起始点，并尝试从当前点到起始点绘制一条直线）
+        ctx.closePath()
+        // 8. 描边（该方法的作用是根据当前的画线样式，绘制当前或已经存在的路径）
+        ctx.stroke()
+    </script>
+</body>
+</html>

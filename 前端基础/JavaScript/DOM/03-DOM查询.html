@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Dom查询</title>
+	</head>
+	<body>
+		<div id="abc" title="bcd" cde="123">
+			<div>
+				<span></span>
+			</div>
+			<strong></strong>
+			<em></em>
+		</div>
+		<section></section>
+		<p></p>
+		<p class="demo"></p>
+		<p></p>
+		<script>
+			/**
+			 * 获取html元素 document.documentElement
+			 * 获取head元素 document.head
+			 * 获取body元素 document.body
+			 * 获取文档中的所有元素
+			 * 	- document.all
+			 * 	- document.getElementsByTagName('*')
+			 * 获取文档标题 document.title
+			 */
+
+			console.log(document.documentElement)
+			console.log(document.head)
+			console.log(document.body)
+			console.log(document.all)
+			console.log(document.getElementsByTagName('*'))
+			console.log(document.title) // Dom查询
+
+			/**
+			 * 补充：
+			 * 	1. elem.childElementCount 返回给定元素的子元素节点个数，其值等于 elem.children.length
+			 * 	2. elem.attributes 返回该元素所有属性节点的一个实时集合
+			 * 	3. elem.hasChildNodes() 返回该元素是否有子节点（注意不是子元素节点）
+			 * 	4. document.compatMode 表明当前文档的渲染模式是怪异模式/混杂模式（BackCompat）还是标准模式（CSS1Compat）
+			 * 	5. querySelectorAll()与getElementsByName()、getElementsByTagName()、getElementsByClassName()的区别：
+			 * 		前者是非实时的，后三个是实时的
+			 */
+			
+			var div = document.getElementsByTagName('div')[0]
+			var section = document.getElementsByTagName('section')[0]
+
+			console.log(div.childElementCount) // 3
+			console.log(div.children.length) // 3
+
+			var attrs = div.attributes
+			for(var v of attrs){
+				console.log(v.name + ' : ' + v.value) // id : abc    title : bcd    title : bcd
+			}
+
+			console.log(div.hasChildNodes()) // true
+			console.log(section.hasChildNodes()) // false
+
+			console.log(document.compatMode) // 有<!DOCTYPE html>打印CSS1Compat  没有<!DOCTYPE html>打印BackCompat
+
+			var paras1 = document.querySelectorAll('p')
+			var paras2 = document.getElementsByTagName('p')
+			var demo = document.getElementsByClassName('demo')[0]
+			console.log(paras1, paras2) // [p, p.demo, p]    [p, p.demo, p]
+			demo.remove()
+			console.log(paras1, paras2) // [p, p.demo, p]    [p, p]
+			document.body.appendChild(document.createElement('p'))
+			console.log(paras1, paras2) // [p, p.demo, p]    [p, p, p]
+		</script>
+	</body>
+</html>

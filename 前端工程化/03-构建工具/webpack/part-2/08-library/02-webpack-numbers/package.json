@@ -1,0 +1,17 @@
+{
+  "name": "webpack-numbers-xfy",
+  "version": "1.0.1",
+  "description": "",
+  "main": "dist/webpack-numbers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lodash": "^4.17.21",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/echarts.min.js"></script>
+</head>
+<body>
+    <div id="echarts" style="width: 600px; height: 400px;"></div>
+    <script>
+        const myChart = echarts.init(document.querySelector('#echarts'));
+        const xDataArr = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+        // const yDataArr = [3000, 2800, 900, 1000, 800, 700, 1400, 1300, 900, 1000, 800, 600];
+        const yDataArr = [3005, 3003, 3001, 3002, 3009, 3007, 3003, 3001, 3005, 3004, 3001, 3009];
+        const yDataArr2 = [10, 7, 12, 11, 3, 9, 8, 3, 5, 13, 2, 6];
+        const option = {
+            xAxis: {
+                type: 'category',
+                data: xDataArr,
+                boundaryGap: false // 坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样
+            },
+            yAxis: {
+                type: 'value',
+                scale: true // 是否是脱离 0 值比例，设置成 true 后坐标刻度不会强制包含零刻度，只在数值轴中有效
+            },
+            series: [
+                {
+                    name: '康师傅',
+                    type: 'line', // 折线图
+                    data: yDataArr,
+                    markPoint: { // 图表标注
+                        data: [
+                            {type: 'max'},
+                            {type: 'min'}
+                        ]
+                    },
+                    markLine: { // 图表标线
+                        data: [
+                            {type: 'average'}
+                        ]
+                    },
+                    markArea: { // 图表标域
+                        data: [
+                            [
+                                {xAxis: '2月'},
+                                {xAxis: '3月'}
+                            ],
+                            [
+                                {xAxis: '7月'},
+                                {xAxis: '9月'}
+                            ]
+                        ]
+                    },
+                    smooth: true, // 用平滑曲线显示
+                    lineStyle: { // 线条样式
+                        color: '#008c8c',
+                        type: 'dashed' // 可选值：solid、dashed、dotted
+                    },
+                    areaStyle: { // 区域填充样式
+                        color: 'pink'
+                    },
+                    stack: 'abc' // 数据堆叠，同个类目轴上多个系列配置相同的 stack 值可以堆叠放置
+                },
+                {
+                    name: '统一',
+                    type: 'line',
+                    data: yDataArr2,
+                    smooth: true,
+                    areaStyle: {},
+                    stack: 'abc'
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        CSS属性值的计算过程（即某个元素从所有CSS属性没有值，到所有CSS属性都有值的过程）：
+            1. 确定声明值
+                参考样式表（作者样式表和浏览器默认样式表）中没有发生冲突的声明，作为CSS属性值
+            2. 层叠冲突
+                对样式表（作者样式表和浏览器默认样式表）中有冲突的声明使用层叠规则（1.比较重要性 2.比较特殊性 3.比较源次序），
+                确定CSS属性值
+            3. 使用继承
+                对仍然没有值的属性，若可以继承，则继承父元素的值
+            4. 使用默认值
+                对仍然没有值的属性，使用默认值
+     -->
+    <!-- 
+        插语：两个特殊的CSS取值
+            - inherit 手动（强制）继承，将父元素的值取出应用到该元素。注意：继承始终来自文档树中的父元素，即使父元素
+            不是包含块
+            - initial 初始值，将该属性设置为默认值
+     -->
+    <div>
+        <!-- 
+            color:red;对a元素失效，对p元素奏效。原因：
+                - 对于a元素，在第1步中就确定了color属性值-webkit-link，所以color:red;对a元素失效
+                - 对于p元素，在第1步和第2步中都没有确定color属性值，于是继续进行到第3步，继承了其父元素
+                div的color属性值red，所以color:red;对p元素奏效
+         -->
+        <a href="#">this is a hyper link</a>
+        <p>this is a paragraph</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 
+            新增表单类型：
+                - type="date" 输入日期的控件
+                - type="time" 输入时间的控件
+                - type="datetime-local" 输入日期和时间的控件
+                - type="month" 输入年和月的控件
+                - type="week" 输入年和周组成的日期的控件
+                - type="email" 输入email的控件
+                - type="url" 输入URL的控件
+                - type="number" 输入数字的控件
+                - type="tel" 输入手机号码的控件
+                - type="search" 搜索框
+                - type="color" 指定颜色的控件
+                - type="range" 生成一个滑动条，可以使用min和max属性规定值的范围
+                - type="file" 让用户选择文件的控件，使用accept属性规定控件能选择的文件类型，该属性的值可以为
+                    1. 逗号分隔的列表，例如：".jpg,.png,.doc"
+                    2. 一个有效的MIME类型，但没有扩展名
+                    3. audio/* 表示音频文件
+                    4. video/* 表示视频文件
+                    5. image/* 表示图片文件
+                - type="image" 带图像的submit按钮。显示的图像由src属性规定。如果src缺失，alt属性就会显示
+                - type="hidden" 不显示的控件，其值仍会提交到服务器
+            新增表单属性：
+                - required 表单拥有该属性表示其内容不能为空，必填
+                - placeholder 提示信息
+                - autofocus 自动聚焦
+                - autocomplete（off|on（默认值）） 当用户在字段开始键入时，浏览器基于之前键入过的值，
+                  应该显示出在该字段中填写过的选项(注意需要放在表单内，同时加上name属性，且成功提交)
+                - multiple 可以多选文件提交
+         */
+    </style>
+</head>
+
+<body>
+    <form method="get" action="">
+        <ul>
+            <li>date:<input type="date"></li>
+            <li>time:<input type="time"></li>
+            <li>datetime-local:<input type="datetime-local"></li>
+            <li>month:<input type="month"></li>
+            <li>week:<input type="week"></li>
+            <li>email:<input type="email" autofocus placeholder="请输入"></li>
+            <li>url:<input type="url" placeholder="请输入"></li>
+            <li>number:<input type="number" min="5" max="30" step="3" placeholder="请输入"></li>
+            <li>tel:<input type="tel" placeholder="请输入"></li>
+            <li>search:<input required placeholder="请输入" autocomplete="on" type="search"></li>
+            <li>color:<input type="color"></li>
+            <li>range:<input type="range" min="10" max="100" value="20"></li>
+            <li>file:<input multiple type="file" accept="image/*"></li>
+            <li>image:<input type="image" src="../images/luban.png" alt="鲁班"></li>
+            <li>hidden:<input type="hidden"></li>
+            <li><input type="submit" value="submit"></li>
+        </ul>
+    </form>
+</body>
+
+</html>

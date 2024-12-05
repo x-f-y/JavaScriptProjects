@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * let
+         *  - 使用let关键字定义变量，变量不可以再次定义，但可以改变其值	
+         *  - 具有块级作用域
+         *  - 没有变量的声明提升，必须先定义再使用
+         *  - let声明的变量不会压到window对象中，是独立的
+         * const
+         *  - 使用const关键字定义常量，常量是不可变的，一旦定义，则不能修改其值
+         *  - 对于数组和对象的元素修改，不算做对常量的修改，不会报错（因为地址未改变）
+         *  - 初始化常量时，必须给初始值(一般常量使用大写，潜规则)
+         *  - 具有块级作用域
+         *  - 没有变量的声明提前，必须先定义再使用
+         *  - const声明的常量也是独立的，定义后也不会压入到window对象中
+         */ 
+
+        let a = 1
+        // let a = 2 // 报错，'a' has already been declared
+        a = 2
+        console.log(a) // 2
+        let b = 3
+        {
+            let b = 4  
+            console.log(b) // 4
+        }
+        console.log(b) // 3
+        // console.log(c) // 报错，Cannot access 'c' before initialization
+        let c = 5
+        let d = 6
+        console.log('d' in window) // false
+
+        const a1 = 1
+        // a1 = 2 // 报错， Assignment to constant variable.
+        const a2 = [1, 2, 3]
+        a2[1] = 4
+        console.log(a2) // [1, 4, 3]
+        const a3 = {
+            name: 'zs',
+            age: 18
+        }
+        a3.age = 20
+        console.log(a3) // {name: 'zs', age: 20}age: 20name: "zs"[[Prototype]]: Object
+        // const a4 // 报错，Missing initializer in const declaration
+        const a4 = 'a'
+        {
+            const a4 = 'b'
+            console.log(a4) // b
+        }
+        console.log(a4) // a
+        // console.log(a5) // 报错，Cannot access 'a5' before initialization
+        const a5 = 'abc'
+        const a6 = 'hello'
+        console.log('a6' in window) // false
+    </script>
+</body>
+</html>

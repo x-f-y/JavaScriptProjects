@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="content">
+        houdunren.com
+    </div>
+    <div>
+        <p>后盾人</p>
+        <h1>
+            houdunren.com
+        </h1>
+        <H2>hdcms.com</H2>
+        <h3></h3>
+    </div>
+    <div>
+        <input type="text" placeholder="请输入邮箱">
+        <span></span>
+    </div>
+    <div>
+        <input type="text" name="password" placeholder="请输入用户名">
+        <span></span>
+    </div>
+    <main>
+        <span>houdunwang</span>
+        <span>hdcms.com</span>
+        <span>houdunren.com</span>
+    </main>
+    <div>
+        <h1>houdunren.com</h1>
+        <h2>hdcms.com</h2>
+        <h1>后盾人</h1>
+    </div>
+    <p>在线教育是一种高效的学习方式，教育是一生的事业</p>
+    <div>
+        <a style="color: red" href="http://www.hdcms.com">开源系统</a>
+        <a href="https://houdunren.com">后盾人</a>
+    </div>
+    <div>
+        <a id="xfy" href="https://www.houdunren.com">后盾人</a>
+        <a href='https://www.hdcms.com'>hdcms</a>
+        <a href="https://www.sina.com">新浪</a>
+    </div>
+    <p>后盾人不断分享视频教程，学习后盾人教程提升编程能力</p>
+    <div>
+        <a href="https://www.baidu.com">百度</a>
+        <a href='https://yahoo.com'>雅虎</a>
+    </div>
+    <script>
+        // 需求：找出str中的所有数字
+        var str = 'houdunren2200hdcms9988';
+        // 不使用正则表达式的做法
+        var res1 = [...str].filter(a => !Number.isNaN(parseInt(a))).join('')
+        console.log(res1) // 22009988
+        // 使用正则表达式的做法
+        var reg = /\d/g
+        var res2 = str.match(reg).join('')
+        console.log(res2) // 22009988
+    </script>
+    <script>
+        // 需求：检测str中是否包含变量a所保存的字母（要求使用字面量创建正则表达式）
+        var str = 'houdunren.com'
+        var a = 'u'
+        var res = eval(`/${a}/`).test(str)
+        console.log(res) // true
+    </script>
+    <script>
+        // 一个小问题
+        /* var a = '\d'
+        var b = '\\d'
+        var reg1 = new RegExp(a, 'g')
+        var reg2 = new RegExp(b, 'g')
+        var reg3 = new RegExp(prompt('请输入：'), 'g')
+        console.log(reg1, reg2) // /d/g /\d/g
+        console.log(reg3) // 输入 \d 打印 /\d/g    输入 \\d 打印 /\\d/g */
+
+        console.log('\d' === 'd') // true
+        console.log('/\d/g' === '/d/g') // true
+        console.log('/\\d/g' === '/\d/g') // false
+        console.log('\d+\.\d+') // d+.d+
+
+        // 一个注意点
+        var reg1 = /a|bcd/ // 匹配a和bcd（而不是acd和bcd）
+        console.log('acd'.match(reg1)) // ['a', index: 0, input: 'acd', groups: undefined]
+        var reg2 = /(a|b)cd/ // 匹配acd和bcd（而不是a和bcd）
+        console.log('acd'.match(reg2)) // ['acd', 'a', index: 0, input: 'acd', groups: undefined] (第二项‘a’是捕获括号里成功匹配的内容)
+    </script>
+    <script>
+        /* 正则表达式中的- */
+        // 情形一：用在字符集“[…]”里表示一组字符
+        var reg1 = /[0-9]/ // 匹配数字0到9
+        console.log(reg1.test('-')) // false
+        console.log(reg1.test('3')) // true
+        // 情形二：如果不是用在字符集“[…]”里，就是普通的字符，即减号
+        var reg2 = /1-6/ // 匹配‘1-6’
+        console.log(reg2.test('2')) // false
+        console.log(reg2.test('1-6')) // true
+        // 情形三：即使在字符集“[…]”里，却非连续字符之间，也失去了特殊含义
+        var reg3 = /1[-1]/ // 匹配1-和11
+        console.log(reg3.test('10')) // false
+        console.log(reg3.test('1-')) // true
+        // 情形四：在字符集“[…]”里表示减号时，可使用转义字符，即\-
+        var reg4 = /[3@\-b]/ // 匹配3和@和-和b
+        console.log(reg4.test('-')) // true
+    </script>
+    <script>
+        // 需求：根据用户的输入查找到指定字符并加红显示
+        /* var con = prompt('请输入检测的内容，支持正则：')
+        var reg = new RegExp(con, 'g')
+        var div = document.querySelector('.content')
+        div.innerHTML = div.innerHTML.replace(reg, (search) => {
+            return `<span style="color: red;">${search}</span>`
+        }) */
+    </script>
+    <script>
+        /* 需求：匹配str中的中文 */
+        var str = `
+                张三:010-8888888,李四:020-9999999
+            `
+        console.log(str.match(/[^\s:\d-,]+/g)) // ['张三', '李四']
+    </script>
+    <script>
+        /* 巧妙的匹配所有字符 */
+        var str = `
+                <span>
+                    姓名：xfy
+                    年龄：21
+                </span>
+            `
+        var reg = /<span>.+<\/span>/s
+        // 下面四种写法也可以
+        // reg = /<span>[\d\D]+<\/span>/
+        // reg = /<span>[\w\W]+<\/span>/
+        // reg = /<span>[\s\S]+<\/span>/
+        // reg = /<span>[^]+<\/span>/
+        console.log(str.match(reg))
+    </script>
+    <script>
+        /* 需求，将hd中的课程和价格以对象的形式保存到数组中 */
+        var hd = `
+                #1 js,200元 #
+                #2 php,300元 #
+                #9 houdunren.com # 后盾人
+                #3 node.js,180元 #
+            `
+        var arr = hd.match(/^\s*#\d+\s+.+\s+#$/mg);
+        console.log(arr)
+        var result = arr.map((item) => {
+            item = item.replace(/\s*#\d+\s+/, '').replace(/\s+#/, '');
+            let [name, price] = item.split(','); // 数组解构
+            return { 
+                name,
+                price
+            }
+        })
+        console.log(result);
+    </script>
+    <script>
+        /* 正则表达式中 u 模式的使用 --> 使用 unicode 码的模式进行匹配 */
+        /**
+         * 修饰符 u 在正则表达式中提供对 Unicode 的支持
+         *  - 使用 Unicode 属性 \p{…} 进行匹配时，正则表达式必须使用修饰符 u
+         *  - 匹配宽字节的字符时，正则表达式必须使用修饰符 u
+         */ 
+
+        /**
+         * Unicode中的每一个字符都具有很多的属性。它们描述了一个字符属于哪个“类别”，包含了各种关于字符的信息
+         *  例如：Letter属性表示（任意语言的）字母；Number属性表示（任意语言的）数字；Punctuation属性表示（任意语言的）标点符号等...
+         *  Letter属性可以简写为L，Number属性可以简写为N，Punctuation属性可以简写为P等...
+         */ 
+        var str = '2bc,βθ1!3ⅠⅡδaⅢ，。'
+        // 匹配字母
+        console.log(str.match(/\p{L}/gu)) // ['b', 'c', 'β', 'θ', 'δ', 'a']
+        // 匹配数字
+        console.log(str.match(/\p{Number}/gu)) // ['2', '1', '3', 'Ⅰ', 'Ⅱ', 'Ⅲ']
+        // 匹配标点符号
+        console.log(str.match(/\p{P}/gu)) // [',', '!', '，', '。']
+
+        /**
+         * 有一个 Unicode 属性 Script（简写为sc） ，可以用来查找一个给定的书写系统中的字符
+         *  格式：Script=<value>或者sc=<value>
+         *  例如：sc=Han sc=Arabic sc=Greek 等...
+         */ 
+        var str2 = '今天天气真好القس ج اليوωραίρα'
+        // 匹配中文
+        console.log(str2.match(/\p{sc=Han}/gu)) // ['今', '天', '天', '气', '真', '好']
+        // 匹配阿拉伯语
+        console.log(str2.match(/\p{Script=Arabic}/gu)) // ['ا', 'ل', 'ق', 'س', 'ج', 'ا', 'ل', 'ي', 'و']
+        // 匹配希腊语
+        console.log(str2.match(/\p{sc=Greek}/gu)) // ['ω', 'ρ', 'α', 'ί', 'ρ', 'α']
+
+        /**
+         * 表示货币的字符，例如 $，€，¥，具有 unicode 属性 \p{Currency_Symbol}，缩写为 \p{Sc}
+         */ 
+        var str3 = 'Prices: $2, €1, ¥9'
+        console.log(str3.match(/\p{Sc}/gu)) // ['$', '€', '¥']
+        console.log(str3.match(/\p{Currency_Symbol}/gu)) // ['$', '€', '¥']
+
+        // 匹配宽字节字符
+        console.log('𝒳𝒴'.match(/[𝒳𝒴]/g)) // ['\uD835', '\uDCB3', '\uD835', '\uDCB4']
+        console.log('𝒳𝒴'.match(/[𝒳𝒴]/gu)) // ['𝒳', '𝒴']（𝒳和𝒴占4个字节，需添加修饰符 u 才能正确匹配）
+    </script>
+    <script>
+        /**
+         * RegExp.lastIndex 属性的作用 --> 用来指定下一次匹配的起始索引
+         *  - 只有正则表达式使用了表示全局检索的 "g" 或者粘性检索的 "y" 标志时，该属性才会起作用
+         */ 
+        /**
+         * RegExp.prototype.exec() 方法用于在一个指定字符串中执行一个搜索匹配，返回一个结果数组或 null
+         *  - 如果匹配成功，exec() 方法返回一个数组（包含额外的属性 index 、input 和 groups），并更新正则表达式对象的 lastIndex 属性，
+         *      完全匹配成功的文本将作为返回数组的第一项，从第二项起，后续每项都对应正则表达式内捕获括号里匹配成功的文本；如果匹配失败， 
+         *      exec() 方法返回 null，并将 lastIndex 重置为 0
+         *  - 注意：如果正则表达式设置了全局标志 g，RegExp.prototype.test() 方法的执行也会改变正则表达式的 lastIndex 属性
+         */ 
+        var hd = 'hou'
+        var reg = /\w/g
+        console.log(reg.lastIndex) // 0
+        console.log(reg.exec(hd)) // ['h', index: 0, input: 'hou', groups: undefined]
+        console.log(reg.lastIndex) // 1
+        console.log(reg.exec(hd)) // ['o', index: 1, input: 'hou', groups: undefined]
+        console.log(reg.lastIndex) // 2
+        console.log(reg.exec(hd)) // ['u', index: 2, input: 'hou', groups: undefined]
+        console.log(reg.lastIndex) // 3
+        console.log(reg.exec(hd)) // null （匹配失败，返回null）
+        console.log(reg.lastIndex) // 0 （匹配失败，lastIndex属性被重置为0）
+        var res = null
+        while(res = reg.exec(hd)){
+            console.log(res)
+        }
+    </script>
+    <script>
+        /*
+         * 正则表达式中 y 模式的使用 --> 执行“粘性 (sticky)”搜索，匹配从目标字符串的当前位置开始
+         *  y 修饰符的作用与 g 修饰符类似，也是全局匹配，后一次匹配都从上一次匹配成功的下一个位置开始
+         *  不同之处在于，g 修饰符只要剩余位置中存在匹配就可以，而 y 修饰符必须确保下一次检索开头的位置就必须为符合要求的，不然就会返回null 
+         */
+        var hd = 'udun'
+        // g 修饰符
+        var reg_g = /u/g
+        console.log(reg_g.exec(hd)) // ['u', index: 0, input: 'udun', groups: undefined]
+        console.log(reg_g.lastIndex) // 1
+        console.log(reg_g.exec(hd)) // ['u', index: 2, input: 'udun', groups: undefined]
+        console.log(reg_g.lastIndex) // 3
+        console.log(reg_g.exec(hd)) // null
+        console.log(reg_g.lastIndex) // 0
+        // y 修饰符
+        var reg_y = /u/y
+        console.log(reg_y.exec(hd)) // ['u', index: 0, input: 'udun', groups: undefined]
+        console.log(reg_y.lastIndex) // 1
+        console.log(reg_y.exec(hd)) // null
+        console.log(reg_y.lastIndex) // 0
+        /* 需求：匹配qq号 */
+        var str = `后盾人QQ群：11111111,99999999,88888888 后盾人不断分享视频教程，后盾人网址是houdunren.com`
+        var reg = /(\d+),?/y
+        reg.lastIndex = 7
+        var res = null
+        var qq = []
+        while(res = reg.exec(str)){
+            qq.push(res[1])
+        }
+        console.log(qq) // ['11111111', '99999999', '88888888']
+    </script>
+    <script>
+        /* 需求：使用正则表达式删除div中的标题（h1~h6） */
+        var div = document.querySelector('body div:nth-child(2)')
+        var reg = /<(h[1-6])>[\s\S]*<\/\1>/gi
+        div.innerHTML = div.innerHTML.replace(reg, '')
+    </script>
+    <script>
+        /**
+         * 原子组的使用 (原子表 => []   原子组 => ())
+         *  简单一点讲，原子组就是正则表达式中的小括号()及所包括的内容
+         */ 
+        var str1 = '2020-09-29'
+        var str2 = '2020/09/29'
+        var str3 = '2020-09/29'
+        var str4 = '2020/09-29'
+        var reg = /^\d{4}([-\/])\d{2}\1\d{2}$/ // \1就代表([-\/])
+        // 例如：对于正则表达式 /(A)(B(C))/，\1表示(A) \2表示(B(C)) \3表示(C)
+        console.log(str1.match(reg)[0]) // 2020-09-29 (完全匹配成功的文本)
+        console.log(str1.match(reg)[1]) // - (捕获括号里匹配成功的文本)
+        console.log(str2.match(reg)[0]) // 2020/09/29 (完全匹配成功的文本)
+        console.log(str2.match(reg)[1]) // / (捕获括号里匹配成功的文本)
+        console.log(reg.test(str3)) // false
+        console.log(reg.test(str4)) // false
+        /* 需求：校验邮箱，实时反馈校验的结果 */
+        document.querySelector('body div:nth-child(3) input').addEventListener('keyup', function(){
+            var reg = /^[\w-]+@(qq|163|126|gmail)\.com$/i
+            document.querySelector('body div:nth-child(3) span').innerHTML = reg.test(this.value) ? '格式正确' : '格式错误'
+        })
+    </script>
+    <script>
+        /* 需求：将标题标签（h1~h6）替换成段落标签（p） */
+        var hd = `
+            <h1>houdunren</h1>
+            <span>后盾人</span>
+            <h2>hdcms</h2>
+        `
+        var reg = /<(h[1-6])>([\s\S]*)<\/\1>/gi
+        var res = null
+        // res = hd.replace(reg, `<p>$2</p>`) // $2就代表第二个捕获括号(原子组)里面的内容 注意这里不要写成${$2}
+        res = hd.replace(reg, (p0, p1, p2) => {
+            console.log(p0) // <h1>houdunren</h1> 和 <h2>hdcms</h2>
+            console.log(p1) // h1 和 h2
+            console.log(p2) // houdunren 和 hdcms
+            return `<p>${p2}</p>`
+        })
+        console.log(res)
+    </script>
+    <script>
+        /* 非捕获分组（前面内容中的原子组都是捕获分组，可以使用\1 \2 $1 $2 ... */
+        var str = `
+            https://www.baidu.com
+            http://houdunren.cn
+            https://hdcms.net
+        `
+        /* 需求：获取所有的域名（不包括https://和http://） */
+        var reg = /https?:\/\/((?:w{3}\.)?\w+\.(?:com|cn|net))/gi // 在原子组中使用 ?: 表示非捕获分组（即不记录分组），不能使用\1 \2 $1 $2 ...
+        var res = []
+        var temp = null
+        while(temp = reg.exec(str)){
+            res.push(temp[1])
+        }
+        console.log(res) // ['www.baidu.com', 'houdunren.cn', 'hdcms.net']
+    </script>
+    <script>
+        /* 正则的批量使用 */
+        var regs = [/^[a-z0-9]{5,10}$/i, /[A-Z]/, /[0-9]/]
+        document.querySelector('body div:nth-child(4) input[name=password]').addEventListener('keyup', (e) => {
+            let result = regs.every((item) => {
+                return item.test(e.target.value)
+            })
+            document.querySelector('body div:nth-child(4) span').innerHTML = result ? '格式正确' : '格式错误'
+        })
+    </script>
+    <script>
+        /* 禁止贪婪 --> ? */
+        var str = 'hddddd'
+        console.log(str.match(/hd+?/)[0]) // hd
+        console.log(str.match(/hd*?/)[0]) // h
+        console.log(str.match(/hd??/)[0]) // h
+        console.log(str.match(/hd{2,5}?/)[0]) // hdd
+        console.log(str.match(/hd{1,}?/)[0]) // hd
+        /* 需求：把main标签中的span标签替换成h4标签并加红显示并在每个span内容的前面加上“后盾人-” */
+        var main = document.querySelector('main')
+        // 下面的正则表达式（reg）必须加上?，表示禁止贪婪，否则将直接匹配main标签中的所有span标签，且 ? 必须在原子组里面，否则 ? 表示0个或1个
+        var reg = /<span>([\s\S]*?)<\/span>/gi
+        main.innerHTML = main.innerHTML.replace(reg, (v, p1) => {
+            return `<h4 style="color: red;">后盾人-${p1}</h4>`
+        })
+    </script>
+    <script>
+        /* 取出div中标题标签中的内容，保存到数组中 */
+        var div = document.querySelector('div:nth-of-type(5)')
+        var reg = /<(h[1-6])>([\s\S]+?)<\/\1>/gi
+        var content = []
+        // 方法一：使用exec()方法
+        /* var temp = null
+        while(temp = reg.exec(div.innerHTML)){
+            content.push(temp[2])
+        } */
+        // 方法二：使用matchAll()方法
+        for(let v of div.innerHTML.matchAll(reg)){
+            content.push(v[2])
+        }
+        console.table(content)
+    </script>
+    <script>
+        /* 正则表达式中 $ 的使用 */
+        var tel = '(010)8888888 (020)99999999'
+        var reg = /\((\d{3,4})\)(\d{7,8})/ig
+        // console.log(tel.match(reg))
+        console.log(tel.replace(reg, '$1-$2')) // 010-8888888 020-99999999
+        /**
+         * 正则替换中匹配结果变量
+         *  - $` 表示匹配项前面的内容
+         *  - $& 表示匹配项自身
+         *  - $' 表示匹配项后面的内容
+         */ 
+        var str = '==xfy--'
+        console.log(str.replace(/xfy/, '$`')) // ====-- 把xfy替换成==
+        console.log(str.replace(/xfy/, '^_^$&^_^')) // ==^_^xfy^_^-- 把xfy替换成^_^xfy^_^
+        console.log(str.replace(/xfy/, "$'")) // ==---- 把xfy替换成--
+        /* 需求：给段落标签中的“教育”加上超链接 */
+        var p = document.querySelector('body>p')
+        p.innerHTML = p.innerHTML.replace(/教育/g, `<a href="https://www.baidu.com">$&</a>`)
+    </script>
+    <script>
+        /* 需求：将div中的a标签中的href属性中的http加上 s 并在域名前面加上 www. */
+        var div = document.querySelector('body div:nth-of-type(6)')
+        var reg = /href="(https?):\/\/(www\.)?(hdcms|houdunren)\.com"/ig
+        div.innerHTML = div.innerHTML.replace(reg, (v, ...args) => {
+            // console.log(v)
+            args[0] = ((args[0].substr(args[0].length - 1, 1) === 's') ? args[0] : (args[0] + 's'))
+            args[1] = args[1] || 'www.'
+            return `href="${args[0]}://${args[1]}${args[2]}.com"`
+        })
+    </script>
+    <script>
+        /* 给原子组起别名 --> ?<name> */
+        var str = `
+            <h1>houdunren</h1>
+            <span>后盾人</span>
+            <h1>hdcms</h1>
+        `
+        var reg= /<h1>(?<con>[\s\S]*?)<\/h1>/ig
+        console.log(str.replace(reg, '<h4>$<con></h4>'))
+        /* 需求：提取div中超链接的href属性和a标签中的内容，封装到一个数组中 */
+        var div = document.querySelector('body div:nth-of-type(7)')
+        var r = /<a.+href=(['"])(?<link>.*)\1>(?<content>.*)<\/a>/ig
+        var res = []
+        for(let v of div.innerHTML.matchAll(r)){
+            res.push(v.groups)
+        }
+        console.log(res)
+    </script>
+    <script>
+        /**
+         * 断言匹配
+         *  - x(?=y) 匹配'x'仅仅当'x'后面跟着'y' 这种叫做先行断言
+         *  - (?<=y)x 匹配'x'仅当'x'前面是'y' 这种叫做后行断言
+         *  - x(?!y) 仅仅当'x'后面不跟着'y'时匹配'x' 这被称为正向否定查找
+         *  - (?<!y)x 仅仅当'x'前面不是'y'时匹配'x' 这被称为反向否定查找
+         */ 
+        /* 需求：给后面是“教程”的“后盾人”加上超链接 */
+        var p = document.querySelector('p:nth-of-type(2)')
+        p.innerHTML = p.innerHTML.replace(/后盾人(?=教程)/ig, '<a href="https://www.baidu.com">$&</a>')
+        /* 需求：给价格添加“.00” */
+        var str = `
+            js, 200元， 300次
+            php, 300.00元，100次
+            node.js, 180元，260次
+        `
+        var reg = /(\d+)(\.00)?(?=元)/g
+        str = str.replace(reg, (v, ...args) => {
+            args[1] = args[1] || '.00'
+            return args.slice(0, 2).join('')
+        })
+        console.log(str)
+    </script>
+    <script>
+        /* 需求：将超链接都替换成“https://www.baidu.com” */
+        var div = document.querySelector('body div:nth-of-type(8)')
+        var reg = /(?<=href=(['"])).*(?=\1)/ig
+        div.innerHTML = div.innerHTML.replace(reg, 'https://www.baidu.com')
+        /* 需求：电话号码后四位模糊处理 */
+        var users = `
+            xfy电话：15652729608
+            xyc电话：18381972247
+        `
+        console.log(users.replace(/(?<=\d{7})\d{4}/g, '*'.repeat(4)))
+    </script>
+    <script>
+        /* 数字格式化 */
+        var str = '100000000'
+        var reg = /(?=\B(\d{3})+$)/g
+        var res = str.replace(reg, ',')
+        console.log(res) // '100,000,000'
+    </script>   
+</body>
+</html>

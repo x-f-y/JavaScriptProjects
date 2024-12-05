@@ -1,0 +1,59 @@
+:root {
+  --color: #b7d4a8;
+}
+
+body {
+  font: bold 20px "Courier";
+}
+
+.tss_container {
+  width: calc(var(--w) + 40px);
+  height: calc(var(--h) + 100px);
+  margin: 10px auto;
+  background-color: var(--color);
+  border: 10px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.stage {
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  border: 2px solid black;
+}
+
+.stage .snake > div {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--color);
+  background-color: black;
+}
+
+.stage .food {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--color);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+.stage .food .food-item {
+  width: 3px;
+  height: 3px;
+  background-color: black;
+  transform: rotate(45deg);
+}
+
+.score {
+  width: calc(var(--w) * 0.8);
+  display: flex;
+  justify-content: space-between;
+}

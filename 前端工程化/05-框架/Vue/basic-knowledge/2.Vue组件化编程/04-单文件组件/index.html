@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试一下单文件组件的语法</title>
+</head>
+
+<body>
+    <!-- 准备一个容器 -->
+    <div id="root">
+        <!-- <App></App> -->
+    </div>
+    <!-- 由于在main.js中未引入Vue.js，却使用了new Vue()，所以在这里引入Vue.js -->
+    <script src="../../tools/vue.js"></script>
+    <!-- 在body的最下方引入入口文件，保证此时模板已经加载完毕 -->
+    <script src="./main.js"></script>
+</body>
+
+</html>

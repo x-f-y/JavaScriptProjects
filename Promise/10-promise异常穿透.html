@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript">
+		/**
+		 * promise异常穿透
+		 * 	当使用promise的then链式调用时，可以在最后指定失败的回调
+		 * 	前面任何操作出了异常，都会传到最后失败的回调中处理
+		 */
+		let p = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				resolve('ok');
+				// reject('err');
+			}, 1000);
+		});
+		p.then(value => {
+			// console.log(111);
+			throw 'has a mistake here';
+		}).then(value => {
+			console.log(222);
+		}).then(value => {
+			console.log(333);
+		}).catch(reason => {
+			console.warn(reason);
+		})
+	</script>
+</head>
+
+<body>
+</body>
+
+</html>

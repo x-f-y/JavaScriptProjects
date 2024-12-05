@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        /* 
+            - 相邻的块级元素垂直外边距合并的问题
+                - 相邻的块级元素之间的垂直外边距（一个margin-bottom,一个margin-top）会取两者之间的较大值（两者都是正值）
+                - 特殊情况：
+                    - 相邻的垂直外边距一正一负，则取两者的和
+                    - 相邻的垂直外边距都是负值，则取两者中绝对值较大的
+                - 解决方案（对开发有利，可以不用解决）：
+                    - 尽量只给一个盒子添加margin值
+            - 嵌套的块级元素垂直外边距塌陷的问题
+                - 对于两个嵌套关系（父子关系）的块级元素，子元素的上外边距会传递给父元素，此时父元素会塌陷较大的那个外边距值
+                - 解决方案：
+                    - 可以为父元素定义上边框 border-top:1px solid transparent(但这种方式会撑开盒子，需要将父盒子的height-1px)
+                    - 可以为父元素定义上内边距 padding-top:50px(但这种方式也会撑开盒子，需要将父盒子的高度-50px)
+                    - 可以为父元素添加 overflow:hidden;
+                    - 浮动的盒子不会有塌陷问题（给父子元素的任意一个添加浮动即可）
+					- 固定、绝对定位的盒子不会有塌陷问题（给父子元素的任意一个添加固定定位或绝对定位即可）
+					- 行内块元素不会有塌陷问题（给父子元素的任意一个添加display:inline-block即可）
+         */
+        .box1 {
+            width: 100px;
+            height: 100px;
+            background-color: #bfa;
+            margin-bottom: 50px;
+        }
+
+        .box2 {
+            width: 100px;
+            height: 100px;
+            background-color: yellowgreen;
+            margin-top: 50px;
+        }
+
+        .father {
+            /* 浮动的盒子不会有垂直外边距塌陷的问题 */
+            /* float: left; */
+            width: 200px;
+            height: 200px;
+            background-color: purple;
+            /* 解决父元素垂直外边距塌陷问题 */
+            /* border-top: 1px solid transparent; */
+            /* padding-top: 1px; */
+            /* overflow: hidden; */
+        }
+
+        .son {
+            /* float: left; */
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 相邻的块级元素的垂直外边距合并 -->
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <hr />
+    <!-- 嵌套的块级元素的垂直外边距塌陷 -->
+    <div class="father">
+        <div class="son"></div>
+    </div>
+</body>
+
+</html>

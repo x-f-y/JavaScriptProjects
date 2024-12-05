@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>01_第一个3D案例</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../three.js/build/three.module.js",
+                "three/addons/": "../three.js/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+
+        const container = document.querySelector('.container');
+        const canvasWidth = container.clientWidth, canvasHeight = container.clientHeight;  // 定义画布的宽度和高度
+
+        // 定义一个三维场景
+        const scene = new THREE.Scene();
+
+        // 定义一个立方体，参数分别是宽度、高度和深度
+        const geometry = new THREE.BoxGeometry(4, 4, 4);
+        // 定义基础网格材质（这种材质不受光照的影响）
+        const material = new THREE.MeshBasicMaterial({color: 'red'});
+        // 根据立方体和材质创建物体
+        const mesh = new THREE.Mesh(geometry, material);
+        // 设置物体的位置
+        mesh.position.set(0, 0, 0);
+        // 将物体添加到场景中
+        scene.add(mesh);
+
+        // 创建一个透视投影相机，参数分别是视锥体的垂直视野角度、近（或远）裁剪面的宽高比、近裁剪面的位置、远裁剪面的位置
+        const camera = new THREE.PerspectiveCamera(30, canvasWidth / canvasHeight, 1, 100);
+        // 设置相机的位置
+        camera.position.set(6, 6, 14);
+        // 设置相机指向的目标位置
+        camera.lookAt(mesh.position);
+
+        // 创建一个渲染器
+        const renderer = new THREE.WebGLRenderer();
+        // 设置输出的canvas的大小
+        renderer.setSize(canvasWidth, canvasHeight);
+        // 执行渲染操作（输出一个canvas画布，也就是一个HTML元素）
+        renderer.render(scene, camera);
+        // 将创建的canvas元素插入container中
+        container.appendChild(renderer.domElement);
+    </script>
+</body>
+</html>

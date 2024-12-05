@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>AJAX POST 请求</title>
+	<style type="text/css">
+		#result {
+			width: 200px;
+			height: 100px;
+			border: 1px solid #903;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function () {
+			/**
+			 * 鼠标移入div发送ajax post请求，并将返回的响应体设置到div中
+			 */
+			const result = document.getElementById("result");
+			result.addEventListener('mouseover', function () {
+				//1、创建对象
+				const xhr = new XMLHttpRequest();
+				//2、初始化 设置请求类型和url
+				xhr.open('POST', 'http://127.0.0.1:8000/server');
+				//设置请求头（必须在open()之后、send()之前调用setRequestHeader()方法）
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.setRequestHeader('name', 'atguigu');
+				//3、发送
+				// xhr.send('a=100&b=200&c=300');
+				xhr.send('a:100&b:200&c:300');
+				//4、事件绑定 处理服务端返回的结果
+				xhr.onreadystatechange = function () {
+					//判断服务端是否返回了所有结果
+					if (xhr.readyState == 4) {
+						//响应状态码以2开头表示成功
+						if (xhr.status >= 200 && xhr.status < 300) {
+							//处理服务端返回的结果
+							//设置result中的文本
+							result.innerHTML = xhr.response;
+						}
+					}
+				}
+			})
+		};
+	</script>
+</head>
+
+<body>
+	<div id="result"></div>
+</body>
+
+</html>

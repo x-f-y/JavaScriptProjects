@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			let name = '尚硅谷';
+			let change = function(){
+				console.log('我们可以改变你！！');
+			};
+			const school = {
+				/* name:name,
+				change:change,
+				improve:function(){
+					console.log('我们可以提高你的技能');
+				} */
+				name,
+				change,
+				improve(){
+					console.log('我们可以提高你的技能');
+				}
+			}
+			console.log(school); // {name: '尚硅谷', change: ƒ, improve: ƒ}
+			school.improve() // 我们可以提高你的技能
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

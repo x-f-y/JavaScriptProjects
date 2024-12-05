@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="canvas" width="600" height="300">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+        <div class="color_operation">
+            <input type="radio" name="operation" value="original" checked>Original&nbsp;&nbsp;
+            <input type="radio" name="operation" value="grayscale">Grayscale&nbsp;&nbsp;
+            <input type="radio" name="operation" value="inverted">Inverted
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        const img = new Image()
+        img.src = '/image/scenery.png'
+        img.onload = function () {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+        }
+
+        const inputs = document.querySelectorAll('input[type="radio"]')
+        for(const input of inputs){
+            input.addEventListener('change', (e) => {
+                switch(e.target.value){
+                    case 'original':
+                        return original()
+                    case 'grayscale':
+                        return grayscale()
+                    case 'inverted':
+                        return inverted()
+                }
+            })
+        }
+
+        function original(){
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+        }
+
+        function grayscale(){
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+            for(let i = 0; i < imageData.data.length; i+=4){
+                const avg = (imageData.data[i] + imageData.data[i+1] + imageData.data[i+2]) / 3
+                imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = avg
+            }
+            ctx.putImageData(imageData, 0, 0, 0, 0, canvas.width, canvas.height)
+        }
+
+        function inverted(){
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+            for(let i = 0; i < imageData.data.length; i+=4){
+                imageData.data[i] = 255 - imageData.data[i]
+                imageData.data[i+1] = 255 - imageData.data[i+1]
+                imageData.data[i+2] = 255 - imageData.data[i+2]
+            }
+            ctx.putImageData(imageData, 0, 0, 0, 0, canvas.width, canvas.height)
+        }
+    </script>
+</body>
+</html>

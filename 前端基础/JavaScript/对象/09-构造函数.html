@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				使用工厂方法创建对象，通过该方法可以大批量的创建对象
+				使用工厂方法创建的对象，使用的构造函数都是Object
+				所以创建的对象都是Object这个类型，就导致我们无法区分出多种不同类型的对象
+			 */
+			function createPerson(name,age,gender){
+				var obj = new Object();
+				obj.name = name;
+				obj.age = age;
+				obj.gender = gender;
+				obj.sayName = function(){
+					console.log(this.name);
+				};
+				return obj;
+			}
+			var obj1 = createPerson("孙悟空",18,"男");
+			var obj2 = createPerson("白骨精",16,"女");
+			var obj3 = createPerson("猪八戒",20,"男");
+			console.log(obj1)
+			console.log(obj2)
+			console.log(obj3)
+			obj1.sayName();
+			obj2.sayName();
+			obj3.sayName();
+			
+			/* 
+				构造函数就是一个普通的函数，创建方式和普通函数没有区别
+				不同的是构造函数习惯上首字母大写
+				构造函数和普通函数的区别就是调用方式的不同
+				普通函数是直接调用，而构造函数需要使用new关键字来调用
+				
+				构造函数的执行流程：
+				1.立刻在堆内存中创建一个新的对象（在构造函数最前面隐式的加上 var this = Object.create(Fun.prototype)）
+				2.为新建的对象添加__proto__属性，指向构造函数的原型对象
+				3.将新建的对象设置为函数中的this,在构造函数中可以使用this来引用新建的对象
+				4.逐行执行函数中的代码（执行this.xxx=yyy）
+				5.将新建的对象作为返回值返回（在构造函数最后面隐式的加上return this）
+				
+				使用同一个构造函数创建的对象，我们称为一类对象，也将一个构造函数称为一个类。
+				我们将通过一个构造函数创建的对象，称为是该类的实例
+			 */
+			
+			//将sayName()方法在全局作用域定中义
+			/* 
+				将函数定义在全局作用域，污染了全局作用域的命名空间
+					而且定义在全局作用域中也很不安全
+					解决办法见原型.html
+			 */
+			function fun(){
+				console.log(this.name);
+			}
+			function Person(name,age,gender){
+				// var this = Object.create(Person.prototype)
+				this.name = name;
+				this.age = age;
+				this.gender = gender;
+				this.sayName = fun;
+				// return this
+			}
+			function Dog(name,age){
+				this.name = name;
+				this.age = age;
+			}
+			var person1 = new Person("孙悟空",18,"男");
+			var person2 = new Person("唐玄奘",25,"男");
+			var dog = new Dog("旺财",3);
+			console.log(person1);
+			person1.sayName();
+			console.log(person2);
+			person2.sayName();
+			console.log(dog);
+			
+			/* 
+				使用instanceof运算符可以检查一个对象是否是一个类的实例
+					语法：对象 instanceof 构造函数(类)
+			 */
+			console.log(person1 instanceof Person);
+			console.log(dog instanceof Dog);
+			console.log(person1 instanceof Dog);
+			/* 
+				所有对象都是Object对象的后代
+				所以任何对象和Object做instanceof检查时都会返回true
+			 */
+			console.log(person1 instanceof Object); // true
+			console.log(person2 instanceof Object); // true
+			console.log(dog instanceof Object); // true
+		</script>
+		<script>
+			/**
+			 * 如果在构造函数中显式的返回一个对象，那么隐式的`return this`就不会执行，因为隐式的`return this`
+			 * 始终放在构造函数的最后面，但如果显示的返回一个原始值，那么还是以隐式的`return this`为主
+			 */ 
+			function A(){
+				this.xxx = 'hello'
+				// return {}
+				return 123
+			}
+			console.log(new A()) // return {}的时候打印{}    return 123的时候打印{xxx: 'hello'}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

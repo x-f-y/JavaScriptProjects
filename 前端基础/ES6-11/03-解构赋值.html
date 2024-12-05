@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 数组解构 */
+        // 变量名可以随便起，顺序是一一对应的
+        /* let [a, b, c] = [5, 9, 10];
+        console.log(a, b, c); // 5 9 10
+
+        let [d, e] = [12]
+        console.log(d, e) // 12 undefined
+
+        let [f] = [2, 7]
+        console.log(f) // 2
+
+        let [g = 10, h = 20] = [23] // 解构的时候可以给变量设置默认值
+        console.log(g, h) // 23 20
+
+        let [i, j, ...k] = [5, 9, 10, 8, 3, 2] // 解构的时候可以使用rest参数 注意：rest参数只能放在最后一个
+        console.log(i, j, k) // 5 9 [10, 8, 3, 2]
+
+        let [l, ,m, ,n] = [3, 8, 9, 10, 6]
+        console.log(l, m, n) // 3 9 6
+
+        let [o, [p, q], r] = [2, [13, 34], 8]
+        console.log(o, p, q, r) // 2 13 34 8
+
+        // 使用解构赋值交换变量的值
+        let n1 = 1
+        let n2 = 2
+        ;[n2, n1] = [n1, n2]
+        console.log(n1) // 2
+        console.log(n2) // 1 */
+
+        /* 对象解构 */
+        // 变量名应该和对象的属性名保持一致，顺序无所谓
+        const zhao = {
+            name:"赵本山",
+            age:"不祥",
+            xiaopin:function(){
+                console.log("我可以演小品");
+            }
+        };
+        // let {xiaopin: xiaopin, age: age, name: name} = zhao
+        let {xiaopin, age, name} = zhao; // {xiaopin, age, name}是{xiaopin: xiaopin, age: age, name: name}的简写形式
+        console.log(name); // 赵本山
+        console.log(age); // 不祥
+        console.log(xiaopin); // ƒ (){ console.log("我可以演小品"); }
+
+        let {x, y} = {x: 1, y: 2, z: 3}
+        console.log(x, y) // 1 2
+
+        let {m, n, o} = {m: 1, n: 2}
+        console.log(m, n, o) // 1 2 undefined
+
+        let {foo: a, hoo: b} = {foo: 1, hoo: 2} // 解构的时候可以给变量重命名
+        console.log(a, b) // 1 2
+
+        let {c, d = 10} = {c: 1} // 解构的时候可以给变量设置默认值
+        console.log(c, d) // 1 10
+
+        let obj = {e: 1, f: [2, 3, 4]}
+        let {
+            e,
+            f: [a1, a2, a3]
+        } = obj
+        console.log(e, a1, a2, a3) // 1 2 3 4
+
+        let {_name, ..._args} = { _name: 'zs', _age: 20, _gender: '男' } // 解构的时候可以使用rest参数 注意：rest参数只能放在最后一个
+        console.log(_name, _args) // zs {_age: 20, _gender: '男'}
+
+        // 使用解构赋值来获取数组的第一个和最后一个值
+        // 由于数组也是对象，因此可以对数组进行对象属性的解构
+        let arr = [1, 2, 3, 4, 5]
+        let {0: first, [arr.length - 1]: last} = arr
+        console.log(first, last) // 1 5
+
+        let {log: myLog} = console
+        myLog('hello') // hello
+
+        // 注意：当解构一个对象时，如果属性本身没有被访问，它将沿着原型链继续查找
+        const ob = Object.create({h: 1, i: 2})
+        ob.j = 3
+        let {h, ...r} = ob
+        console.log(h) // 1
+        console.log(r) // {j: 3}
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript">
+		/**
+		 * ES5方式
+		 */ 
+
+		/* function Phone(brand,price){
+			this.brand = brand;
+			this.price = price;
+		}
+		Phone.prototype.call = function(){
+			console.log('我可以打电话');
+		}
+		function SmartPhone(brand,price,color,size){
+			Phone.call(this,brand,price);
+			this.color = color;
+			this.size = size;
+		}
+		//设置子类构造函数的原型
+		SmartPhone.prototype = new Phone();
+		//校正子类构造函数原型的constructor属性的指向
+		SmartPhone.prototype.constructor = SmartPhone;
+		//给子类添加方法
+		SmartPhone.prototype.photo = function(){
+			console.log('我可以拍照');
+		}
+		SmartPhone.prototype.playGame = function(){
+			console.log('我可以玩游戏');
+		}
+		//创建实例对象
+		const nokia = new SmartPhone('nokia',1999,'red','5.5inch');
+		console.log(nokia); */
+
+		/**
+		 * ES6 class方式实现继承
+		 * 	- 一个类必须有constructor()方法，如果没有显示定义，一个空的constructor()方法会被默认添加
+		 * 	- 子类如果显示指定了constructor()方法，则必须在该方法中调用super()方法，且调用该方法的位置
+		 * 	必须是在使用this关键字之前和构造函数返回之前
+		 * 	- 子类可以使用super.propertyOnParent或者super[expression]访问父类的属性或方法，也可以在constructor
+		 * 	中使用super(..args)调用父类的构造函数
+		 */ 
+		
+		class Phone {
+			constructor(brand, price) {
+				this.brand = brand;
+				this.price = price;
+			}
+			call() {
+				console.log('我可以打电话');
+			}
+			talk() {
+				console.log('我可以聊天')
+			}
+		}
+		class SmartPhone extends Phone {
+			constructor(brand, price, color, size) {
+				super(brand, price); // 调用父类的构造函数
+				this.color = color;
+				this.size = size;
+			}
+			photo() {
+				console.log('我可以拍照');
+			}
+			playGame() {
+				console.log('我可以玩游戏');
+			}
+			// 重写父类的方法
+			call(){
+				super.call() // 调用父类的call方法
+				// super["call"]()
+				console.log('我还可以接电话')
+			}
+		}
+		const nokia = new SmartPhone('nokia', 1999, 'red', '5.5inch');
+		console.log(nokia);
+		nokia.call() // 我可以打电话 我还可以接电话
+		nokia.talk() // 我可以聊天
+		nokia.photo() // 我可以拍照
+		nokia.playGame() // 我可以玩游戏
+		// 使用class实现继承时，注意以下两条线
+		console.log(SmartPhone.prototype.__proto__ === Phone.prototype) // true
+		console.log(SmartPhone.__proto__ === Phone) // true
+	</script>
+</head>
+
+<body>
+</body>
+
+</html>

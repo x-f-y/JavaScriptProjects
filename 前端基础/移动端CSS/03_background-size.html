@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 500px;
+            height: 500px;
+            border: 2px solid skyblue;
+            background: url('./images/dog.jpg') no-repeat;
+            /* background-size: 500px; */
+            /* background-size: 100%; */
+            /* background-size: 400px 300px; */
+            /* background-size: 80% 60%; */
+            /* background-size: contain; */
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        - background-size 设置背景图片大小
+        - 语法：
+            1. 设定宽度和高度值
+                - 如果只给一个数值，则将其作为宽度值大小，高度值将被设定为auto（以背景图片的比例缩放背景图片）
+                - 如果给了两个数值，则第一个值作为宽度值大小，第二个值作为高度值大小
+                - 注意：每个值可以是像素值，也可以是百分比，为百分比时，是相对于背景区的
+            2. 使用关键词contain
+                - 缩放背景图片以完全装入背景区，可能背景区部分空白
+            3. 使用关键词cover
+                - 缩放背景图片以完全覆盖背景区，可能背景图片部分看不见
+     -->
+    <div class="box"></div>
+</body>
+</html>

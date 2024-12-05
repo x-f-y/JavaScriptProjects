@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/**
+			 * Location
+			 * 	属性：
+			 * 		hash	返回一个URL的锚链接部分
+			 *		host	返回一个URL的主机名和端口
+			 *		hostname	返回URL的主机名
+			 *		href	返回完整的URL
+			 *		pathname	返回的URL路径名
+			 *		port	返回一个URL服务器使用的端口号
+			 *		protocol	返回一个URL协议
+			 *		search	返回一个URL的查询部分
+			 * 	方法：
+			 * 		assign()
+			 * 		reload()
+			 * 		replace()
+			 */
+			
+			window.onload = function(){
+				var btn = document.getElementById("btn");
+				btn.onclick = function(){
+					// console.log(location.hash) 
+					// console.log(location.host) // 127.0.0.1:5500
+					// console.log(location.hostname) // 127.0.0.1
+					// console.log(location.href) // http://127.0.0.1:5500/BOM/04-Location.html
+					// console.log(location.pathname) // /BOM/04-Location.html
+					// console.log(location.port) // 5500
+					// console.log(location.protocol) // http:
+					// console.log(location.search)
+
+					/**
+					 * 	如果直接打印loaction，则可以获取到地址栏的信息（当前页面的完整路径）
+					 * 	如果将location属性修改为一个完整的路径或相对路径，则页面会自动跳转到指定的页面，并且会生成相应的历史记录
+					 */
+					// alert(location);
+					// location = "http://www.baidu.com";
+					// location = "03-History.html";
+
+					/**
+					 * assign()方法
+					 * 	用来跳转到其他的页面，作用和直接修改location一样
+					 */
+					// location.assign("http://www.baidu.com");
+
+					/**
+					 * reload()方法
+					 * 	用于强制清空缓存刷新当前页面，用户在文本框中输入的内容也会被清空
+					 */
+					// location.reload();
+
+					/**
+					 * replace()方法
+					 * 	可以使用一个新的页面替换当前页面，调用完毕也会跳转页面
+					 * 	但是不会生成历史记录，不能使用回退按钮回退到上一个页面
+					 */
+					// location.replace("03-History.html");
+				};
+			};
+		</script>
+	</head>
+	<body>
+		<button id="btn">点我一下</button>
+		<input type="text"/>
+	</body>
+</html>

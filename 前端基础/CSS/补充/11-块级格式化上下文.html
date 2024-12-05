@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            margin: 50px 0;
+            padding: 30px;
+            min-width: 1000px;
+        }
+        .float {
+            float: left;
+            width: 300px;
+            height: 100px;
+            margin-right: 10px;
+            background-color: chocolate;
+        }
+        .box {
+            height: 100px;
+            background-color: #008c8c;
+            /* BFC */
+            overflow: hidden;
+        }
+        .left {
+            float: left;
+            width: 300px;
+            height: 100px;
+            margin-right: 10px;
+            background-color: pink;
+        }
+        .right {
+            float: right;
+            width: 300px;
+            height: 100px;
+            margin-left: 10px;
+            background-color: skyblue;
+        }
+        .main {
+            height: 100px;
+            background-color: wheat;
+            /* BFC */
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        块级格化式上下文（Block Formatting Context，简称BFC）
+            - 是一块独立的渲染区域，不同的BFC区域，它们进行渲染时互不干扰
+            - 以下元素会在其内部创建BFC区域：
+                1. <html>根元素
+                2. 浮动元素（元素的float属性值为left或者right）
+                3. 绝对定位元素（元素的position属性值为absolute或者fixed）
+                4. overflow属性值不等于visible的块盒
+                5. 行块盒（元素的display属性值为inline-block）
+                6. flex items（display属性值为flex或者inline-flex元素的直接子元素）
+                7. grid items（display属性值为grid或者inline-grid元素的直接子元素）
+                8. ......
+            - 应用：
+                1. 解决外边距塌陷问题
+                2. 解决由于子元素浮动而导致的父元素高度坍塌问题
+                3. BFC区域不会与浮动的盒子发生重叠，由此可以实现多栏布局
+     -->
+
+    <!-- 两栏布局 -->
+    <div class="container">
+        <div class="float"></div>
+        <div class="box"></div>
+    </div>
+    <!-- 三栏布局 -->
+    <div class="container">
+        <!-- 注意这里的顺序：left right main，而不是left main right -->
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="main"></div>
+    </div>
+</body>
+</html>

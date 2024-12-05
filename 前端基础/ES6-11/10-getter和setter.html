@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			var obj = {
+				firstName: '刘',
+				lastName: '强东',
+				get fullName(){
+					return this.firstName + "-" + this.lastName
+				},
+				set fullName(value){
+					const arr = value.split('-')
+					this.firstName = arr[0]
+					this.lastName = arr[1]
+				}
+			}
+			console.log(obj.fullName) // 刘-强东
+			obj.fullName = '马-云'
+			console.log(obj.fullName) // 马-云
+
+			class Phone{
+				get price(){
+					//读取price属性时该方法被触发，且该函数的返回值就是该属性的值
+					console.log('价格属性被读取了');
+					return 1999;
+				}
+				set price(newValue){//该方法必须有一个参数
+					//修改price属性时该方法被触发
+					console.log('价格属性被修改了');
+					console.log(newValue)
+				}
+			}
+			const s = new Phone();
+			//读取属性
+			console.log(s.price); // 价格属性被读取了 1999
+			//设置属性
+			s.price = 'free'; // 价格属性被修改了 free
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

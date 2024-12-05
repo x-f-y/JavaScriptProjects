@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 1px solid #aaaaaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        const ball = {
+            x: 100,
+            y: 100,
+            r: 25,
+            speedX: 1,
+            speedY: 3,
+            color: 'blue',
+            draw(){
+                ctx.beginPath()
+                ctx.fillStyle = this.color
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, true)
+                ctx.closePath()
+                ctx.fill()
+            }
+        }
+
+        function render(){
+            // ctx.clearRect(0, 0, canvas.width, canvas.height)
+            // 用带透明度的矩形代替清空以达到拖尾的效果
+            ctx.fillStyle = 'rgba(255,255,255,0.3)'
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+            ball.draw()
+            ball.x += ball.speedX
+            ball.y += ball.speedY
+            // 添加加速度
+            ball.speedY *= 0.995
+            ball.speedY += 0.15
+            // 添加边界
+            if(ball.x - ball.r < 0 || ball.x + ball.r > canvas.width){
+                ball.speedX = -ball.speedX
+            }
+            if(ball.y - ball.r < 0 || ball.y + ball.r > canvas.height){
+                ball.speedY = -ball.speedY
+            }
+            window.requestAnimationFrame(render)
+        }
+
+        render()
+    </script>
+</body>
+</html>

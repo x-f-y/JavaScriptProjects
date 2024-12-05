@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d')
+
+            /**
+             * 二次贝塞尔曲线
+             *  语法：ctx.quadraticCurveTo(cpx, cpy, x, y)
+             *  解释：绘制二次贝塞尔曲线需要2个点。第一个点(cpx,cpy)是控制点，第二个点(x,y)是终点。起始点是当前路径最新的点，
+             *  当创建二次贝塞尔曲线之前，可以使用moveTo()方法进行改变
+             */
+
+            ctx.beginPath()
+            ctx.moveTo(100, 100)
+            ctx.lineTo(100, 400)
+            ctx.lineTo(400, 400)
+            ctx.stroke()
+
+            ctx.beginPath()
+            ctx.setLineDash([2, 2])
+            for(let i = 1; i <= 29; i++){
+                ctx.moveTo(100, 100 + 10 * i)
+                ctx.lineTo(100 + 10 * i, 400)
+            }
+            ctx.stroke()
+
+            // 绘制一条二次贝塞尔曲线 起始点(100,100) 结束点(400,400) 控制点(100, 400)
+            ctx.beginPath()
+            ctx.setLineDash([])
+            ctx.strokeStyle = 'red'
+            ctx.lineWidth = 3
+            ctx.moveTo(100, 100)
+            ctx.quadraticCurveTo(100, 400, 400, 400)
+            ctx.stroke()
+        }
+    </script>
+</body>
+</html>

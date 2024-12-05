@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../tools/vue.js"></script>
+</head>
+
+<body>
+    <!--
+        事件的基本使用
+            - 使用v-on:xxx或@xxx绑定事件，其中xxx是事件名
+            - 事件的回调需要配置在methods对象中，最终会在vm上
+            - methods中配置的函数，不要用箭头函数，否则this就不是vm了
+            - methods中配置的函数，都是被Vue所管理的函数，this的指向是vm或组件实例对象
+            - @click="fun"和@click="fun($event)"效果一样，但后者可以传参
+        事件传参
+            - @事件名=funName -> 不传参,可以获取到事件对象event
+            - @事件名=funName(参数1, 参数2, ...) -> 传参,可以获取到传递的参数,但不可以获取到事件对象event
+            - @事件名=funName($event, 参数1, 参数2, ...) -> 传参,可以获取到传递的参数,也可以获取到事件对象event
+    -->
+    <div id="root">
+        <button v-on:click="showInfo">button1</button>
+        <button @click="showInfo(1, 2)">button2</button>
+        <button @click="showInfo($event, 1, 2)">button3</button>
+    </div>
+    <script>
+        Vue.config.productionTip = false
+        const vm = new Vue({
+            el: '#root',
+            methods: {
+                showInfo(...args) {
+                    console.log(this) // 这里的this是vm（Vue实例对象）,若将方法写成箭头函数的形式，那么此处的this是window
+                    console.log(args) // 点击button1打印[PointerEvent] 点击button2打印[1, 2] 点击button3打印[PointerEvent, 1, 2]
+                }
+            }
+        })
+        console.log(vm)
+    </script>
+</body>
+
+</html>

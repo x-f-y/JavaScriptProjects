@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetch 函数发送 ajax 请求</title>
+</head>
+
+<body>
+    <button>发送ajax请求</button>
+    <script>
+        const btn = document.querySelector('button')
+        btn.onclick = function () {
+            // 使用fetch函数发送ajax请求
+            fetch('http://127.0.0.1:8000/fetch-server?vip=7', {
+                // 请求类型
+                method: 'POST',
+                // 请求头
+                headers: {
+                    name: 'itheima'
+                },
+                // 请求体
+                // 注意：GET、HEAD请求不能配置请求体body信息
+                body: 'username=admin&password=admin'
+            }).then(response => {
+                // console.log(response)
+                // return response.text()
+                return response.json()
+            }).then(response => {
+                console.log(response)
+            })
+        }
+
+        /**
+         * 备注：
+         *  1. fetch中的body配置项等同于axios中的data配置项
+         *  2. fetch中没有params配置项
+         */ 
+    </script>
+</body>
+
+</html>

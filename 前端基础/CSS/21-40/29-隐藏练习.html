@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            position: relative;
+            width: 444px;
+            height: 320px;
+            background-color: pink;
+            margin: 100px auto;
+        }
+
+        .box img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .box .mask {
+            display: none;
+            /* visibility: hidden; */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .4) url(../images/arr.png) no-repeat center;
+        }
+
+        /* 鼠标经过box这个盒子时，就让里面的mask显示出来 */
+        /* 注意这种写法 */
+        .box:hover .mask {
+            /* 显示元素 */
+            display: block;
+            /* visibility: visible; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <img src="../images/tudou.jpg" alt="">
+        <div class="mask"></div>
+    </div>
+</body>
+
+</html>

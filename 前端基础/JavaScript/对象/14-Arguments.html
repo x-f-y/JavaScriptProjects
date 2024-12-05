@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				在调用函数时，浏览器每次都会传递进来两个隐含的参数
+					1：函数的上下文对象this
+					2：封装实参的对象arguments
+				arguments是一个类数组对象，它也可以通过索引来操作数据，也可以获取长度
+					在调用函数时，我们所传递的实参都会在arguments中保存
+					arguments.length可以用来获取实参的长度，即有多少个实参
+				我们即使创建函数时不定义形参，也可以通过arguments来使用实参，只不过比较麻烦
+					arguments[0]表示第一个实参 arguments[1]表示第二个实参...
+				arguments类数组对象中有一个callee属性，该属性指向当前正在执行的函数对象（注意：arguments.callee现已弃用）
+			 */
+
+			function fn(a, b){
+				console.log(fn.name) // 'fn'（函数名）
+				console.log(fn.length) // 2（函数形参个数）
+				console.log(fn.caller) // null（函数在全局作用域中被调用，fn.caller为null）
+				console.log(arguments) // Arguments(3) [1, 2, 3, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+				console.log(arguments[0]) // 1
+				console.log(arguments[1]) // true
+				console.log(arguments[2]) // "hello world"
+				console.log(arguments.length) // 3（函数实参个数）
+				console.log(arguments.callee === fn) // true
+			}
+			fn(1, true, "hello world")
+
+			function fun(a, b, c){
+				if(fun.length > arguments.length){
+					console.log('形参数量多')
+				}else if(fun.length < arguments.length){
+					console.log('实参数量多')
+				}else {
+					console.log('形参和实参数量相等')
+				}
+			}
+			fun(1, 2) // '形参数量多'
+			fun(1, 2, 3) // '形参和实参数量相等'
+			fun(1, 2, 3, 4) // '实参数量多'
+			
+			/**
+			 * 与实参相对应的形参与arguments[i]之间有一种映射关系，即“你变我也变，我变你也变”
+			 * 与实参不相对应的形参与arguments[i]之间则没有这种映射关系
+			 * 例如下面代码中：a、b与arguments[0]、arguments[1]之间有映射关系；c、d与arguments[2]、arguments[3]之间没有映射关系
+			 */
+
+			function fun2(a, b, c, d) {
+				a = 3
+				console.log(arguments[0]) // 3
+				arguments[1] = 4
+				console.log(b) // 4
+				c = 5
+				console.log(arguments[2]) // undefined
+				arguments[3] = 6
+				console.log(d) // undefined
+			}
+			fun2(1, 2)
+			
+			/**
+			 * fn.caller -> 返回调用指定函数的函数
+			 * 	- 如果一个函数 f 是在全局作用域内被调用的，则 f.caller 为 null
+			 * 	- 如果一个函数 f 是在另外一个函数作用域内被调用的，则 f.caller 指向调用它的那个函数
+			 */ 
+	        function myFunc(){
+	        	if(!myFunc.caller){
+	        		console.log('该函数在全局作用域中被调用！')
+	        	}else{
+	        		console.log('调用我的函数是' + myFunc.caller)
+	        	}
+	        }
+	        (function(){
+	        	myFunc() // 调用我的函数是function(){myFunc()}
+	        })()
+	        myFunc() // 该函数在全局作用域中被调用！
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

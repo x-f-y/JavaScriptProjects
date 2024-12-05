@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 可以为整个脚本文件开启严格模式，也可以只为某个函数开启严格模式 -->
+    <script>
+        // 为整个脚本文件开启严格模式
+        'use strict';
+    </script>
+    <script>
+        function fun(){
+            // 为fun函数开启严格模式（写在函数开头）
+            'use strict';
+        }
+    </script>
+    <script>
+        "use strict";
+        /* 严格模式的主要变化 */
+
+        // 规则一：严格模式下无法再意外创建全局变量，变量需声明才能使用
+        // mistypedVaraible = 17 // 报错，mistypedVaraible is not defined
+        // var m1 = m2 = 'hello' // 报错，m2 is not defined
+
+        // 规则二：严格模式会使引起静默失败的赋值操作（例如给不可写属性赋值，给只读属性赋值，给不可扩展对象的新属性赋值）抛出异常
+        // 给不可写属性赋值
+        var obj1 = {};
+        Object.defineProperty(obj1, "x", { value: 42, writable: false });
+        // obj1.x = 9; // 报错，Cannot assign to read only property 'x' of object '#<Object>'
+        // 给只读属性赋值
+        var obj2 = { get x() { return 17; } };
+        // obj2.x = 5; // 报错，Cannot set property x of #<Object> which has only a getter
+        // 给不可扩展对象的新属性赋值
+        var fixed = {};
+        // Object.preventExtensions()方法让一个对象变的不可扩展，也就是永远不能再添加新的属性
+        Object.preventExtensions(fixed);
+        // fixed.newProp = "ohai"; // 报错，Cannot add property newProp, object is not extensible
+
+
+        // 规则三：在严格模式下，试图删除不可删除的属性时会抛出异常
+        // delete Object.prototype // 报错，Cannot delete property 'prototype' of function Object() { [native code] }
+
+        // 规则四：在 Gecko 版本 34 之前,严格模式要求一个对象内的所有属性名在对象内必须唯一
+        // 注意：这个问题在 ECMAScript6 中已经不复存在
+        // var o = { p: 1, p: 2 } // 语法错误
+
+        // 规则五：严格模式要求函数的参数名唯一
+        /* function sum(a, a, c) { // 报错，Duplicate parameter name not allowed in this context
+            return a + a + c;
+        } */
+
+        // 规则六：严格模式禁止八进制数字语法
+        var a = 0o10;
+        console.log(a); // 8
+        // var b = 010 // 报错，Octal literals are not allowed in strict mode
+
+        // 规则七：ECMAScript 6 中的严格模式禁止设置primitive值的属性
+        // false.true = ""; // 报错，Cannot create property 'true' on boolean 'false'
+        // (14).sailing = "home"; // 报错，Cannot create property 'sailing' on number '14'
+        // "with".you = "far away"; // 报错，Cannot create property 'you' on string 'with'
+
+        // 规则八：严格模式禁止删除声明变量
+        var x;
+        // delete x; // 报错，Delete of an unqualified identifier in strict mode
+        // eval("var y; delete y;"); // 报错，Delete of an unqualified identifier in strict mode
+
+        // 规则九：严格模式禁止了不在脚本或者函数层面上的函数声明
+        /* if (true) {
+            function f() {} // !!! 语法错误
+            f();
+        }
+        for (var i = 0; i < 5; i++) {
+            function f2() {} // !!! 语法错误
+            f2();
+        }
+        function baz() { // 合法
+            function eit() { } // 同样合法
+        } */
+
+        // 规则十：严格模式下this的变化
+        function fun(){
+            console.log(this) // undefined（在普通模式下是Window）
+        }
+        fun()
+        function Person(name){
+            console.log(this) // undefined（在普通模式下，如果构造函数不加new调用，则将其当做普通函数，this指向Window）
+            // this.name = name // 报错，因为严格模式下的this是undefined
+        }
+        Person('张三') // 在严格模式下如果构造函数不加new调用，其中的this是undefined，后续的 this.xxx = yyy 会报错
+        // console.log(window.name) // 在普通模式下输出 张三
+
+        // 规则十一：创建eval作用域
+        // 正常模式下，eval语句中的作用域取决于eval语句所在的作用域，严格模式下，eval语句本身就是作用域，不能够生成全局变量，所生成的变量只能用于eval语句内部
+        var b = 123
+        // 正常模式下输出234和234，严格模式下输出234和123
+        eval('var b = 234; console.log(b)')
+        console.log(b)
+
+        /**
+         * 规则十二
+         *  - 严格模式下，参数的值不会随 arguments 对象的值的改变而变化，反之亦然
+         *  - 不再支持 arguments.callee
+         *  - 在严格模式下，fun.caller是不可删除的属性而且在存值、取值时都会报错
+         */ 
+        function func(a, b){
+            console.log(arguments)
+            a = 3
+            console.log(arguments[0]) // 正常模式下输出3，严格模式下输出1
+            arguments[1] = 4
+            console.log(b) // // 正常模式下输出4，严格模式下输出2
+            // console.log(arguments.callee) // 在严格模式下报错
+            // console.log(func.caller) // 在严格模式下报错
+        }
+        (function(){
+            func(1, 2)
+        })()
+
+        // 规则十三：严格模式下，禁用with
+        /*with(window.console){ // 报错，Strict mode code may not include a with statement
+            log('hello world')
+        }*/
+    </script>
+</body>
+</html>

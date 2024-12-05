@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // trimStart() --> 删除字符串开头的空格  trimLeft()是此方法的别名
+        console.log('   hello world   '.trimStart()) // 'hello world   '
+        console.log('   hello world   '.trimLeft()) // 'hello world   '
+
+        // trimEnd() --> 删除字符串末端的空格，trimRight()是这个方法的别名
+        console.log('   hello world   '.trimEnd()) // '   hello world'
+        console.log('   hello world   '.trimRight()) // '   hello world'
+
+        // startsWith(searchString[, position]) --> 返回布尔值，判断当前字符串是否以另外一个给定的子字符串开头
+        console.log('hello world'.startsWith('h')); // true
+        console.log('hello world'.startsWith('hello')); // true
+        console.log('hello world'.startsWith('world', 7)) // false
+        console.log('hello world'.startsWith('world', 6)) // true
+
+        // endsWith(searchString[, length]) --> 返回布尔值，判断当前字符串是否是以另外一个给定的子字符串结尾
+        // 注意：第二个可选的参数是字符串的长度，不是开始查找的位置
+        console.log('hello world'.endsWith('d')); // true
+        console.log('hello world'.endsWith('world')) // true
+        console.log('hello world'.endsWith('hello', 4)) // false
+        console.log('hello world'.endsWith('hello', 5)) // true
+
+        // includes(searchString[, position]) --> 返回布尔值，判断一个字符串是否包含在另一个字符串中
+        let str = 'To be, or not to be, that is the question.'
+        console.log(str.includes('not to be')) // true
+        console.log(str.includes('or not', 8)) // false
+        console.log(str.includes('or not', 7)) // true
+        console.log('hello'.includes('')) // true 注意此处
+        
+        // padStart(targetLength [, padString]) -->用另一个字符串填充当前字符串，以便产生的字符串达到给定的长度。从当前字符串的左侧开始填充
+        // 参数targetLength表示当前字符串需要填充到的目标长度。如果这个数值小于当前字符串的长度，则返回当前字符串本身
+        // 参数padString是填充字符串。如果字符串太长，使填充后的字符串长度超过了目标长度，则只保留最左侧的部分，其他部分会被截断，默认值是""
+        console.log('abc'.padStart(10)) // '       abc'
+        console.log('abc'.padStart(1)); // 'abc'
+        console.log('abc'.padStart(10, "foo")); // 'foofoofabc'
+        console.log('abc'.padStart(6, "123465")); // '123abc'
+
+        // padEnd(targetLength [, padString]) --> 用另一个字符串填充当前字符串，以便产生的字符串达到给定的长度。从当前字符串的右侧开始填充
+        // 参数和padStart()类似
+        console.log('abc'.padEnd(10)) // 'abc       '
+        console.log('abc'.padEnd(1)); // 'abc'
+        console.log('abc'.padEnd(10, 'foo')); // 'abcfoofoof'
+        console.log('abc'.padEnd(6, "123465")); // 'abc123'
+    </script>
+</body>
+</html>

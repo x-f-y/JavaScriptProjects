@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			span {
+				color: white;
+				padding: 8px;
+				margin: 5px;
+				float: left;
+			}
+
+			.green {
+				background-color: green;
+			}
+
+			.blue {
+				background-color: blue;
+			}
+			
+			.gray{
+				background-color: gray;
+			}
+		</style>
+		<script src="../js/jquery-3.6.0.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			/**
+			 * remove()
+			 * 	删除元素及其对应的子元素，标签和内容一起删除
+			 * empty()
+			 * 	清空元素内容，保留标签
+			 * each(function(index,element){})
+			 * 	遍历元素，index为当前元素的索引
+			 * 	element是当前的元素对象，是一个dom对象（不是jquery对象）
+			 */
+			window.onload = function() {
+				$('.green').remove();
+				$('.blue').empty();
+				
+				$('.gray').each(function(index,element){
+					console.log(index);
+					console.log(element);
+					console.log(this);
+					console.log($(this));
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<h3>删除元素和遍历元素</h3>
+		<span class="green">
+			jquery<a>删除</a>
+		</span>
+		<span class="blue">javase</span>
+		<span class="green">http协议</span>
+		<span class="blue">servlet</span>
+		<span class="gray">jquery</span>
+		<span class="gray">javase</span>
+		<span class="gray">http协议</span>
+		<span class="gray">servlet</span>
+	</body>
+</html>

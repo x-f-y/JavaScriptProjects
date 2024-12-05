@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*
+        一、CSS自定义属性
+            声明 CSS 自定义属性（变量）：--变量名
+            使用 CSS 自定义属性（变量）：var(--变量名)
+            备注：
+                1. 规则集所指定的选择器定义了自定义属性的可见作用域。通常将其定义在根伪类 :root 下，这样就可以在 HTML 文档的任何地方使用了
+                2. :root 这个 CSS 伪类匹配文档树的 <html> 根元素，除了优先级更高之外，与 html 选择器相同
+                3. 自定义属性名区分大小写，--my-color 和 --My-color 是不同的自定义属性
+        */
+        :root {
+            --globalColor: #008c8c;
+        }
+        .container {
+            --myColor: lightpink;
+        }
+        body {
+            font-size: 50px;
+        }
+        .container span {
+            color: var(--globalColor);
+            background-color: var(--myColor);
+        }
+        .box span {
+            color: var(--globalColor);
+            background-color: var(--myColor);
+        }
+        .demo {
+            width: 100px;
+            height: 100px;
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span>hello world 1</span>
+    </div>
+    <div class="box">
+        <span>hello world 2</span>
+    </div>
+    <div class="demo" data-a="1" data-b="2" data-My-own-Num="3" onclick="fun.call(this)"></div>
+    <script>
+        /**
+         * 二、HTML自定义属性
+         *  声明 HTML 自定义属性：data-xxx
+         *  使用 HTML 自定义属性：HTMLElement.dataset.yyy
+         *  备注：
+         *      1. xxx是自定义属性的名称，其中不能包含A到Z的大写字母
+         *      2. yyy是xxx的驼峰写法
+         */ 
+        function fun(){
+            console.log(this.dataset) // DOMStringMap {a: '1', b: '2', myOwnNum: '3'}
+            console.log(this.dataset.a, typeof(this.dataset.a)) // 1 string
+            console.log(this.dataset.b, typeof(this.dataset.b)) // 2 string
+            console.log(this.dataset.myOwnNum, typeof(this.dataset.myOwnNum)) // 3 string
+            // 修改已有自定义属性的值
+            this.dataset.a = 10
+            console.log(this.dataset.a) // 10
+            // 添加自定义属性
+            this.dataset.c = 30
+            console.log(this.dataset.c) // 30
+        }
+    </script>
+</body>
+</html>

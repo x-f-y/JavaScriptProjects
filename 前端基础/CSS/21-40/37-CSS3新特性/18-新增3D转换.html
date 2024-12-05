@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        3D转换之位移（translate）：
+            - transform:translateX(xpx);
+            - transform:translateY(ypx);
+            - transform:translateZ(zpx);
+            - transform:translate3d(xpx,ypx,zpx);
+            - 注意：其中的单位可以是像素，也可以是百分比，但translateZ一般用px为单位，很少用百分比
+            - 注意：xyz是不能省略的，如果没有就写0
+        3D转换之透视（perspective）：
+            - 透视也称为视距，视距就是人的眼睛到屏幕的距离
+            - 透视越大，成像越小；透视越小，成像越大（近大远小）
+            - 透视的单位是像素
+            - 透视是写在被观察元素的父盒子上面的
+        3D转换之旋转（rotate）：
+            - transform:rotateX(45deg); 沿着x轴正方向旋转45度
+            - transform:rotateY(45deg); 沿着y轴正方向旋转45度
+            - transform:rotateZ(45deg); 沿着z轴正方向旋转45度
+            - transform:rotate3d(x,y,z,deg); 沿着自定义轴旋转deg角度，其中xyz表示旋转轴的矢量
+            - 注意：对于旋转方向的判断需要使用左手准则：左手大拇指指向xyz轴的正方向，手指的弯曲方向就是沿着该轴旋转的正方向
+        3D转换之3D呈现（transform-style）：规定子元素如何在三维空间中呈现
+            - transform-style:flat(默认，元素的子元素在2D平面呈现)|preserve-3d(元素的子元素在3D空间中呈现)
+			- 如果选择平面（flat），元素的子元素将不会有3D的遮挡效果
+            - 3D呈现是写在要在3D空间中呈现的元素的父盒子上面的
+     -->
+    <style>
+        body {
+            perspective: 700px;
+        }
+
+        .box1 {
+            width: 100px;
+            height: 100px;
+            margin: 100px auto;
+            background-color: skyblue;
+            transform: translate3d(0, 0, 50px);
+        }
+
+        .img1,
+        .img2,
+        .img3,
+        .img4 {
+            display: block;
+            margin: 100px auto;
+            transition: all 2s;
+        }
+
+        .img1:hover {
+            /* 沿着x轴正方向旋转360度 */
+            transform: rotateX(360deg);
+        }
+
+        .img2:hover {
+            /* 沿着y轴正方向旋转360度 */
+            transform: rotateY(360deg);
+        }
+
+        .img3:hover {
+            /* 沿着z轴正方向旋转360度 */
+            transform: rotateZ(360deg);
+        }
+
+        .img4:hover {
+            /* 沿着正方形的主对角线旋转360度 */
+            transform: rotate3d(1, 1, 0, 360deg);
+        }
+
+        .box2 {
+            perspective: 600px;
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 100px auto;
+            transition: all 2s;
+            /* 让子元素开启3d立体空间环境 */
+            transform-style: preserve-3d;
+        }
+
+        .box2:hover {
+            transform: rotateY(90deg);
+        }
+
+        .box2 div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: pink;
+        }
+
+        .box2 div:last-child {
+            background-color: purple;
+            transform: rotateX(60deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box1"></div>
+    <img src="../../images/pig.jpg" class="img1" alt="">
+    <img src="../../images/pig.jpg" class="img2" alt="">
+    <img src="../../images/pig.jpg" class="img3" alt="">
+    <img src="../../images/pig.jpg" class="img4" alt="">
+    <div class="box2">
+        <div></div>
+        <div></div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .size {
+            width: 200px;
+            height: 200px;
+        }
+        .container {
+            width: 1000px;
+            height: 600px;
+            border: 10px solid blue;
+            padding-top: 180px;
+            background-color: #008c8c;
+            position: fixed;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+        }
+        .box1 {
+            position: relative;
+            z-index: -1;
+            margin-top: -280px;
+            margin-left: 200px;
+        }
+        .box2 {
+            margin-left: 250px;
+            margin-top: -150px;
+        }
+        .box3 {
+            float: left;
+            margin-left: 300px;
+            margin-top: -150px;
+        }
+        .box5 {
+            position: absolute;
+            top: 200px;
+            left: 350px;
+        }
+        .box6 {
+            position: absolute;
+            z-index: 0;
+            left: 400px;
+            top: 250px;
+        }
+        .box7 {
+            position: relative;
+            z-index: 1;
+            left: 450px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        堆叠上下文（stack context）
+            - 是由某个元素创建一块区域，它规定了在该区域中的内容在z轴上排列的先后顺序
+            - 创建堆叠上下文的元素：
+                1. html根元素
+                2. 设置了z-index为数值（非auto）的定位元素
+            - 同一个堆叠上下文中元素在z轴上排列的先后顺序（从后到前）：
+                1. 创建堆叠上下文的元素的背景和边框
+                2. 堆叠级别（z-index，stack level）为负数的堆叠上下文（负的越多，越靠下）
+                3. 常规流非定位的块盒
+                4. 非定位的浮动盒子
+                5. 常规流非定位行盒
+                6. 任何z-index为auto的定位子元素，以及z-index为0的堆叠上下文
+                7. 堆叠级别（z-index，stack level）为正值的堆叠上下文（正的越多，越靠上）
+            - 备注：
+                1. z-index默认值为auto
+                2. z-index属性只对于定位的盒子（position取值为非static）有效
+                3. 不同的元素，若排列的先后顺序相同，则后来者居上（后面的盒子覆盖前面的盒子）
+                4. 每个堆叠上下文都独立于其它的堆叠上下文，不同的堆叠上下文之间不能相互穿插
+     -->
+
+    <div class="container">
+        <span class="box4" style="background-color: pink;">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat accusamus voluptate quisquam nobis vitae nihil ad eius rem distinctio, debitis tempore consectetur quasi ipsum enim voluptas nulla ipsam eos? Ratione voluptates, iusto illum excepturi quibusdam placeat doloribus quo est perspiciatis optio nemo autem adipisci temporibus, molestias eius veniam numquam dicta porro ab facere minus consequuntur. Quas vero  consequuntur accusantium suscipit cumque facere, nam deserunt corrupti rerum alias, illo accusamus aut nesciunt assumenda repudiandae at incidunt possimus non ab tenetur perferendis praesentium. Omnis exercitationem tenetur, tempore placeat, voluptates rem, commodi accusamus ducimus eos distinctio unde! Veritatis, ipsum ipsa!    
+        </span>
+        <div class="box1 size" style="background-color: chocolate;"></div>
+        <div class="box2 size" style="background-color: brown;"></div>
+        <div class="box3 size" style="background-color: wheat;"></div>
+        <div class="box7 size" style="background-color: blueviolet;"></div>
+        <div class="box5 size" style="background-color: skyblue;"></div>
+        <div class="box6 size" style="background-color: chartreuse;"></div>
+    </div>
+    
+</body>
+</html>

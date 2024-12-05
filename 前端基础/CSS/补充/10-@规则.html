@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 
+            下面三个@指令一般写到CSS文件中，然后使用link标签引入，这里写在style标签里仅仅是为了方便
+                - @charset指令表示告诉浏览器，该CSS文件所使用的字符编码集。注意：该指令必须写到CSS文件的第一行
+                - @import指令表示在一个CSS文件中导入另外一个CSS文件
+                - @font-face指令表示制作一个新的字体
+         */
+        @charset "utf-8";
+        @import "meyer.css";
+        @font-face {
+            font-family: "good night";
+            src: url("晚安体.ttf");
+        }
+        body {
+            font-size: 30px;
+            font-family: "宋体";
+        }
+        input {
+            border: 3px solid #999;
+        }
+        input:focus {
+            border: 3px solid #008c8c;
+        }
+        p:last-of-type {
+            font-family: "good night";
+        }
+    </style>
+</head>
+<body>
+    <p>
+        Lorem ipsum dolor sit amet.
+    </p>
+    <p>
+        <input type="text" value="请输入">
+    </p>
+    <p>
+        长夜将至，我从今开始守望
+    </p>
+</body>
+</html>

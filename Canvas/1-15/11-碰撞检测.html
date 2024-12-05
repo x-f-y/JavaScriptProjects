@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            display: block;
+            border: 2px solid #aaa;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+
+        /**
+         * 小球类
+         */
+        class Ball {
+            constructor() {
+                this.x = Math.round(Math.random() * 480 + 10) // x坐标 [10,490]
+                this.y = Math.round(Math.random() * 480 + 10) // y坐标 [10,490]
+                this.r = Math.round(Math.random() * 40 + 10) // 半径 [10,50]
+                this.color = '#' + Math.random().toString(16).padEnd(9, '0').substring(2, 8) // 颜色
+                this.speedX = Math.round(Math.random() * 10 - 5) // x轴速度 [-5,5]
+                this.speedY = Math.round(Math.random() * 10 - 5) // y轴速度 [-5,5]
+            }
+            // 绘制小球
+            draw(){
+                ctx.beginPath()
+                ctx.fillStyle = this.color
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false)
+                ctx.fill()
+            }
+            // 修改小球的位置（碰撞检测）
+            play(){
+                this.x += this.speedX
+                // 左右碰撞
+                if(this.x - this.r <= 0){
+                    this.x = this.r
+                    this.speedX = -this.speedX
+                }else if(this.x + this.r >= canvas.width){
+                    this.x = canvas.width - this.r
+                    this.speedX = -this.speedX
+                }
+                this.y += this.speedY
+                // 上下碰撞
+                if(this.y - this.r <= 0){
+                    this.y = this.r
+                    this.speedY = -this.speedY
+                }else if(this.y + this.r >= canvas.height){
+                    this.y = canvas.height - this.r
+                    this.speedY = -this.speedY
+                }
+            }
+        }
+
+        // 生成随机数量的小球
+        const n = Math.round(Math.random() * 40 + 10) // 小球的数量
+        const ballArr = []
+        for(let i = 0; i < n; i++){
+            ballArr.push(new Ball())
+        }
+
+        // 让小球动起来
+        requestAnimationFrame(function fn(){
+            // 清除画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            for(const v of ballArr){
+                v.draw()
+                v.play()
+            }
+            requestAnimationFrame(fn)
+        })
+    </script>
+</body>
+</html>

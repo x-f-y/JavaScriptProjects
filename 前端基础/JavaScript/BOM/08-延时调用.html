@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/**
+			 * 延时调用
+			 * 	指一个函数不马上执行，而是隔一段时间再执行，而且只会执行一次
+			 * 	延时调用和定时调用的区别就是，定时调用会执行多次，而延时调用只会执行一次
+			 * 	延时调用和定时调用实际上是可以互相代替的，在开发中可以根据自己的需要去选择
+			 * 		setTimeout()	开启一个延时调用
+			 * 		clearTimeout()	关闭一个延时调用
+			 * 		和定时调用一样，setTimeout()和clearTimeout()也是window对象的方法，可以直接使用，且内部this指向window
+			 * 	注意：由于延时调用是异步代码，必须等同步代码执行完后才能执行，所以设置的延迟时间往往不是真正的延迟时间（有误差）
+			 */
+			var num = 1;
+			var timer = setTimeout(function(){
+				console.log(this === window) // true
+				console.log(num++);
+			},3000);
+			//使用clearTimeout()来关闭一个延时调用
+			// clearTimeout(timer);
+
+			// setTimeout还可以传递额外的参数，这些参数会在延迟时间结束后传递给函数
+			setTimeout((...args) => {
+				console.log(args) // [1, true, 'hello']
+			}, 100, 1, true, 'hello')
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

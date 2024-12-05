@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入jquery -->
+    <script src="https://cdn.staticfile.org/jquery/1.10.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <button onclick="testFetch()">测试fetch函数</button>
+        <button onclick="testJsonp()">测试jsonp</button>
+    </div>
+    <script>
+        // 定义一个函数
+        function handle(data) {
+            console.log(data)
+        }
+
+        function testFetch() {
+            fetch('http://127.0.0.1:2000/fetch', {
+                method: 'get'
+            }).then(response => {
+                return response.json()
+            }).then(response => {
+                console.log(response)
+            })
+        }
+
+        // 第一种方式
+        /*function testJsonp() {
+            const script = document.createElement('script')
+            script.src = 'http://127.0.0.1:2000/jsonp?callback=handle'
+            document.body.appendChild(script)
+        }*/
+        // 第二种方式
+        function testJsonp() {
+            $.ajax({
+                type: 'get',
+                url: 'http://127.0.0.1:2000/jsonp?callback=handle',
+                dataType: 'jsonp',
+                success(res) {
+                    console.log(res)
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

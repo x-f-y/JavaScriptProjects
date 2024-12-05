@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    img {
+      display: block;
+    }
+    body {
+      overflow: hidden;
+    }
+    .scroll-container {
+      height: 100vh;
+      position: relative;
+    }
+    .prev, .next {
+      position: absolute;
+      z-index: 1;
+      height: 0;
+      overflow: hidden;
+      transition: 1s ease-in-out;
+    }
+    .next {
+      bottom: 0;
+    }
+    .cur img {
+      transition: 1s ease-in-out;
+    }
+    .scroll-up .prev {
+      height: 100%;
+    }
+    .scroll-up .cur img {
+      transform: translateY(20%);
+    }
+    .scroll-down .next {
+      height: 100%;
+    }
+    .scroll-down .cur img {
+      transform: translateY(-20%);
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-container">
+    <!-- <div class="prev"><img src="../images/scroll-images/image-1.jpg" alt=""></div>
+    <div class="cur"><img src="../images/scroll-images/image-2.jpg" alt=""></div>
+    <div class="next"><img src="../images/scroll-images/image-3.jpg" alt=""></div> -->
+  </div>
+  <script>
+    const imgsSrc = [
+      './scroll-images/image-1.jpg',
+      './scroll-images/image-2.jpg',
+      './scroll-images/image-3.jpg',
+      './scroll-images/image-4.jpg',
+      './scroll-images/image-5.jpg',
+    ];
+    let curIndex = 0;
+    let isAnimating = false;
+    const scrollContainer = document.querySelector('.scroll-container');
+
+    function createDiv(index){
+      const img = new Image();
+      img.src = imgsSrc[index];
+      const div = document.createElement('div');
+      div.appendChild(img);
+      scrollContainer.appendChild(div);
+      return div;
+    }
+
+    function getPrevIndex(){
+      return curIndex - 1 < 0 ? imgsSrc.length - 1 : curIndex - 1;
+    }
+
+    function getNextIndex(){
+      return curIndex + 1 > imgsSrc.length - 1 ? 0 : curIndex + 1;
+    }
+
+    function resetElements(){
+      scrollContainer.innerHTML = '';
+      const prevIndex = getPrevIndex();
+      const nextIndex = getNextIndex();
+      createDiv(prevIndex).classList.add('prev');
+      createDiv(curIndex).classList.add('cur');      
+      createDiv(nextIndex).classList.add('next');
+    }
+
+    resetElements();
+
+    // 监听鼠标滚动事件
+    scrollContainer.addEventListener('wheel', e => {
+      if(e.deltaY === 0){
+        return;
+      }
+      if(isAnimating){
+        return;
+      }
+      isAnimating = true;
+      if(e.deltaY > 0){
+        // 往下滚动
+        scrollContainer.classList.add('scroll-down');
+      }else {
+        // 往上滚动
+        scrollContainer.classList.add('scroll-up');
+      }
+    });
+
+    // 监听过渡结束事件
+    scrollContainer.addEventListener('transitionend', () => {
+      isAnimating = false;
+      if(scrollContainer.classList.contains('scroll-down')) {
+        scrollContainer.classList.remove('scroll-down');
+        curIndex = getNextIndex();
+      }else if(scrollContainer.classList.contains('scroll-up')) {
+        scrollContainer.classList.remove('scroll-up');
+        curIndex = getPrevIndex();
+      }
+      resetElements();
+    });
+  </script>
+</body>
+</html>

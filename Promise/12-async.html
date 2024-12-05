@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript">
+		/**
+		 * async函数
+		 * 	函数的返回值为promise对象
+		 * 	promise对象的结果由async函数执行的返回值决定
+		 * asyn函数的返回值的规则和then函数一模一样
+		 * asyc关键字用于声明一个函数是异步的
+		 */
+		async function main() {
+			//如果返回值是一个非Promise类型的数据
+			// return 521;
+			//如果返回的是一个Promise的对象
+			// return new Promise((resolve,reject) => {
+			// 	// resolve('ok');
+			// 	reject('no');
+			// });
+			//抛出异常
+			throw 'has a mistake here';
+		}
+		console.log(main());
+	</script>
+</head>
+
+<body>
+</body>
+
+</html>

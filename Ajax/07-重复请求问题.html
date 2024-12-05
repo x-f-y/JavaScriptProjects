@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>重复请求问题</title>
+	<script type="text/javascript">
+		window.onload = function () {
+			const btn = document.querySelector('button');
+			//创建一个变量标识当前是否正在发送请求
+			let isSending = false;
+			let x = null;
+			btn.addEventListener('click', () => {
+				//判断当前是否正在发送请求
+				if (isSending) {
+					//取消当前请求，重新发送一个新的请求
+					x.abort();
+				}
+				x = new XMLHttpRequest();
+				//正在发送请求，修改标识变量的值
+				isSending = true;
+				x.open('GET', 'http://127.0.0.1:8000/delay');
+				x.send();
+				x.onreadystatechange = function () {
+					if (x.readyState == 4) {
+						//服务端返回全部结果，请求完成，修改标识变量的值
+						isSending = false;
+					}
+				};
+			});
+		};
+	</script>
+</head>
+
+<body>
+	<button>发送请求</button>
+</body>
+
+</html>

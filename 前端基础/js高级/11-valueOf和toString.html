@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 引用数据类型的valueOf()和toString() */
+
+        var obj = { a: 1, b: 2 }
+        var arr = ['hello', false, 4]
+        var fun = function(){ console.log('你好') }
+        var date = new Date("5/22/2016 23:59:59");
+        var date2 = new Date(2016, 4, 22, 23, 59, 59);
+
+        console.log(obj.valueOf() === obj) // true
+        console.log(obj.toString()) // "[object Object]"
+
+        console.log(arr.valueOf() === arr) // true
+        console.log(arr.toString()) // "hello,false,4"
+
+        console.log(fun.valueOf() === fun) // true
+        console.log(fun.toString()) // "function(){ console.log('你好') }"
+
+        console.log(date.valueOf() === date) // false
+        console.log(date.valueOf()) // 1463932799000（Date对象的valueOf方法的返回值是从1970年1月1日午夜开始计的毫秒数）
+        console.log(date.toString()) // "Sun May 22 2016 23:59:59 GMT+0800 (中国标准时间)"
+        console.log(date2.valueOf() === date2) // false
+        console.log(date2.valueOf()) // 1463932799000
+        console.log(date2.toString()) // "Sun May 22 2016 23:59:59 GMT+0800 (中国标准时间)"
+
+        /* 基本数据类型的valueOf()和toString() */
+
+        var num = 3
+        var bool = true
+        var str = 'hello'
+        var newNum = new Number(3)
+        var newBool = new Boolean(true)
+        var newStr = new String('hello')
+
+        console.log(num.valueOf() === num) // true
+        console.log(typeof newNum) // "object"
+        console.log(num.valueOf() == newNum) // true
+        console.log(num.valueOf() === newNum) // false
+        console.log(num.toString()) // '3'
+
+        console.log(bool.valueOf() === bool) // true
+        console.log(typeof newBool) // "object"
+        console.log(bool.valueOf() == newBool) // true
+        console.log(bool.valueOf() === newBool) // false
+        console.log(bool.toString()) // 'true'
+
+        console.log(str.valueOf() === str) // true
+        console.log(typeof newStr) // "object"
+        console.log(str.valueOf() == newStr) // true
+        console.log(str.valueOf() === newStr) // false
+        console.log(str.toString()) // 'hello'
+
+        /* 重写valueOf()和toString() */
+
+        var a = {
+            count: 1,
+            valueOf: function(){
+                return this.count++
+            }
+        }
+        console.log(a == 1 && a == 2 && a == 3) // true
+
+        var b = {
+            valueOf: function(){
+                return this
+            },
+            toString: function(){
+                return this
+            }
+        }
+        // console.log(b + 1) // 报错，Cannot convert object to primitive value
+
+        var c = {}, d = { key: 'b' }, e = { key: 'c' }
+        // 对象的属性名只能是String类型或者Symbol类型
+        c[d] = 123
+        c[e] = 456
+        console.log(c[d]) // 456
+
+        var f = []
+        f[1] = 'abc'
+        f['1'] = 'def'
+        console.log(f[1]) // "def"
+    </script>
+</body>
+</html>

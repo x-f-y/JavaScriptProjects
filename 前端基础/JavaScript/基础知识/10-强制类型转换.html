@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			// 强制类型转换指将一个数据类型强制转换为String Number Boolean类型	
+			/* 
+				将其他的数据类型转换为String
+					方式一：
+						调用被转换数据类型的toString()方法
+						该方法不会影响原变量，它会将转换的结果返回
+						注意：	1. null和undefined这两个值没有toString()方法
+								2. 数值字面量不能直接调用toString()方法
+								3. toString()方法接受一个参数，指定将数值转换为对应进制的数字字符串
+								4. NaN和Infinity调用toString()方法返回'NaN'和'Infinity'
+								5. 对象调用toString()方法返回[object Object]
+								  
+					方式二：
+						调用String()函数，并将被转换的数据作为参数传递给函数
+						使用String()函数做强制类型转换时
+							对于Number和Boolean实际上就是调用的toString()函数
+							但是对于null和undefined，就不会调用toString()方法
+								它会将null直接转换为"null"
+								将undefined直接转换为"undefined"
+			 */
+			/* 
+				将其他数据类型准换为Number
+					方式一：
+						使用Number()函数
+							字符串->数字
+								1.如果去除首尾空格后是纯数字的字符串，则直接将其转换为数字
+								2.如果字符串中有非数字的内容，则转换为NaN
+								3.如果字符串是一个空串或者是一个全是空格的字符串，则转换为0
+							布尔->数字
+								true 1   false 0
+							null->数字
+								0
+							undefined->数字
+								NaN
+					方式二：
+						这种方式专门用来对付字符串
+							parseInt()把一个字符串转换为一个整数
+							parseFloat()把一个字符串转换为一个浮点数
+							parseInt()可以将一个字符串中的有效整数位取出来然后转换为Number
+							parseFloat()作用和parseInt类似，不同的是它可以获得有效的小数位
+							如果对非String使用parseInt()或parseFloat()
+							它会先将其转换为String，然后再操作
+			 */
+			/* 
+				将其他数据类型转换为Boolean
+					使用Boolean()函数
+						数字->布尔
+							除了0和NaN，其余的都是true
+						字符串->布尔
+							除了空串，其余的都是true
+						null和undefined->布尔
+							false
+						对象->布尔
+							true
+			 */
+
+			// console.log(123.toString()) // 这种写法是错误的，数值字面量不能直接调用toString()方法，可以换成使用如下三种方式
+			console.log((123).toString()) // '123'
+			console.log(123 .toString()) // '123'
+			console.log(123..toString()) // '123'
+
+			console.log((20).toString(8)) // '24'
+			console.log(NaN.toString()) // 'NaN'
+			console.log(Infinity.toString()) // 'Infinity'
+			console.log({a: 1}.toString()) // [object Object]
+			// console.log(null.toString()) // 报错 Cannot read properties of null
+			// console.log(undefined.toString()) // 报错 Cannot read properties of undefined
+
+			console.log(String(123)) // '123'
+			console.log(typeof String(true)) // 'string'
+			console.log(String(null)) // 'null'
+			console.log(String(undefined)) // 'undefined'
+
+			console.log(Number('123')) // 123
+			console.log(Number('123abc')) // NaN
+			console.log(Number('   ')) // 0
+			console.log(Number(true)) // 1
+			console.log(Number(false)) // 0
+			console.log(Number(null)) // 0
+			console.log(Number(undefined)) // NaN
+
+			var a = "123.345px2345";
+			a = parseFloat(a);
+			console.log(typeof a); // 'number'
+			console.log(a); // 123.345
+			var a = NaN;
+			a = Boolean(a);
+			console.log(typeof a); // 'boolean'
+			console.log(a); // false
+
+			console.log(Boolean(0)) // false
+			console.log(Boolean(NaN)) // false
+			console.log(Boolean(Infinity)) // true
+			console.log(Boolean(123)) // true
+
+			console.log(Boolean('')) // false
+			console.log(Boolean('  ')) // true
+
+			console.log(Boolean('1334')) // true
+			console.log(Boolean(null)) // false
+			console.log(Boolean(undefined)) // false
+			console.log(Boolean({'a': 1})) // true
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

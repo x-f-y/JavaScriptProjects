@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!-- 
+			1. 可以将js代码编写到外部js文件中，然后通过script标签引入 
+			写到外部文件可以在不同的页面中同时引用，也可以利用浏览器的缓存机制
+			推荐使用
+		-->
+		<!-- 
+			script标签一旦用于引入外部文件了，就不能在编写代码了，即使编写了浏览器也会忽略
+			如果需要可以再创建一个新的script标签用于编写内部代码
+		 -->
+		<script type="text/javascript" src="../../../其他/tools/script.js"></script>
+		<script type="text/javascript">
+			alert("我是内部的js代码");
+		</script>
+		<!-- 2. 可以将js代码写到script标签中 -->
+		<script type="text/javascript">
+			alert("我是script标签中的代码");
+		</script>
+	</head>
+	<body>
+		<!-- 3. 可以将js代码写在标签的属性中，不推荐使用，属于结构与行为耦合。以下是一些例子 -->
+		<!-- 示例：可以将js代码写在超链接的href属性中 -->
+		<a href="javascript:alert('让你点你就点');">你也点我一下</a>
+		<a href="javascript:;">你也点我一下</a>
+		<!-- 示例：可以将js代码编写到button标签的onclick属性中 -->
+		<button onclick="alert('你点我干嘛');">点我一下</button>
+		<!-- 示例：可以将js代码编写到input标签的onfocus和onblur属性中 -->
+		<input style="color:#999;" type="text" value="请输入" onfocus="if(this.value==='请输入'){this.value='';this.style.color='#008c8c'}" onblur="if(this.value===''){this.value='请输入';this.style.color='#999'}">
+		<!-- 其他示例：...... -->
+	</body>
+</html>

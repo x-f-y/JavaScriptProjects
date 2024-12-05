@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 重置样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    li {
+      list-style-type: none;
+    }
+    img {
+      vertical-align: middle;
+    }
+    /* 容器样式 */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      width: 300px;
+      height: 200px;
+      margin: 100px auto;
+      outline: 2px solid #008c8c;
+    }
+    /* 轮播图主体样式 */
+    .main > ul {
+      width: 2100px;
+      transform: translateX(-300px);
+    }
+    .main > ul li {
+      float: left;
+    }
+    .main > ul li img {
+      width: 300px;
+      height: 200px;
+    }
+    /* 左右箭头样式 */
+    .arrow {
+      line-height: 25px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 300;
+    }
+    .arrow .left, .arrow .right {
+      position: absolute;
+      top: 50%;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+    .arrow .left {
+      left: 0;
+      transform: translate(-12px, -50%);
+      padding-left: 9px;
+    }
+    .arrow .right {
+      right: 0;
+      transform: translate(12px, -50%);
+      padding-left: 1px;
+    }
+    /* 指示器样式 */
+    .indicator {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 2px 0;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+    }
+    .indicator span {
+      float: left;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      margin: 0 2px;
+      background-color: #fff;
+    }
+    .indicator span.active {
+      background-color: #f40;
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel">
+    <!-- 轮播图主体 -->
+    <div class="main">
+      <ul>
+        <li><img src="./img/p5.jpg" alt=""></li>
+        <li><img src="./img/p1.jpg" alt=""></li>
+        <li><img src="./img/p2.jpg" alt=""></li>
+        <li><img src="./img/p3.jpg" alt=""></li>
+        <li><img src="./img/p4.jpg" alt=""></li>
+        <li><img src="./img/p5.jpg" alt=""></li>
+        <li><img src="./img/p1.jpg" alt=""></li>
+      </ul>
+    </div>
+    <!-- 左右翻动箭头 -->
+    <div class="arrow">
+      <span class="left">&lt;</span>
+      <span class="right">&gt;</span>
+    </div>
+    <!-- 指示器 -->
+    <div class="indicator">
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+  <script>
+    // 获取 dom 元素
+    const doms = {
+      carouselMain: document.querySelector('.carousel .main > ul'),
+      arrowList: document.querySelectorAll('.arrow span'),
+      indicatorList: document.querySelectorAll('.indicator span')
+    }
+
+    // 保存当前显示的图片索引
+    let currentImgIndex = 0
+
+    // 保存图片总数
+    const totalImgs = doms.indicatorList.length
+
+    // 保存计时器id
+    let timer
+
+    /**
+     * 移动轮播图到指定的图片
+     * @param {Number} index 图片的索引
+     */
+    function moveTo(index){
+      doms.carouselMain.style.transition = '0.5s'
+      doms.carouselMain.style.transform = `translateX(${-300 * (index + 1)}px)`
+      document.querySelector('.indicator span.active').classList.remove('active')
+      doms.indicatorList[index].classList.add('active')
+      currentImgIndex = index
+    }
+
+    // 为指示器注册点击事件
+    doms.indicatorList.forEach((v, i) => v.addEventListener('click', () => {
+      clearInterval(timer)
+      moveTo(i)
+      autoChange()
+    }))
+
+    /**
+     * 前一张
+     */ 
+    function leftNext(){
+      if (currentImgIndex === 0) {
+        // 无缝
+        doms.carouselMain.style.transition = 'none'
+        doms.carouselMain.style.transform = `translateX(${-300 * (totalImgs + 1)}px)`
+        // 强制渲染
+        doms.carouselMain.clientWidth;
+        moveTo(totalImgs - 1)
+      } else {
+        moveTo(currentImgIndex - 1)
+      }
+    }
+
+    /**
+     * 后一张
+     */ 
+    function rightNext(){
+      if (currentImgIndex === totalImgs - 1) {
+        // 无缝
+        doms.carouselMain.style.transition = 'none'
+        doms.carouselMain.style.transform = 'translateX(0)'
+        // 强制渲染
+        doms.carouselMain.clientWidth;
+        moveTo(0)
+      } else {
+        moveTo(currentImgIndex + 1)
+      }
+    }
+
+    // 为左右切换按钮注册点击事件
+    doms.arrowList[0].onclick = leftNext
+    doms.arrowList[1].onclick = rightNext
+
+    /**
+     * 自动轮播
+     */ 
+    function autoChange(){
+      timer = setInterval(() => {
+        rightNext()
+      }, 3000)
+    }
+    
+    autoChange()
+  </script>
+</body>
+</html>

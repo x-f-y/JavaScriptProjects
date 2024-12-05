@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+		/* 
+			实参可以是一个对象，也可以是一个函数
+			实参可以是任意的数据类型
+			函数的返回值可以是一个对象，也可以是一个函数
+			函数的返回值可以是任意的数据类型
+		 */
+			var obj = {
+				name:"孙悟空",
+				age:23,
+				gender:"男",
+				address:"花果山"
+			};
+			//对象作为参数传递
+			function info(person){
+				console.log("我叫"+person.name+"，我今年"+person.age+"了，"+
+				"我是一个"+person.gender+"人，我住在"+person.address);
+			}
+			info(obj);
+			//函数作为参数传递
+			function fun(a){
+				console.log("a = " + a);
+				a(obj);
+			}
+			fun(info);
+			//匿名函数作为参数传递
+			fun(function(){alert("sayHello")});
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
+

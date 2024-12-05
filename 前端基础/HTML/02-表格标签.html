@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表格标签</title>
+    <style>
+        .table {
+            width: 80%;
+            border-collapse: collapse;
+            text-align: center;
+            margin: 2em auto;
+        }
+        .table th, .table td {
+            border: 1px solid #999;
+            padding: 20px 0;
+        }
+        .table caption {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .table thead tr {
+            background-color: #008c8c;
+            color: #fff;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #eee;
+        }
+        .table tbody tr:hover {
+            background-color: #ccc;
+        }
+        .table tbody tr td:first-child {
+            color: chocolate;
+        }
+        .table tfoot tr td {
+            text-align: right;
+            padding-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        表格常用元素：
+        - table
+        - caption 表格的标题
+        - thead 表格的头部区域 thead内部必须有<tr>标签
+        - tbody 表格的主体区域
+        - tfoot 表格的尾部区域
+        - tr
+        - th
+        - td
+    -->
+    <!-- 
+        table属性：
+        align       规定表格相对周围元素的对齐方式
+        border      规定表格单元是否拥有边框，默认为""，表示没有边框
+        cellpadding 规定单元边沿与其内容之间的空白
+        cellspacing 规定单元格之间的空白
+        width
+        height
+     -->
+    <table class="table">
+        <caption>
+            这是表格的标题
+        </caption>
+        <thead>
+            <tr>
+                <th>列1</th>
+                <th>列2</th>
+                <th>列3</th>
+                <th>列4</th>
+                <th>列5</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+            <tr>
+                <td>数据1</td>
+                <td>数据2</td>
+                <td>数据3</td>
+                <td>数据4</td>
+                <td>数据5</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">合计：XXXX</td>
+            </tr>
+        </tfoot>
+    </table>
+    <!-- 
+        合并单元格：
+            合并方式：跨行合并（rowspan="合并单元格的数量"）和跨列合并（colspan="合并单元格的数量"）
+            - 若是跨行合并，则最上侧单元格为目标单元格，写合并代码
+            - 若是跨列合并，则最左侧单元格为目标单元格，写合并代码
+            合并单元格的步骤：    
+            - 1、确定是跨行合并还是跨列合并
+            - 2、找到目标单元格，写上合并方式=合并的单元格数量
+            - 3、删除多余的单元格
+     -->
+    <table border="1" cellspacing="0" width="400" height="200" align="center">
+        <tr>
+            <td></td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td rowspan="2"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+
+</html>

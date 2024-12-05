@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			/* 
+				call()和apply()
+					这两个方法都是函数对象的方法，需要通过函数对象来调用
+						当对函数对象调用call()和apply()时，函数内部的代码都会执行
+					不同的是，在调用call()和apply()时可以将一个对象指定为第一个参数
+						此时，这个对象将会成为函数执行的this
+					call()方法可以将实参在对象之后依次传递
+					apply()方法需要将实参封装到一个数组中统一传递
+					this总结：
+						1.以函数的形式调用时，this永远都是window对象
+						2.以方法的形式调用时，this就是调用方法的那个对象
+						3.以构造函数的形式调用时，this就是新创建的那个对象
+						4.使用call()和apply()调用时，this是参数中指定的那个对象
+					备注：
+						1. call、apply、bind都是Function.prototype的方法
+						2. fun.call(obj)和fun.apply(obj)可以理解为通过obj来调用fun方法
+			 */
+			var obj1 = {
+				name:"obj1",
+				sayName:function(){
+					console.log(this.name);
+				}
+			};
+			var obj2 = {
+				name:"obj2",
+				sayName:function(){
+					console.log(this.name);
+				}
+			};
+			function fun(a,b){
+				console.log(this);
+				console.log("a = " + a);
+				console.log("b = " + b);
+			}
+			fun();//this=window a=undefined b=undefined
+			fun.call(obj1);//this=obj1 a=undefined b=undefined
+			fun.apply(obj2);//this=obj2 a=undefined b=undefined
+			obj1.sayName.call(obj2);//this=obj2
+			fun.call(obj1,2,4);//this=obj1 a=2 b=4
+			fun.apply(obj2,[2,4]);//this=obj2 a=2 b=4
+
+			/**
+			 * bind(thisArg[, arg1[, arg2[, ...]]])
+			 * 	返回一个原函数的拷贝，并拥有指定的this值和初始参数（不会调用原函数）
+			 */ 
+			const fn = fun.bind(obj1, 1, 3)
+			fn() // this = obj1   a = 1   b = 3
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

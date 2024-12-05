@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            margin: 50px 0;
+            background-color: skyblue;
+        }
+
+        div:first-of-type {
+            background-color: #bfa;
+        }
+
+        div:last-of-type {
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <p>使用setInterval编写的动画</p>
+    <div></div>
+    <p>使用setTimeout编写的动画</p>
+    <div></div>
+    <p>使用requestAnimationFrame编写的动画</p>
+    <div></div>
+    <script>
+        /**
+         * window.requestAnimationFrame(callback) 是 H5 新增的 API
+         *  该函数告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画
+         * window.cancelAnimationFrame(requestID)
+         *  该函数取消一个先前通过调用window.requestAnimationFrame()方法添加到计划中的动画帧请求
+         */ 
+
+        /**
+         * 在 H5 之前，js动画通常使用 setTimeout 或 setInterval 来实现，但由于回调函数是异步代码，必须等到同步代码执行完后才能执行，
+         *  所以执行回调函数的延迟时间（或间隔时间）往往不是这两个方法设置的延迟时间（或间隔时间）（有误差），这就导致使用这两个方法
+         *  编写的 js 动画执行不平滑，存在很严重的跳帧、空帧现象。requestAnimationFrame() 方法就可以很好的解决这个问题
+         */ 
+
+        const divs = document.querySelectorAll('div')
+        // 使用 setInterval 编写js动画
+        let timer1 = setInterval(() => {
+            let currentWidth = divs[0].clientWidth
+            if(currentWidth < 1000){
+                divs[0].style.width = currentWidth + 5 + 'px'
+            }else{
+                clearInterval(timer1)
+            }
+        }, 17)
+
+        // 使用 setTimeout 编写js动画
+        let timer2 = setTimeout(function fun(){
+            let currentWidth = divs[1].clientWidth
+            if (currentWidth < 1000) {
+                divs[1].style.width = currentWidth + 5 + 'px'
+                setTimeout(fun, 17)
+            } else {
+                clearInterval(timer2)
+            }
+        }, 17)
+
+        // 使用 requestAnimationFrame 编写js动画
+        let timer3 = requestAnimationFrame(function fn(){
+            let currentWidth = divs[2].clientWidth
+            if (currentWidth < 1000) {
+                divs[2].style.width = currentWidth + 5 + 'px'
+                requestAnimationFrame(fn)
+            } else {
+                cancelAnimationFrame(timer3)
+            }
+        })
+    </script>
+</body>
+</html>

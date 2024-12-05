@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="height: 3000px">
+    <input type="text">
+    <script>
+        /**
+         * 防抖 -> 只执行最后一次
+         * 节流 -> 控制高频事件执行的次数
+         */ 
+
+        //  防抖函数 定时器、闭包实现
+        function debounce(fn, delay){
+            let flag = null
+            return function(...args){
+                if(flag){
+                    clearTimeout(flag)
+                }
+                flag = setTimeout(() => {
+                    fn.apply(this, args)
+                }, delay)
+            }
+        }
+
+        // 节流函数 时间戳、闭包实现
+        function throttle(fn, delay){
+            let lastTime = 0
+            return function(...args){
+                const nowTime = Date.now()
+                if((nowTime - lastTime) >= delay){
+                    fn.apply(this, args)
+                    lastTime = nowTime
+                }
+            }
+        }
+
+        // 节流函数 定时器、闭包实现
+        function throttle2(fn, delay){
+            let flag = true
+            return function(...args){
+                if(flag){
+                    setTimeout(() => {
+                        fn.apply(this, args)
+                        flag = true
+                    }, delay)
+                }
+                flag = false
+            }
+        }
+
+        document.querySelector('input').oninput = debounce(function(e){
+            console.log(this) // input结点
+            console.log(e) // InputEvent事件对象
+        }, 1000)
+
+        document.addEventListener('scroll', throttle(function(e){
+            console.log('!', this) // #document结点
+            console.log('!', e); // Event事件对象
+        }, 1000))
+
+        document.addEventListener('scroll', throttle2(function(e){
+          console.log('@', this); // #document结点
+          console.log('@', e); // Event事件对象
+        }, 1000))
+    </script>
+</body>
+</html>
