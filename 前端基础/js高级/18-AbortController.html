@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      width: 350px;
+      margin: 10px auto;
+      display: flex;
+      justify-content: space-between;
+      button {
+        width: 150px;
+        height: 30px;
+      }
+    }
+  </style>
+  <div>
+    <button id="xhrSendBtn">通过xhr发送请求</button>
+    <button id="xhrAbortBtn">终止xhr请求</button>
+  </div>
+  <div>
+    <button id="fetchSendBtn">通过fetch发送请求</button>
+    <button id="fetchAbortBtn">终止fetch请求</button>
+  </div>
+  <div>
+    <button id="abort">AboutSignal.abort()</button>
+    <button id="timeout">AboutSignal.timeout()</button>
+  </div>
+</head>
+<body>
+  <script>
+    const requestBasicPath = 'https://jsonplaceholder.typicode.com/todos';
+
+    function request(path, signal){
+      // 将signal（一个AbortSignal对象实例）作为一个选项传递给fetch的options，fetch的内部会监测这个对象的状态，如果这个对象的状态从未终止变为已终止且fetch请求还在进行中的话，fetch请求就会立即失败，其对应promise的状态也会变成rejected
+      return fetch(requestBasicPath + path, { signal })
+        .then(response => {
+          // 拿到了响应头
+          return response.json();
+        }).then(res => {
+          // 拿到了响应体
+          console.log(res);
+        });
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener('load', function() {
+      // xhr请求成功完成时触发
+      console.log(this.response);
+    });
+    xhr.addEventListener('abort', function() {
+      // xhr请求被终止时触发（例如调用xhr.abort()方法）
+      console.log('请求被终止');
+    });
+    xhrSendBtn.onclick = function(){
+      xhr.responseType = 'json';
+      xhr.open('GET', requestBasicPath + '/1');
+      xhr.send();
+    }
+    xhrAbortBtn.onclick = function(){
+      xhr.abort();
+    }
+
+    // 创建一个控制器ac
+    const ac = new AbortController();
+    // ac.signal返回一个AbortSignal对象实例
+    const { signal } = ac;
+    signal.addEventListener('abort', function(){
+      // 与signal关联的通信请求被终止时触发
+      console.log('signal is aborted!');
+    });
+    fetchSendBtn.onclick = function(){
+      request('/1', signal);
+      request('/2', signal);
+      request('/3', signal);
+    }
+    fetchAbortBtn.onclick = function(){
+      // ac.abort()方法能够终止一个尚未完成的异步操作（本质上是将signal的状态从非终止状态转变为终止状态）
+      // abort()方法接收一个可选的参数，作为操作被终止的原因，其值可以是任何JavaScript类型的值
+      ac.abort();
+    }
+
+    abort.onclick = function(){
+      // AbortSignal.abort()静态方法返回一个已经被设置为终止状态的AbortSignal实例，该方法接收一个可选的参数，作为操作被终止的原因，其值可以是任何JavaScript类型的值
+      const abortedAS = AbortSignal.abort({
+        type: 'USER_ABORT_ACTION',
+        msg: '用户终止了操作'
+      });
+      request('/1', abortedAS);
+      // AbortSignal实例属性aborted表示与之通信的请求是否被终止
+      console.log(abortedAS.aborted);
+      // AbortSignal实例属性reason表示请求终止的原因
+      console.log(abortedAS.reason);
+      
+    }
+    timeout.onclick = function(){
+      // AbortSignal.timeout()静态方法返回一个在指定时间（单位：毫秒）后自动终止的AbortSignal实例，若在设置的超时时间到来之后还未请求成功，则此次请求被自动终止
+      const timeoutAS = AbortSignal.timeout(1000);
+      request('/1', timeoutAS);
+    }
+
+    // 备注：AbortSignal还有个实例方法throwIfAborted，调用该方法时，如果signal对象的状态是终止的，那么就会抛出一个异常，异常的值是signal对象的reason值
+  </script>
+</body>
+</html>
