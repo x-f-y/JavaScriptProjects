@@ -6,7 +6,7 @@
 - `git branch -f main HEAD^`    将main分支强制移动（指向）到HEAD^所指向的提交记录
 - 本地分支的撤销更改：`git reset HEAD^`    将当前分支回退到HEAD^所指向的提交记录（注意：在reset后，原先的变更还在，但是处于未加入暂存区状态）
 - 远程分支的撤销更改：`git revert HEAD`    创建一个新的提交记录，这个新的提交记录所做的变更与HEAD所指向的提交记录所做的变更相反，从而达到撤销更改的目的（不改变提交历史）
-- `git cherrry-pick commitHash1 commitHash2 ...`    将`commitHash1`、`commitHash2`等多个提交记录复制到当前所在的位置（HEAD）（备注：`git cherrry-pick`命令的参数，不一定是提交记录的哈希值，也可以是分支名）
+- `git cherry-pick commitHash1 commitHash2 ...`    将`commitHash1`、`commitHash2`等多个提交记录复制到当前所在的位置（HEAD）（备注：`git cherry-pick`命令的参数，不一定是提交记录的哈希值，也可以是分支名）
 - `git rebase`时，使用--interactive（缩写-i）选项会通过vim编辑器打开一个文件，该文件列出了即将重写的提交列表，通过编辑该文件，可以实现：调整提交记录的顺序、删除不想要的提交等操作
 - `git tag v1 c1`    创建一个标签，命名为`v1`，指向提交记录`C1`，如果不指定提交记录，那么标签会指向HEAD所指向的位置（备注：git中的标签可以像分支一样被引用，但和分支不同的是，标签并不会随着新的提交而移动，也不能切换到某个标签上进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置）
 - `git describe`命令用来查找对于某个给定的提交记录，其最接近的标签。语法是：`git describe <ref>`，其中ref可以是任何能被git识别成提交记录的引用，如果没有指定ref的话，git会使用目前所在的位置（HEAD）。该命令的输出结果是`<tag>_<numCommits>_g<hash>`，其中`tag`表示的是离ref最近的标签，`numCommits`表示这个标签与ref相差有多少个提交记录，`hash`表示给定的ref所指向的提交记录的哈希值的前几位（备注：如果找到的标签直接指向给定的提交记录，那么git describe的输出结果就是该标签名称）
