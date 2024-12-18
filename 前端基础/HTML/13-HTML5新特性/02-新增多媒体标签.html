@@ -34,10 +34,12 @@
 <body>
     <!-- 
         插语：布尔属性
-            - 对于某些属性，只有两种状态：1.不写，2.取值为属性名。像这样的属性叫做布尔属性
-            - 在html5中，对于布尔属性，可以不用书写属性值，例如<video src="xxx" controls="controls"></video>
-            可以简写为<video src="xxx" controls></video>
-            - 常见的布尔属性：controls、autoplay、loop、muted、reversed、checked、selected、disabled、required、readonly、multiple
+            - 布尔属性是表示true或false值的属性。如果HTML标签包含布尔属性，无论该属性的值如何，该属性都会在该元素上设置为true；
+            如果HTML标签不包含该属性，则该属性被设置为false
+            - 举例：<input type="checkbox" checked>、<input type="checkbox" checked="checked">和<input type="checkbox" checked="">
+            这些写法都是将布尔属性checked的值设置为true，而<input type="checkbox">这种写法才是将布尔属性checked的值设置为false
+            - 备注：<input type="checkbox" checked="false">这种写法是无效的，如果要将布尔属性设置为false，则该属性不应出现在元素标签中
+            - 常见的布尔属性：controls、autoplay、loop、muted、reversed、checked、selected、disabled、required、readonly、multiple等
      -->
     <video autoplay muted controls loop style="width: 100%;" poster="../../CSS/images/mi9.jpg">
         <!-- 解决兼容性问题 -->
