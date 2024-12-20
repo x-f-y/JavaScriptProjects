@@ -1,0 +1,62 @@
+:root {
+  h1 {
+    text-align: center;
+  }
+
+  .container {
+    --h: 40px;
+    display: flex;
+    justify-content: center;
+
+    .item {
+      text-align: center;
+      line-height: var(--h);
+      cursor: move;
+    }
+
+    .left {
+      width: 80px;
+      padding: 10px;
+      background-color: #eee;
+
+      .item {
+        margin-bottom: 10px;
+      }
+    }
+
+    .right {
+      margin-left: 10px;
+      width: 800px;
+      padding: 10px;
+      background-color: #eee;
+
+      table {
+        width: 100%;
+
+        th {
+          font-weight: normal;
+          background-color: #ccc;
+          
+          &.span {
+            line-height: 40px;
+          }
+        }
+
+        td.noborder {
+          border: none;
+        }
+
+        th, td {
+          height: var(--h);
+          padding: 5px;
+          border: 1px solid #999;
+        }
+      }
+    }
+
+    .drop-over {
+      background-color: #666;
+    }
+  }
+}
+

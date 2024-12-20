@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <h1>课程表</h1>
+  <div class="container">
+    <div class="left" data-allow="move">
+      <!-- 可以进行拖动的对象有图片、链接、选择的文本、元素结点四种，前三种是可以直接拖动的，而元素结点默认是不可以拖动的，要想让元素结点可拖动，需要将该结点的draggable属性设置为true -->
+      <div draggable="true" class="item" style="background-color: #f26395;" data-effect="copy">语文</div>
+      <div draggable="true" class="item" style="background-color: #62efab;" data-effect="copy">数学</div>
+      <div draggable="true" class="item" style="background-color: #ef7658;" data-effect="copy">英语</div>
+      <div draggable="true" class="item" style="background-color: #ffe868;" data-effect="copy">音乐</div>
+      <div draggable="true" class="item" style="background-color: #80e3f7;" data-effect="copy">政治</div>
+      <div draggable="true" class="item" style="background-color: #d781f9;" data-effect="copy">历史</div>
+      <div draggable="true" class="item" style="background-color: #62efab;" data-effect="copy">体育</div>
+    </div>
+    <div class="right">
+      <table>
+        <colgroup>
+          <!-- colgroup元素用于对列进行分组，这使得我们可以一次性对整列应用样式，而不需要为每个单元格进行重复的操作 -->
+          <!-- colgroup元素只能在table元素中使用，且必须位于caption元素之后、任何thead、tbody、tfoot和tr元素之前 -->
+          <!-- col元素只能在colgroup元素中使用，且col元素没有结束标签 -->
+          <!-- colgroup元素和col元素能使用的CSS属性只有这几个：background、border（border-width、border-style、border-color）、visibility、width -->
+          <!-- colgroup元素和col元素都有一个局部属性：span，表示col元素跨列的连续列数 -->
+          <col style="width: 40px;">
+          <col span="7">
+        </colgroup>
+        <thead>
+          <tr>
+            <!-- td为普通单元格 -->
+            <td class="noborder"></td>
+            <!-- th为表头单元格 -->
+            <th>星期一</th>
+            <th>星期二</th>
+            <th>星期三</th>
+            <th>星期四</th>
+            <th>星期五</th>
+            <th>星期六</th>
+            <th>星期日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 上午 -->
+          <tr>
+            <th rowspan="4" class="span">上午</th>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+          </tr>
+          <tr>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+          </tr>
+          <tr>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+          </tr>
+          <tr>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+          </tr>
+          <!-- 分隔行 -->
+          <tr>
+            <td class="noborder" colspan="8"></td>
+          </tr>
+          <!-- 下午 -->
+          <tr>
+            <th rowspan="4" class="span">下午</th>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+          </tr>
+          <tr>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+          </tr>
+          <tr>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+          </tr>
+          <tr>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+            <td data-allow="copy"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="./index.js"></script>
+</body>
+</html>

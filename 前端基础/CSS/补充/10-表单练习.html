@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户注册</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: #081620;
+      color: #333;
+    }
+
+    .container {
+      background-color: #fff;
+      width: 400px;
+      margin: 30px auto;
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .container h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-item {
+      margin-bottom: 10px;
+    }
+    
+    /* 文本框统一样式 */
+    .txt {
+      /* border与outline的区别：border是内边框，占用盒模型；outline是外边框，不占用盒模型，常用于调试 */
+      outline: none;
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 40px;
+      border-radius: 5px;
+      font-size: 14px;
+      padding: 0 10px;
+      /* text-indent: 10px; */
+    }
+    /* 选择聚焦状态下的文本框 */
+    .txt:focus {
+      border-color: #5f8be8;
+    }
+
+    /* 单独设置特殊情况 */
+    select.txt {
+      height: 100px;
+      padding: 10px;
+    }
+    textarea.txt {
+      height: 100px;
+      padding: 10px;
+      /* 不允许拖动textarea的尺寸 */
+      resize: none;
+    }
+    .captcha .txt {
+      width: 170px;
+    }
+
+    /* 按钮的统一样式 */
+    button {
+      height: 40px;
+      width: 150px;
+      border: none;
+      outline: none;
+      background-color: #5f8be8;
+      color: #fff;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #759ae9;
+    }
+    /* 选择禁用状态的按钮 */
+    button:disabled {
+      background-color: #a6bef1;
+      cursor: not-allowed;
+    }
+
+    /* 统一处理浮动 */
+    .left {
+      float: left ;
+    }
+    .right {
+      float: right;
+    }
+    .clearfix::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    .title {
+      margin-right: 10px;
+    }
+
+    .policy {
+      font-size: 12px;
+    }
+
+    .policy input[type="checkbox"] {
+      width: 1em;
+      height: 1em;
+      /* 注：相邻行盒（或行块盒）垂直方向上不对齐时才能使用vertical-align这个属性来进行调整，不要滥用这个属性 */
+      vertical-align: -0.15em
+    }
+
+    /* 处理单选框/多选框的选中状态 */
+    label {
+      cursor: pointer;
+    }
+    label span {
+      color: #aaa;
+    }
+    /* 选择选中状态下的input元素后面的span元素 */
+    label input:checked ~ span {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <form class="container">
+    <h1>用户注册</h1>
+
+    <div class="form-item">
+      <!-- 使用maxlength指定输入的最大长度限制（11个字符） -->
+      <input class="txt" type="text" maxlength="11" placeholder="请输入11位手机号">
+    </div>
+
+    <div class="form-item clearfix captcha">
+      <input class="txt left" type="text" placeholder="请填写验证码">
+      <!-- 普通按钮 -->
+      <button class="right" type="button" disabled>发送验证码</button>
+    </div>
+
+    <div class="form-item">
+      <input class="txt" type="password" placeholder="请输入密码">
+    </div>
+
+    <div class="form-item">
+      <input class="txt" type="password" placeholder="请再次确认密码">
+    </div>
+
+    <div class="form-item">
+      <select multiple class="txt">
+        <option>爱好1</option>
+        <option>爱好2</option>
+        <option>爱好3</option>
+        <option>爱好4</option>
+      </select>
+    </div>
+
+    <div class="form-item clearfix">
+      <div class="title left">性别</div>
+      <div class="left">
+        <label>
+          <input type="radio" name="sex">
+          <span>男</span>
+        </label>
+        <label>
+          <input type="radio" name="sex" checked>
+          <span>女</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-item">
+      <textarea class="txt" placeholder="请输入个人简介"></textarea>
+    </div>
+
+    <div class="form-item policy">
+      <label>
+        <input type="checkbox">
+        <span>同意台湾是中国领土不可分割的一部分</span>
+      </label>
+    </div>
+
+    <div class="form-item">
+      <!-- 提交按钮 -->
+      <button disabled>立即注册</button>
+      <!-- 重置按钮 -->
+      <button type="reset">重置表单</button>
+    </div>
+  </form>
+</body>
+</html>
