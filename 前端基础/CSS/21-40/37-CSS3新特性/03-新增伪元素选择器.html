@@ -15,6 +15,8 @@
             - 新创建的元素在文档树中是找不到的，所以称为伪元素
             - before和after必须有content属性
             - 伪元素选择器和标签选择器一样，权重为1
+            - 如果存在以下情况之一：1️⃣未指定content属性；2️⃣content属性值无效；3️⃣content属性值为normal或none；
+            则不会渲染伪元素，其行为与设置了display:none相同
      -->
     <style>
         div {

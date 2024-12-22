@@ -2,6 +2,14 @@
 * {
     margin: 0;
     padding: 0;
+    /* 注意：*{box-sizing:border-box;} 不会影响到::before伪元素和::after伪元素的盒子模型，其box-sizing的值
+    还是content-box。如果需要将伪元素的盒子模型也修改为border-box，则需要单独设置，具体请参考后面代码 */
+    box-sizing: border-box;
+}
+
+*::before,
+*::after {
+    /* 单独设置伪元素的盒子模型 */
     box-sizing: border-box;
 }
 em,

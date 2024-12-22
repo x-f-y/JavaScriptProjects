@@ -2,108 +2,110 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <style>
-        /* 
-            vertical-align用于设置一个元素的垂直对齐方式，但是它只针对与行内元素、行内块元素和表格单元格元素有效，不能用于块级元素
-                - baseline (默认值)基线对齐
-                - top 顶端对齐
-                - middle 居中对齐
-                - bottom 底端对齐
-         */
-        body>img {
-            /* vertical-align: baseline; */
-            /* vertical-align: bottom; */
-            vertical-align: middle;
-            /* vertical-align: top; */
-        }
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    /*
+      vertical-align用于设置一个元素的垂直对齐方式，但是它只针对与行内元素、行内块元素和表格单元格元素有效，不能用于块级元素
+        - baseline (默认值)基线对齐
+        - top 顶端对齐
+        - middle 居中对齐
+        - bottom 底端对齐
+    */
 
-        textarea {
-            vertical-align: middle;
-        }
+    body>img {
+      /* vertical-align: baseline; */
+      /* vertical-align: bottom; */
+      vertical-align: middle;
+      /* vertical-align: top; */
+    }
 
-        /* 
-            解决图片底部默认空白缝隙问题
-            bug：图片底侧会有一个空白缝隙，原因是行内块元素默认会和文字的基线对齐
-            解决方案：
-                - 给图片添加vertical-align:bottom|middle|top;
-                - 把图片转换为块级元素display:block;
-				- 给父级元素设置font-size: 0;
-         */
-        .box {
-            border: 2px solid red;
-			/* font-size: 0; */
-        }
+    textarea {
+      vertical-align: middle;
+    }
 
-        .box img {
-            vertical-align: middle;
-            /* display:block; */
-        }
-		
-		table,
-		td,
-		th {
-			border: 3px solid skyblue;
-		}
-		
-		table {
-			width: 400px;
-			height: 200px;
-			margin: 10px auto;
-			border-spacing: 0;
-			border-collapse: collapse;
-		}
-		
-		th {
-			height: 40px;
-		}
-		
-		th,
-		td {
-			vertical-align: middle;
-			text-align: center;
-		}
-    </style>
+    /*
+      解决图片底部默认空白缝隙问题
+      bug：图片底侧会有一个空白缝隙，原因是行内块元素默认会和文字的基线对齐
+      解决方案：
+        - 给图片添加vertical-align:bottom|middle|top;
+        - 把图片转换为块级元素display:block;（推荐使用这种方式）
+        - 给父元素设置font-size: 0;
+    */
+
+    .box {
+      border: 2px solid red;
+      /* font-size: 0; */
+    }
+
+    .box img {
+      vertical-align: middle;
+      /* display:block; */
+    }
+
+    table,
+    td,
+    th {
+      border: 3px solid skyblue;
+    }
+
+    table {
+      width: 400px;
+      height: 200px;
+      margin: 10px auto;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+
+    th {
+      height: 40px;
+    }
+
+    th,
+    td {
+      vertical-align: middle;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
-    <img src="../images/ldh.jpg" alt="">ppppppppppppp
-    <br />
-    <textarea name="" id="" cols="30" rows="10"></textarea>请输入留言内容
-    <br />
-    <div class="box">
-        <img src="../images/ldh.jpg" alt="">
-    </div>
-	<br><br>
-	<table>
-		<thead>
-			<tr>
-				<th>姓名</th>
-				<th>年龄</th>
-				<th>性别</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td colspan="2">张三</td>
-				<!-- <td>18</td> -->
-				<td>男</td>
-			</tr>
-			<tr>
-				<td>张三</td>
-				<td>18</td>
-				<td rowspan="2">男</td>
-			</tr>
-			<tr>
-				<td>张三</td>
-				<td>18</td>
-				<!-- <td>男</td> -->
-			</tr>
-		</tbody>
-	</table>
+  <img src="../images/ldh.jpg" alt="">ppppppppppppp
+  <br />
+  <textarea name="" id="" cols="30" rows="10"></textarea>请输入留言内容
+  <br />
+  <div class="box">
+    <img src="../images/ldh.jpg" alt="">
+  </div>
+  <br><br>
+  <table>
+    <thead>
+      <tr>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="2">张三</td>
+        <!-- <td>18</td> -->
+        <td>男</td>
+      </tr>
+      <tr>
+        <td>张三</td>
+        <td>18</td>
+        <td rowspan="2">男</td>
+      </tr>
+      <tr>
+        <td>张三</td>
+        <td>18</td>
+        <!-- <td>男</td> -->
+      </tr>
+    </tbody>
+  </table>
 </body>
 
 </html>
