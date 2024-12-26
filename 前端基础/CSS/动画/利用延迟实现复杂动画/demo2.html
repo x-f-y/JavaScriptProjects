@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: #000;
+    }
+    .container {
+      --delay: 0s;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      margin-top: 100px;
+      position: relative;
+    }
+    .eye {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+    .left {
+      left: 10px;
+      top: 20px;
+      animation: leftEyeChange 1s linear forwards paused;
+      animation-delay: var(--delay);
+    }
+    .right {
+      right: 10px;
+      top: 20px;
+      animation: rightEyeChange 1s linear forwards paused;
+      animation-delay: var(--delay);
+    }
+    .range {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes leftEyeChange {
+      from {
+        clip-path: polygon(0 70%, 100% 0, 100% 100%, 0 100%);
+      }
+      to {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      }
+    }
+
+    @keyframes rightEyeChange {
+      from {
+        clip-path: polygon(0 0, 100% 70%, 100% 100%, 0 100%);
+      }
+      to {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="eye left"></div>
+    <div class="eye right"></div>
+    <input type="range" class="range" min="0" max="1" step="0.01">
+  </div>
+
+  <script>
+    const container = document.querySelector('.container');
+    const inp = document.querySelector('input[type="range"]');
+
+    function calc(){
+      container.style.setProperty('--delay', `${-inp.value}s`);
+    }
+
+    calc();
+
+    inp.oninput = calc;
+  </script>
+</body>
+</html>

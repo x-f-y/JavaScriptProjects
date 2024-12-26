@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      --delay: 0s;
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      animation: move 1s linear forwards paused;
+      animation-delay: var(--delay);
+    }
+    
+    @keyframes move {
+      to {
+        transform: translateX(200px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <input type="range" min="0" max="1" step="0.01">
+
+  <script>
+    const box = document.querySelector('.box');
+    const inp = document.querySelector('input[type="range"]');
+
+    function calc(){
+      // animation-delay为0s时，小球已经运动了0s，此时小球位于初始位置
+      // animation-delay为-0.5s时，小球已经运动了0.5s，此时小球位于中间位置
+      // animation-delay为-1s时，小球已经运动了1s（动画的持续时间就是1s），此时小球位于结束位置
+      // 滑块滑动的范围是0-1，为0时，小球应位于初始位置，设置animation-delay为0s即可；为1时，小球应位于结束位置，设置animation-delay为-1s即可；
+      // 以此类推，若滑块当前滑动的值为x，则应该设置animation-delay为-xs
+      box.style.setProperty('--delay', `${-inp.value}s`);
+    }
+
+    calc();
+
+    inp.oninput = calc;
+  </script>
+</body>
+</html>
