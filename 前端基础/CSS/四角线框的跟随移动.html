@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: #000;
+    }
+
+    .container {
+      position: relative;
+      width: 80%;
+      margin: 50px auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 50px;
+
+      .pointer {
+        --l: 30px; /* 四角线框的长度 */
+        --t: 5px; /* 四角线框的厚度 */
+        --g: 10px; /* 四角线框与图片之间的间隙 */
+        --s: 300px; /* 图片的尺寸 */
+        --x: 0px; /* 图片的横坐标 */
+        --y: 0px; /* 图片的纵坐标 */
+        position: absolute;
+        display: none;
+        transition: 0.3s;
+        width: calc(var(--s) + 2 * var(--g));
+        height: calc(var(--s) + 2 * var(--g));
+        border: var(--t) solid #fff;
+        top: calc(var(--y) - var(--g) - var(--t));
+        left: calc(var(--x) - var(--g) - var(--t));
+
+        /* background-origin: border-box;
+        background-image: conic-gradient(at var(--l) var(--l), transparent 75%, blue 75%);
+        background-size: calc(100% - var(--l)) calc(100% - var(--l));
+        background-repeat: repeat; */
+
+        /* 这里mask的作用是沿用渐变背景图的透明通道，渐变背景图透明的地方，.pointer就透明；渐变背景图不透明的地方，.pointer也不透明 */
+        /* 注意：background-origin的默认值是padding-box；而mask-origin的默认值是border-box */
+        mask-origin: border-box;
+        mask-image: conic-gradient(at var(--l) var(--l), transparent 75%, blue 75%);
+        mask-size: calc(100% - var(--l)) calc(100% - var(--l));
+        mask-repeat: repeat;
+      }
+
+      .item {
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+        }
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="pointer"></div>
+    <div class="item">
+      <img src="https://picsum.photos/id/369/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/370/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/371/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/372/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/373/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/374/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/375/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/376/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/377/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/378/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/379/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/380/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/381/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/382/300/300" alt="">
+    </div>
+    <div class="item">
+      <img src="https://picsum.photos/id/383/300/300" alt="">
+    </div>
+  </div>
+
+  <script>
+    const pointer = document.querySelector('.container .pointer');
+    const imgs = document.querySelectorAll('.container img');
+    for(const img of imgs){
+      img.onmouseenter = function(){
+        pointer.style.setProperty('display', 'block');
+        pointer.style.setProperty('--s', `${img.offsetWidth}px`);
+        pointer.style.setProperty('--x', `${img.offsetLeft}px`);
+        pointer.style.setProperty('--y', `${img.offsetTop}px`);
+      }
+    }
+  </script>
+</body>
+</html>
