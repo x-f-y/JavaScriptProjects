@@ -1,0 +1,172 @@
+.container {
+  height: calc(100vh - 100rem);
+  display: flex;
+  color: #333;
+
+  .menu {
+    /* 设置flex-shrink为0让其保持原始的宽度，不进行压缩 */
+    flex-shrink: 0;
+    width: 190rem;
+    height: 100%;
+    overflow-y: scroll;
+    background-color: #f5f5f5;
+    padding-bottom: 50rem;
+
+    /* 选择设置了 overflow:scroll; 的元素的滚动条样式 */
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .menu-item {
+      position: relative;
+      height: 141rem;
+      padding: 0 30rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        font-size: 30rem;
+      }
+
+      &.active {
+        font-weight: bold;
+        background-color: #fff;
+      }
+
+      &.active::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 7.5rem;
+        height: 100%;
+        background-color: #3190e8;
+      }
+    }
+  }
+
+  .goods-list {
+    /* 设置最大宽度防止其溢出flex容器 */
+    max-width: calc(100% - 190rem);
+    height: 100%;
+    overflow-y: scroll;
+
+    /* 选择设置了 overflow:scroll; 的元素的滚动条样式 */
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .goods-item {
+      display: flex;
+      padding: 30rem 20rem;
+      border-bottom: 1rem solid #f8f8f8;
+
+      &:last-of-type {
+        border-bottom: none;
+      }
+
+      .goods-pic {
+        width: 200rem;
+        height: 200rem;
+        object-fit: contain;
+        border: 1rem solid rgba(0, 0, 0, 0.06);
+        /* 设置flex-shrink为0让其保持原始的宽度，不进行压缩 */
+        flex-shrink: 0;
+      }
+
+      .goods-info {
+        /* 设置最大宽度防止其溢出flex容器 */
+        max-width: calc(100% - 200rem);
+        padding: 0 35rem;
+
+        .goods-title {
+          font-size: 35rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-bottom: 20rem;
+        }
+
+        .goods-desc {
+          font-size: 24rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-bottom: 20rem;
+        }
+        
+        .goods-sell {
+          color: #858687;
+          font-size: 24rem;
+          margin-bottom: 20rem;
+          display: flex;
+
+          span:first-of-type {
+            width: 124rem;
+          }
+        }
+
+        .goods-confirm {
+          display: flex;
+          justify-content: space-between;
+
+          .goods-price {
+            display: flex;
+            align-items: flex-end;
+            font-size: 35rem;
+            color: #f60;
+            font-weight: bold;
+
+            .goods-price-unit {
+              font-size: 25rem;
+              font-weight: normal;
+              margin-bottom: 4rem;
+            }
+          }
+
+          .goods-btns {
+            display: flex;
+            align-items: center;
+            gap: 15rem;
+
+            .iconfont {
+              width: 40rem;
+              height: 40rem;
+              background-color: #4a90e1;
+              color: #fff;
+              border-radius: 50%;
+              font-size: 23rem;
+              line-height: 40rem;
+              text-align: center;
+            }
+
+            .i-jianhao {
+              border: 1rem solid #4a90e1;
+              background-color: #fff;
+              color: #4a90e1;
+              font-weight: bold;
+              display: none;
+            }
+
+            span {
+              display: none;
+            }
+          }
+        }
+      }
+
+      &.active {
+        .goods-info .goods-confirm .goods-btns {
+          .i-jianhao {
+            display: block !important;
+          }
+
+          span {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

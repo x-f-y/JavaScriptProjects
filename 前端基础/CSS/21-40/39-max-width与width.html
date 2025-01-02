@@ -37,9 +37,22 @@
         2. 给img设置max-width:100%;时，若图片本身宽度大于其包含块的宽度，则图片会被压缩至其包含块的宽度；
            若图片本身宽度小于其包含块的宽度，则图片大小不变，保持其本身的宽度
         3. min-width会覆盖max-width，max-width会覆盖width
-     -->
+    -->
+
+    <!--
+        关于min-width和min-height的补充：
+        1. 当min-width大于max-width或width时，元素的宽度将被设置为min-width的值
+        2. 当min-height大于max-height或height时，元素的高度将被设置为min-height的值
+        3. min-width和min-height的默认值（初始值）都是auto
+        4. 应用场景：在使用flex或grid布局时，经常会遇到内容过长，导致溢出容器或者将容器撑大的场景。原因可能是这样的：
+            由于未设置min-width，所以取默认值auto，也就是内容所需要的宽度，这个宽度往往比自己事先设置的宽度更大，即
+            min-width>width，这会导致元素最终的宽度被设置成了min-width的值，从而内容就会溢出或者撑大容器。解决方案
+            是重设min-width为0（或者任何小于width的值），让width属性重新拿到元素宽度的控制权。高度也是同理，通过设置
+            min-height为0（或者任何小于height的值）即可解决
+
+    -->
      
-     <!-- dog.jpg 300*200 -->
+    <!-- dog.jpg 300*200 -->
 
     <div class="box1">
         <a href="javascript:;">
