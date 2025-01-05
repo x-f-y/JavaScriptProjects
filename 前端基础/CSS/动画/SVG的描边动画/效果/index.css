@@ -1,0 +1,127 @@
+html {
+  box-sizing: border-box;
+  --menuBgColor: #1d1d27;
+  --duration: 0.7s;
+}
+
+html *,
+html *::before,
+html *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  padding-top: 100px;
+  background-color: #ffb457;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  transition: background-color var(--duration);
+}
+
+.menu {
+  position: relative;
+  margin: 0;
+  width: 32.05em;
+  padding: 0 2.85em;
+  font-size: 1.5em;
+  background-color: var(--menuBgColor);
+  display: flex;
+
+  .menu_item {
+    /* 对于所有属性，能继承就使用继承的值（行为类似于inherit）；不能继承就使用初始值（行为类型于initial） */
+    all: unset;
+    z-index: 10;
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.55em 0 0.85em;
+    cursor: pointer;
+    /* 若第一个自定义属性--timeOut对应的值无效，则使用第二个值var(--duration) */
+    /* transition: transform var(--timeOut, var(--duration)); */
+    transition: transform var(--duration);
+
+    .icon {
+      width: 2.6em;
+      height: 2.6em;
+      /* 描边颜色 */
+      stroke: white;
+      /* 描边的线条宽度 */
+      stroke-width: 1pt;
+      /* 填充颜色 */
+      fill: transparent;
+      /* 线条连接处的最大长度 */
+      stroke-miterlimit: 10;
+      /* 线条连接处（转角处）的样式 */
+      stroke-linejoin: round;
+      /* 线条两端的样式 */
+      stroke-linecap: round;
+      
+      .path {
+        /* 线条的虚线段和间隙之间的排列形式 */
+        stroke-dasharray: var(--length);
+      }
+    }
+
+    &::before {
+      content: "";
+      z-index: -1;
+      position: absolute;
+      width: 4.2em;
+      height: 4.2em;
+      border-radius: 50%;
+      transform: scale(0);
+      /* transition可以为多个CSS属性指定过渡效果，多个属性之间用逗号进行分隔即可 */
+      transition: background-color var(--duration), transform var(--duration);
+    }
+
+    &.active {
+      transform: translateY(-0.8em);
+
+      .path {
+        animation: stroke 0.5s cubic-bezier(0.5, 0.1, 0.5, 1) reverse;
+      }
+      
+      &::before {
+        transform: scale(1);
+        background-color: var(--itemBgColor);
+      }
+    }
+  }
+
+  .menu_border {
+    position: absolute;
+    left: 0;
+    bottom: 99%;
+    width: 10.9em;
+    height: 2.4em;
+    background-color: var(--menuBgColor);
+    /* transition: transform var(--timeOut, var(--duration)); */
+    transition: transform var(--duration);
+    /* 使用SVG路径进行裁剪 */
+    clip-path: url(#menu);
+  }
+}
+
+.svg_container {
+  width: 0;
+  height: 0;
+}
+
+/* 屏幕宽度小于50em时应用的样式 */
+@media screen and (max-width: 50em) {
+  .menu {
+    font-size: 0.8em;
+  }
+}
+
+@keyframes stroke {
+  to {
+    /* 线条的虚线与路径起点之间的偏移量 */
+    stroke-dashoffset: var(--length);
+  }
+}
