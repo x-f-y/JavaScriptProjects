@@ -57,6 +57,7 @@
       dropdownList.style.height = 'auto';
       // 获取布局属性，立即清空队列，触发回流，重新计算布局树，获取准确的测量值
       const finalHeight = dropdownList.offsetHeight;
+      // 上一行代码运行结束后，“数据是新的，而页面是旧的”
       // 再将高度设置回0并不会导致页面闪一下（没有高度->有高度->没有高度），因为浏览器还没来得及把页面绘制出来
       // 由于js代码的运行和页面的渲染过程都运行在浏览器的渲染主线程，所以要等当前函数运行结束之后才能开始渲染页面
       dropdownList.style.height = '0';

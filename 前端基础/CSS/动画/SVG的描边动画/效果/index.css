@@ -41,7 +41,7 @@ body {
     align-items: center;
     padding: 0.55em 0 0.85em;
     cursor: pointer;
-    /* 若第一个自定义属性--timeOut对应的值无效，则使用第二个值var(--duration) */
+    /* 若第一个自定义属性--timeOut对应的值无效，则transition-duration使用第二个值var(--duration) */
     /* transition: transform var(--timeOut, var(--duration)); */
     transition: transform var(--duration);
 
@@ -100,6 +100,7 @@ body {
     width: 10.9em;
     height: 2.4em;
     background-color: var(--menuBgColor);
+    /* 若第一个自定义属性--timeOut对应的值无效，则transition-duration使用第二个值var(--duration) */
     /* transition: transform var(--timeOut, var(--duration)); */
     transition: transform var(--duration);
     /* 使用SVG路径进行裁剪 */
