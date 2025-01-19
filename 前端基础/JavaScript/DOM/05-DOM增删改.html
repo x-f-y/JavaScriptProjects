@@ -30,6 +30,7 @@
 		 * 	parentNode.appendChild(node)
 		 * 		备注：如果被插入的节点已经存在于当前文档的文档树中，那么该方法会将它从原先的位置移动到新的位置（剪切）
 		 * 	parentNode.insertBefore(aNode, bNode) 记忆法：parentNode insert aNode before bNode
+     *    备注：如果aNode已经存在于文档中，该方法会将其从当前位置移动到新位置；如果bNode为null，那么aNode将被插入到父节点的末尾
      *  element.insertAdjacentElement(position, element)  将一个给定的元素节点插入到相对于当前元素的指定位置
      *  element.insertAdjacentHTML(position, text)  将指定的文本解析为 Element 元素，并将结果节点插入到 DOM 树中的指定位置
      *    备注：insertAdjacentElement()方法与insertAdjacentHTML()方法中参数position的取值：
