@@ -1,0 +1,34 @@
+/* Houdini API */
+@property --x {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --y {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes x {
+  to {
+    --x: 1px;
+  }
+}
+@keyframes y {
+  to {
+    --y: 0.1px;
+  }
+}
+
+:root {
+  /* 一个动画周期的持续时间 */
+  --cycleDuration: 2s;
+}
+
+.ball {
+  transform: translate(var(--x), var(--y));
+  animation: x var(--cycleDuration), y calc(var(--cycleDuration) / 2);
+  animation-timing-function: cubic-bezier(0.5, -800, 0.5, 800);
+  animation-iteration-count: infinite;
+}
