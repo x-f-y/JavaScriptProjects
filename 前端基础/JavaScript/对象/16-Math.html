@@ -38,7 +38,8 @@
 			/* 
 				Math.random()可以用来生成一个0-1之间的随机数（含0不含1）
 				Math.round(Math.random()*x)返回一个[0,x]之间的随机数
-				Math.round(Math.random()*(y-x)+x)返回一个[x,y]之间的随机数
+				Math.round(Math.random()*(y-x)+x)返回一个[x,y]之间的随机数（概率不平均，不建议使用）
+        Math.floor(Math.random()*(y-x+1)+x)返回一个[x,y]之间的随机数（概率更平均，建议使用）
 			 */
 			for(var i = 0; i < 10; i++){
 				console.log(Math.random());

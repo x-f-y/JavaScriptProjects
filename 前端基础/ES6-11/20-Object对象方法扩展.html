@@ -91,6 +91,7 @@
          * Object.assign(target, ...sources)方法->将所有可枚举和自有属性从一个或多个源对象复制到目标对象，返回修改后的对象
          *  参数一：目标对象，接收源对象属性的对象，也是修改后的返回值
          *  参数二：源对象
+         * 技巧：使用这个API合并对象时，若不想修改现有的对象，可以参考这种写法：Object.assign({}, obj1, obj2, obj3)
          */ 
         const config1 = {
             host: 'localhost',

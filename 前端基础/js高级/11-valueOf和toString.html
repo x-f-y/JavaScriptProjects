@@ -79,8 +79,10 @@
         }
         // console.log(b + 1) // 报错，Cannot convert object to primitive value
 
+        /* 对象的属性名只能是String类型或者Symbol类型 */
+        /* 为了书写的方便，当对象的属性名是纯数字或者符合标识符规范时，可以省略引号 */
+
         var c = {}, d = { key: 'b' }, e = { key: 'c' }
-        // 对象的属性名只能是String类型或者Symbol类型
         c[d] = 123
         c[e] = 456
         console.log(c[d]) // 456
