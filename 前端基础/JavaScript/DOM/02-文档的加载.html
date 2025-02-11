@@ -80,6 +80,13 @@
 			 * 备注：
 			 * 	1. 对于第一种方式，由于class是js中的关键字，所以读写class属性时，应该写成元素节点对象.className
 			 * 	2. 对于第一种方式，元素.属性名的形式主要针对于元素自带的属性，如id、title、style、href、value等
+       * 注意：
+       *  1. 读取布尔属性时，第一种方式会自动转换为boolean类型。例如对于<input type="checkbox" checked="checked">，
+       *    input.checked返回true，而input.getAttribute('checked')返回checked
+       *  2. 读取路径类的属性时，第一种方式会转换为绝对路径。例如对于<img src="./123.jpg" alt="">，img.src返回
+       *    http://127.0.0.1:5500/123.jpg，而img.getAttribute('src')返回./123.jpg
+       *  3. 使用第一种方式读取标准属性时，无论元素标签中是否书写了，都可以读取到。例如对于<a href="#"></a>，a.title
+       *    返回空字符串，而a.getAttribute('title')直接返回null
 			 */ 
 
 			/**

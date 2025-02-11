@@ -128,6 +128,11 @@
 			 * 补充：
 			 * 	1. contextmenu事件 鼠标点击右键时触发（鼠标点击右键时显示右键菜单是该事件的默认行为）
 			 * 	2. click事件只能监听左键，mousedown和mouseup事件能监听鼠标左键、右键和鼠标滚轮（通过e.button属性区分）
+       *  3. 很多dom事件都有其默认行为，比如：
+       *    - a元素的click事件，浏览器会跳转页面
+       *    - form元素的submit事件，浏览器会提交表单，最终导致页面刷新
+       *    - 文本框的keydown事件，浏览器会将按键文本显示到文本框中
+       *    - ...etc
 			 */
 
 			document.oncontextmenu = function(e){
