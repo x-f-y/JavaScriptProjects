@@ -62,6 +62,44 @@
         } catch (e) {
             console.error(e.name + ": " + e.message) // TypeError: fun is not a function!
         }
+
+        /**
+         * 在绝大部分时候，我们都无须捕获异常，除非满足以下要求：
+         *  - 我们能够预知某段代码会出现异常
+         *  - 我们知道如何处理异常
+         * 注意：永远不能为了程序不报错而捕获异常。
+         */ 
+
+        // 下面是一段可能会用到异常捕获的伪代码：
+        /* try{
+          var heroes = network.getHeroes(); // 从网络获取王者荣耀英雄数据，得到英雄数组
+          createHTML(heroes); // 根据英雄数组创建HTML并插入到DOM中
+        }catch(e){
+          // 出现网络故障，弹出提示框提示用户
+          showErrorDialog('网络故障，请检查网络是否连接，故障原因：' + e.message);
+        } */
+
+        /**
+         * 当编写函数时，如果满足以下三个条件，就可以主动抛出异常：
+         *  - 函数执行过程中可能会出现某种错误
+         *  - 浏览器不会主动抛出这个错误
+         *  - 该函数无法处理这个错误
+         * 注意：如果某个函数需要抛出异常，则一定要在函数的文档注释中阐述清楚
+         */ 
+
+        // 下面是一个需要主动抛出异常的例子：
+        /**
+         * 两数之和，若传递的不是数字，则会抛出TypeError
+         * @param {number} a 加数
+         * @param {number} b 被加数
+         * @return {number} 加法结果
+         */ 
+        function sum(a, b){
+          if(typeof a!== 'number' || typeof b!== 'number'){
+            throw new TypeError('Both arguments must be numbers');
+          }
+          return a + b;
+        }
     </script>
 </body>
 </html>
