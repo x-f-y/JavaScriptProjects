@@ -1,0 +1,35 @@
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.container {
+  background-color: #bfedfc;
+}
+
+.title {
+  float: left;
+  margin: 0;
+  margin-top: 4px;
+  margin-left: 20px;
+  padding-right: 30px;
+  font-size: 16px;
+  font-weight: normal;
+  border-right: 2px solid #ccc;
+}
+
+.list {
+  float: left;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  margin-left: 50px;
+  list-style-type: none;
+  overflow-y: hidden;
+}
+
+.list li {
+  height: 30px;
+  line-height: 30px;
+}

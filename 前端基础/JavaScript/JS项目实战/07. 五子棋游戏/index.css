@@ -1,0 +1,49 @@
+.container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  border: 1px solid #cfbcbc;
+  margin: 0 auto;
+  background-color: #f7e6b7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chessboard {
+  width: 92%;
+  height: 92%;
+  border-collapse: collapse;
+}
+
+.chessboard td {
+  border: 1px solid black;
+}
+
+.stone {
+  box-sizing: border-box;
+  position: absolute;
+  width: calc(var(--stoneSize) * 1px);
+  height: calc(var(--stoneSize) * 1px);
+  border-radius: 50%;
+  border: 1px solid lightgray;
+  font-size: 12px;
+  font-weight: bold;
+  color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stone.black {
+  background-color: black;
+}
+
+.stone.white {
+  background-color: white;
+}
+
+.stone.win {
+  border: 1px solid #f40;
+  box-shadow: 0px 0px 5px 2px #f40;
+}
