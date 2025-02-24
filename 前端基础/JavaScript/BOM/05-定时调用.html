@@ -32,6 +32,16 @@
 					}
 				},500);
 			};
+
+      // 注意：在setInterval内部调用clearInterval清除计时器后，clearInterval后面的代码仍然会执行
+      var start = 0;
+      var timerId = setInterval(() => {
+        if(start === 3){
+          clearInterval(timerId);
+        }
+        console.log(start++);
+      }, 100);
+      // 上述代码输出：0 1 2 3
 		</script>
 	</head>
 	<body>

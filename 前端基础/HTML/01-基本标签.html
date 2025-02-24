@@ -16,6 +16,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>基本标签</title>
+    <style>
+      .container .item {
+        display: inline-block;
+        width: 100px;
+        height: 50px;
+        border: 1px solid;
+      }
+    </style>
 </head>
 
 <body>
@@ -120,7 +128,16 @@
         插语：空白折叠
             源代码（html文档）中出现的连续空白字符（空格、换行符、制表符等），在页面显示时，会被折叠为一个空格
             备注：空白折叠发生在行盒（或行块盒）内部和行盒（或行块盒）之间
+        空白折叠的解决方案：
+          - 去除源代码中的空白字符
+          - 设置父元素font-size: 0;
+          - 注意：上述两种解决方案都有各自的缺陷，所以在实际开发中，由于空白折叠的缘故，应尽量避免使用inline-block布局
      -->
+    <div class="container" style="font-size: 0;">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
 </body>
 
 </html>

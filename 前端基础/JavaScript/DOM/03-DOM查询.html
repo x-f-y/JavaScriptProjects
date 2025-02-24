@@ -41,7 +41,9 @@
 			 * 	3. elem.hasChildNodes() 返回该元素是否有子节点（注意不是子元素节点）
 			 * 	4. document.compatMode 表明当前文档的渲染模式是怪异模式/混杂模式（BackCompat）还是标准模式（CSS1Compat）
 			 * 	5. querySelectorAll()与getElementsByName()、getElementsByTagName()、getElementsByClassName()的区别：
-			 * 		前者是非实时的，后三个是实时的
+			 * 		- 前者是非实时的，后三个是实时的
+       *    - 前两个返回的是NodeList集合，后两个返回的是HTMLCollection集合
+       *    - 备注：对于NodeList集合，可以使用forEach方法进行遍历
 			 */
 			
 			var div = document.getElementsByTagName('div')[0]

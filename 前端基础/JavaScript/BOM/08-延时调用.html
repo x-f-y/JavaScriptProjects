@@ -26,6 +26,14 @@
 			setTimeout((...args) => {
 				console.log(args) // [1, true, 'hello']
 			}, 100, 1, true, 'hello')
+
+      // 注意：在setTimeout内部调用clearTimeout清除计时器后，clearTimeout后面的代码仍然会执行
+      var timerId = setTimeout(() => {
+        console.log('1');
+        clearTimeout(timerId);
+        console.log('2');
+      }, 5000)
+      // 上述代码输出：1 2
 		</script>
 	</head>
 	<body>

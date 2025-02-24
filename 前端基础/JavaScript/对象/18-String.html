@@ -124,6 +124,18 @@ to wrap across multiple lines because \
 otherwise my code is unreadable.'
 			console.log(longString2)
 			// 上面一行输出This is a very long string which needs to wrap across multiple lines because otherwise my code is unreadable.
+
+      /**
+       * String.prototype.localeCompare()方法
+       *  - 语法：referenceStr.localeCompare(compareString, locales, options)
+       *  - 解释：返回一个数字，表示 referenceStr 在排序中是否位于 compareString 的前面、后面或二者相同。
+       *    当 referenceStr 在 compareString 前面时返回负数；当 referenceStr 在 compareString 后面时返回正数；当两者相等时返回 0
+       *  - 用途：常用于中文词语的排序（示例如下）
+       */ 
+      // 将中文词语按照字典顺序升序排列
+      const words = ['苹果', '香蕉', '橘子', '葡萄', '西瓜'];
+      words.sort((a, b) => a.localeCompare(b, 'zh'));
+      console.log(words); // ['橘子', '苹果', '葡萄', '西瓜', '香蕉']
 		</script>
 	</head>
 	<body>
