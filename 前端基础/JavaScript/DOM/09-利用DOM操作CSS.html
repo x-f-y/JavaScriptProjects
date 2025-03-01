@@ -135,6 +135,7 @@
 			 * tokenList.remove(token1[, token2[, ...]]) -> 从列表中移除指定标记
 			 * tokenList.replace(oldToken, newToken) -> 将列表中一个已存在的标记替换为一个新的标记
 			 * tokenList.contains(token) -> 若传入的参数token包含在列表中时则返回true，否则返回false
+       * tokenList.toggle() -> 从列表中删除一个给定的标记并返回false，若标记不存在，则添加给定的标记并返回true
 			 */
 			const classList = document.querySelector('.box2').classList
 			console.log(classList); // DOMTokenList ['box2', value: 'box2']

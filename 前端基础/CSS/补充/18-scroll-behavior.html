@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .page {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 50px;
+    }
+    .page1 {
+      background-color: #409eff;
+    }
+    .page2 {
+      background-color: #e6a23c;
+    }
+    .menu {
+      list-style: none;
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translate(80%, -50%);
+      padding: 20px;
+      background-color: #303133;
+      color: #fff;
+      border-radius: 5px 0 0 5px;
+      line-height: 2;
+      box-shadow: 0 0 3px #fff;
+      transition: 0.5s;
+    }
+    .menu:hover {
+      background-color: #000;
+      transform: translate(0, -50%);
+    }
+    html {
+      /* scroll-behavior是一个控制滚动行为的CSS属性，它需要作用于滚动容器上 */
+      /* 在HTML文档中，html元素包含了整个文档的内容，默认情况下，页面的滚动条是由html元素控制的，而不是body元素 */
+      /* 综上：要想页面的平滑滚动行为生效，需要将scroll-behavior: smooth;设置在html元素上，而不是body元素上 */
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <div id="page1" class="page page1">page1</div>
+  <div id="page2" class="page page2">page2</div>
+  <ul class="menu">
+    <li><a href="#page1">第一页</a></li>
+    <li><a href="#page2">第二页</a></li>
+  </ul>
+</body>
+</html>

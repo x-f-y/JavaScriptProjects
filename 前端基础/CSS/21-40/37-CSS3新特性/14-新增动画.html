@@ -9,7 +9,9 @@
     <!-- 
 		animation 属性用来指定一组或多组动画，每组之间用逗号相隔
         动画（animation）是CSS3中具有颠覆性的特征之一，可通过设置多个节点来精确控制一个或一组动画，常用来实现复杂的动画效果
-        制作动画分为两步：1、定义动画（使用keyframes定义动画）(keyframes是关键帧的意思) 2、使用（调用）动画
+        制作动画分为两步：1、定义动画（使用keyframes定义动画）(keyframes是关键帧的意思) 2、使用（调用）动画。需要注意的是，
+        1️⃣动画（还有过渡）无法对所有的CSS属性产生影响，能够产生影响的只有数值类属性，例如：颜色、宽高、字体大小等；2️⃣在JS
+        中，可以监听元素的animationstart和animationend事件，从而在动画开始和动画结束时做一些别的事情
      -->
     <!-- 
         动画常见属性：
@@ -18,7 +20,7 @@
         animation-name 规定@keyframes动画的名称（必需），默认值是none
         animation-duration 规定动画完成一个周期所花费的秒或毫秒，默认是0s（必需）
         animation-timing-function 规定动画的速度曲线，默认是ease,其他可选值有ease-in,ease-out,ease-in-out,linear,step-start,
-			step-end,steps()等
+			step-end,steps()等（注意：动画速度曲线针对的是每一个动画关键帧之间的，而不是整个动画周期）
         animation-delay 规定动画的延迟开始时间，默认是0s
         animation-iteration-count 规定动画被播放的次数，默认是1，还有无限播放infinite
         animation-direction 规定是否循环交替反向播放动画，默认是normal，可选值还有alternate（在下一周期逆向播放）、reverse（反向播放）、

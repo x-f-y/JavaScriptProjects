@@ -8,7 +8,9 @@
   <title>Document</title>
   <!-- 
     过渡（transition）是CSS3中具有颠覆性的特征之一，我们可以在不使用flash动画和JavaScript的情况下，
-    当元素从一种样式变换为另一种样式时为元素添加过渡效果
+    当元素从一种样式变换为另一种样式时为元素添加过渡效果。需要注意的是：1️⃣过渡（还有动画）无法对所有的
+    CSS属性产生影响，能够产生影响的只有数值类属性，例如：颜色、宽高、字体大小等；2️⃣在JS中，可以监听元素
+    的transitionstart和transitionend事件，从而在过渡开始和过渡结束时做一些别的事情
   -->
   <!-- 
     语法：transition: transition-property transition-duration transition-timing-function transition-delay;

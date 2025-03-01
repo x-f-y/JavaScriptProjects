@@ -8,6 +8,10 @@
     <title>Document</title>
     <!-- 
         转换（transform）是CSS3中具有颠覆性的特征之一，可以实现元素的位移（translate）、旋转（rotate）、缩放（scale）等效果
+        注意：
+          1. 无论是哪一种transform，都只是视觉效果的变化，不会影响盒子的布局
+          2. transform不会导致浏览器reflow和rerender，因此效率极高
+          3. 旋转会导致坐标系也跟着一起旋转，从而可能会影响到后续的变形效果
      -->
     <!-- 
         transform: translate(x, y);
