@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      text-align: center;
+    }
+    video {
+      width: 750px;
+    }
+    .controls {
+      margin: 1em 0;
+      display: none;
+    }
+    button.active {
+      background-color: #ffbd80;
+    }
+  </style>
+</head>
+<body>
+  <video src="../medias/open.mp4"></video>
+  <div class="controls">
+    <button type="button" id="btnPlay">播放/暂停</button>
+  </div>
+  <div class="controls" id="progress">
+    进度：
+    <input type="range">
+    <span class="current"></span> / <span class="total"></span>
+  </div>
+  <div class="controls" id="rate">
+    播放速率：
+    <button data-rate="0.5">0.5倍</button>
+    <button data-rate="0.75">0.75倍</button>
+    <button data-rate="1">1倍</button>
+    <button data-rate="1.25">1.25倍</button>
+    <button data-rate="1.5">1.5倍</button>
+  </div>
+  <div class="controls" id="volume">
+    音量：
+    <input type="range">
+    <span></span>
+  </div>
+  <div class="controls">
+    <button type="button" id="save">保存设置</button>
+    <button type="button" id="load">加载设置</button>
+  </div>
+
+  <script>
+    var doms = {
+      controls: document.querySelectorAll('.controls'),
+      video: document.querySelector('video'),
+      btnPlay: document.querySelector('#btnPlay'),
+      progress: {
+        range: document.querySelector('#progress input[type="range"]'),
+        current: document.querySelector('#progress .current'),
+        total: document.querySelector('#progress .total')
+      },
+      rateBtns: document.querySelectorAll('#rate button'),
+      volume: {
+        range: document.querySelector('#volume input[type="range"]'),
+        txt: document.querySelector('#volume span')
+      },
+      btnWrapper: {
+        save: document.querySelector('#save'),
+        load: document.querySelector('#load')
+      }
+    };
+    var min = 0, max = 100; // 进度滑块和音量滑块的最小、最大值
+
+    doms.video.addEventListener('loadeddata', init);
+    doms.video.addEventListener('timeupdate', setProgress);
+    
+    // 初始化
+    function init(){
+      doms.progress.range.min = min;
+      doms.progress.range.max = max;
+      doms.volume.range.min = min;
+      doms.volume.range.max = max;
+      setProgress();
+      setRate();
+      setVolume();
+      for(var i = 0; i < doms.controls.length; i++){
+        doms.controls[i].style.display = 'block';
+      }
+    }
+
+    // 设置进度
+    function setProgress(){
+      function _format(seconds){
+        var hours = Math.floor(seconds / 3600);
+        if(hours < 10){
+          hours = '0' + hours;
+        }
+        seconds -= (hours * 3600);
+        var minutes = Math.floor(seconds / 60);
+        if(minutes < 10){
+          minutes = '0' + minutes;
+        }
+        seconds -= (minutes * 60);
+        seconds = Math.floor(seconds);
+        if(seconds < 10){
+          seconds = '0' + seconds;
+        }
+        return hours + ':' + minutes + ':' + seconds;
+      }
+      var current = doms.video.currentTime, total = doms.video.duration;
+      doms.progress.current.innerText = _format(current);
+      doms.progress.total.innerText = _format(total);
+      doms.progress.range.value = current / total * (max - min) + min;
+    }
+
+    // 设置播放速率
+    function setRate(){
+      for(var i = 0; i < doms.rateBtns.length; i++){
+        var btn = doms.rateBtns[i];
+        if(+btn.dataset.rate === doms.video.playbackRate){
+          btn.classList.add('active');
+        }else{
+          btn.classList.remove('active');
+        }
+      }
+    }
+
+    // 设置音量
+    function setVolume(){
+      var volume = doms.video.volume;
+      if(doms.video.muted){
+        volume = 0;
+      }
+      doms.volume.range.value = volume * (max - min) + min;
+      doms.volume.txt.innerText = Math.floor(volume * 100) + '%';
+    }
+
+    // 播放/暂停
+    doms.btnPlay.addEventListener('click', function(){
+      if(doms.video.paused){
+        doms.video.play();
+      }else{
+        doms.video.pause();
+      }
+    });
+
+    // 拖动进度滑块
+    // 备注：对于input[type="range"]元素，其input事件会在滑动滑块时持续触发，而change事件只会在一次滑动结束后触发一次
+    doms.progress.range.addEventListener('input', function(){
+      doms.video.currentTime = (this.value - min) / (max - min) * doms.video.duration;
+      setProgress();
+    });
+
+    // 选择播放倍率
+    for(var i  = 0; i < doms.rateBtns.length; i++){
+      doms.rateBtns[i].onclick = function(){
+        doms.video.playbackRate = +this.dataset.rate;
+        setRate();
+      };
+    }
+
+    // 拖动音量滑块
+    doms.volume.range.addEventListener('input', function(){
+      doms.video.volume = (this.value - min) / (max - min);
+      setVolume();
+    });
+
+    // 保存设置
+    doms.btnWrapper.save.addEventListener('click', function(){
+      var obj = {
+        currentTime: doms.video.currentTime,
+        rate: doms.video.playbackRate,
+        volume: doms.video.volume
+      };
+      localStorage.setItem('vdo', JSON.stringify(obj));
+      alert('保存设置成功');
+    });
+
+    // 加载设置
+    doms.btnWrapper.load.addEventListener('click', function(){
+      var obj = JSON.parse(localStorage.getItem('vdo'));
+      doms.video.currentTime = obj.currentTime;
+      doms.video.playbackRate = obj.rate;
+      doms.video.volume = obj.volume;
+      setProgress();
+      setRate();
+      setVolume();
+      doms.video.play();
+    });
+  </script>
+</body>
+</html>
