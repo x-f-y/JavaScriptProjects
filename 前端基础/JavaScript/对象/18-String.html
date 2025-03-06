@@ -90,14 +90,16 @@
 			var s2 = "1a2b3c4d5e6f7F8w3H4H9U";
 			console.log(s2.match(/[a-z]/ig)); // ['a', 'b', 'c', 'd', 'e', 'f', 'F', 'w', 'H', 'H', 'U']
 		  	/* 
-				replace()可以将字符串中指定内容替换为新的内容
+				replace(pattern, replacement)和replaceAll(pattern, replacement)可以将字符串中指定内容替换为新的内容
 				参数：
-					1.被替换的内容 可以接受一个正则表达式作为参数
-					2.新的内容
+					1. pattern：被替换的内容，可以是字符串或者正则表达式
+					2. replacement：新的内容，可以是字符串或者函数
 				备注：
-					1. replace()方法不会改变原字符串，而是返回一个新的字符串
-					2. replace()方法默认只会替换第一个
-					3. replaceAll()方法会替换全部
+					1. replace()方法和replaceAll()方法都不会改变原字符串，而是返回一个新的字符串
+					2. 对于replace()方法：若pattern为字符串，默认只会替换第一个匹配项，若要替换所有匹配项，则pattern
+            必须为带有g标志的正则表达式或者使用replaceAll()方法
+					3. 对于replaceAll()方法：默认会替换所有匹配项，若pattern是正则表达式，那么该正则表达式必须设置
+            g标志，否则会抛出TypeError异常
 		  	*/
 			console.log(s2.replace(/[a-z]/gi,"")) // 12345678349
 

@@ -10,6 +10,7 @@
     <script>
         /**
          * 参数的默认值
+         *  当参数没有传递或者传递为undefined时，会使用默认值
          *  具有默认值的参数，一般位置要靠后（潜规则）
          */
 
@@ -17,6 +18,7 @@
             console.log(x, y);
         }
         fn(2); // 2 'world'
+        fn(2, undefined); // 2 'world'
         fn(2, 3); // 2 3
 
         function connect({ host = '127.0.0.1', username, password, port }){
@@ -33,6 +35,15 @@
             password: 'admin',
             port: '8080'
         }) // 127.0.0.1 admin admin 8080
+
+        // 参数默认值使用技巧：
+        function getData({page = 1, limit = 10, keyword = ''} = {}){
+          console.log(`获取第${page}页的数据，每页显示${limit}条，查询关键字为${keyword ? keyword : '空'}`);
+        }
+        getData(); // 获取第1页的数据，每页显示10条，查询关键字为空
+        getData({page: 2}); // 获取第2页的数据，每页显示10条，查询关键字为空
+        getData({page: 2, limit: 30}); // 获取第2页的数据，每页显示30条，查询关键字为空
+        getData({keyword: 'js'}); // 获取第1页的数据，每页显示10条，查询关键字为js
         
         /**
          * rest参数（剩余参数）

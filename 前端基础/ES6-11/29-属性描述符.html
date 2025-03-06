@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * 在JavaScript中，属性描述符是一个对象，用于定义或描述对象属性的特性。每个属性都有一些内部特性，
+     * 这些特性决定了属性的行为。属性描述符可以分为两种类型：数据描述符和存取描述符，两者共享以下可选键：
+     *  1. configurable: 布尔值，表示属性是否可以被删除或修改其描述符
+     *    - 当我们直接在一个对象上定义某个属性时，这个属性的[[Configurable]]为true
+     *    - 当我们通过属性描述符定义一个属性时，这个属性的[[Configurable]]默认为false
+     *  2. enumerable：布尔值，表示属性是否可以在for...in循环或Object.keys()中被枚举
+     *    - 当我们直接在一个对象上定义某个属性时，这个属性的[[Enumerable]]为true
+     *    - 当我们通过属性描述符定义一个属性时，这个属性的[[Enumerable]]默认为false
+     */ 
+
+    /**
+     * 数据描述符包含以下可选键：
+     *  1. value：属性的值，读取属性时会返回该值，修改属性时，会对其进行修改
+     *    - 默认情况下，这个值是undefined
+     *  2. writable：布尔值，表示属性的值是否可以被修改
+     *    - 当我们直接在一个对象上定义某个属性时，这个属性的[[Writable]]为true
+     *    - 当我们通过属性描述符定义一个属性时，这个属性的[[Writable]]默认为false
+     */ 
+
+    /**
+     * 存取描述符包含以下可选键：
+     *  1. get：函数，作为属性的getter函数，当访问该属性时调用。默认为undefined
+     *  2. set：函数，作为属性的setter函数，当设置该属性时调用。默认为undefined
+     */ 
+
+    /**
+     * 备注：
+     *  1. 属性描述符只能是数据描述符或者存取描述符，不能同时为两者
+     *  2. 可以使用Object.getOwnPropertyDescriptor()方法来获取对象上某个属性的描述符
+     *  3. 可以使用Object.defineProperty()或Object.defineProperties()方法来修改或定义属性的描述符
+     */ 
+  </script>
+</body>
+</html>
