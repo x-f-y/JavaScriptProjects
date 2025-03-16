@@ -37,7 +37,7 @@
       // 将signal（一个AbortSignal对象实例）作为一个选项传递给fetch的options，fetch的内部会监测这个对象的状态，如果这个对象的状态从未终止变为已终止且fetch请求还在进行中的话，fetch请求就会立即失败，其对应promise的状态也会变成rejected
       return fetch(requestBasicPath + path, { signal })
         .then(response => {
-          // 拿到了响应头
+          // 拿到了响应行和响应头
           return response.json();
         }).then(res => {
           // 拿到了响应体
