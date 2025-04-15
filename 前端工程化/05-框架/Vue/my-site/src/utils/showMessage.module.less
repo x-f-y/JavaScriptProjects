@@ -1,0 +1,60 @@
+// 开启了CSS Module的样式文件
+@import "~@/styles/mixin.less";
+@import "~@/styles/var.less";
+
+.message {
+  .self-center();
+  z-index: 999;
+  white-space: nowrap;
+  border-radius: 5px;
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
+  padding: 10px 30px;
+  line-height: 2;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  transition: 0.5s;
+  opacity: 0;
+  transform: translate(-50%, -50%) translateY(30px);
+
+  .icon {
+    margin-right: 7px;
+    font-size: 20px;
+  }
+
+  // .message-info {...}
+  &-info {
+    background-color: @primary;
+  }
+
+  // .message-error {...}
+  &-error {
+    background-color: @danger;
+  }
+
+  // .message-success {...}
+  &-success {
+    background-color: @success;
+  }
+
+  // .message-warn {...}
+  &-warn {
+    background-color: @warn;
+  }
+
+  &.appear {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  &.disappear {
+    animation: disappear 0.5s forwards;
+  }
+}
+
+@keyframes disappear {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(-30px);
+  }
+}

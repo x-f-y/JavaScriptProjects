@@ -42,6 +42,13 @@ npm run serve
     2. vue.runtime.xxx.js是运行版的Vue，只包含核心功能，没有模板解析器
 - 因为vue.runtime.xxx.js没有模板解析器，所以不能使用template这个配置项，需要使用render函数接收到的createElement函数去指定具体内容
 
+> 当vue-cli进行打包时，会直接把单文件组件中的模板转换为render函数，这个过程叫做模板预编译。这样做的好处在于：
+>
+> 1. 运行时就不再需要编译模板了，提高了运行效率
+> 2. 打包结果中不再需要vue的编译代码（模板编译器），减少了打包体积
+>
+> 所以，在脚手架环境下，不能将模板写在template配置项中。因为运行时已经没有模板编译器了，无法将template配置项中的模板编译成render函数
+
 ## vue.config.js配置文件
 > 运行 `vue inspect > output.js` 命令可以查看到Vue脚手架的默认配置
 > `vue.config.js` 文件可以对脚手架进行个性化定制

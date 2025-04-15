@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title></title>
+    <!-- 在生产环境下引用cdn -->
+    <% if(NODE_ENV === "production"){ %>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue-router/3.6.5/vue-router.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.7.8/axios.min.js"></script>
+    <% } %>
+    <style>
+      .loading-img {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 200px;
+        height: 200px;
+        margin-left: -100px;
+        margin-top: -100px;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <!-- 
+      vue页面需要通过js构建，因此在js下载到本地之前，页面上什么也没有
+      一个简单有效的办法，即在页面中先渲染一个加载中效果，等到js下载到本地并运行后，即会自动替换
+     -->
+    <div id="app">
+      <img class="loading-img" src="./img/loading.gif" alt="">
+    </div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

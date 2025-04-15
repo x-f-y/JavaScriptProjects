@@ -21,6 +21,7 @@
    - `echo <message> > <file>`    创建`file`文件并写入`message`信息
    - `vim <file>`    创建`file`文件并使用`vim`编辑器打开
    - `cat <file>`    查看`file`文件中的内容
+   - `rm -rf .git`    彻底删除git仓库，不再进行版本控制
 5. 常用`Vim`命令
    - `yy`    复制一行
    - `p`   粘贴一行

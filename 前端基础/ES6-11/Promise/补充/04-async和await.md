@@ -162,7 +162,7 @@ function sendMessage(name) {
       const reply = await sendMessage(girl);
       console.log('表白成功', reply);
       isSuccess = true;
-      break; // 注意：break也可以在for...of循环中使用
+      break; // 注意：break和continue都可以在for...of循环中使用
     }catch(reply){
       console.log('表白失败', reply);
     }
