@@ -95,6 +95,7 @@
           height: 20px;
           margin-top: 5px;
           margin-left: 10px;
+          // 在样式中使用~@代表src目录，在脚本中使用@代表src目录
           background: url(~@/assets/icons.png) no-repeat -421px -106px;
         }
       }

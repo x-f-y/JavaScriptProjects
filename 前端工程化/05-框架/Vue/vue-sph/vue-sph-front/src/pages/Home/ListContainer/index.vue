@@ -140,6 +140,7 @@
             display: block;
             width: 30px;
             height: 30px;
+            // 在样式中使用~@代表src目录，在脚本中使用@代表src目录
             background: url(~@/assets/icons.png) no-repeat;
           }
           &:nth-child(1) i {
