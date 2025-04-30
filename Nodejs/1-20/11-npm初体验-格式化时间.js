@@ -47,8 +47,8 @@ console.log(newDate)
  *         nvm ls 或 nvm list 查看已安装的node.js版本
  *         nvm current 查看当前使用的node.js版本
  *  - 1.15 其他常用命令：
- *         npm config get prefix
- *         npm config set prefix 路径
+ *         npm config get prefix -> 查看全局包的安装目录
+ *         npm config set prefix 路径 -> 设置全局包的安装目录
  *         npm config get cache
  *         npm config set cache 路径
  *  - 1.16 npm run 脚本名称 -> 执行package.json中scripts字段定义的脚本，对一些常见的脚本名称
