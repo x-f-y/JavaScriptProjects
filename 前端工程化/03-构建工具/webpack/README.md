@@ -23,17 +23,23 @@ npm install webpack-cli webpack-dev-serve webpack-merge --save-dev
     备注：webpack-dev-server在编译之后不会写入到任何输出文件。而是将bundle文件保留在内存中（打包后的bundle文件不会发生变化）
 - webpack-merge：合并webpack配置对象
 
-### 资源模块
+### 资源模块（webpack 5）
+
+> 在webpack 5之前，通常使用：
+>
+> 1. raw-loader：将文件导入为字符串
+> 2. url-loader：将文件作为 Data URI 内联到 bundle 中
+> 3. file-loader：将文件发送到输出目录
 
 - resource资源类型
-    type: 'asset/resource' **发送一个单独的文件并导出资源的URL**
+    `type: 'asset/resource'` **发送一个单独的文件并导出资源的URL**
 - inline资源类型
-    type: 'asset/inline' **导出资源的Data URL（base64格式）**
+    `type: 'asset/inline'` **导出一个资源的Data URI（base64格式）**
 - source资源类型
-    type: 'asset/source' **导出资源的源代码**
+    `type: 'asset/source'` **导出资源的源代码**
 - 通用资源类型
-    type: 'asset' **在导出一个Data URL和发送一个单独的文件之间自动选择**
-    备注：webpack将按照默认条件，自动的在asset/resource和asset/inline之间进行选择：小于8kb的文件，将会视为asset/inline模块类型，否则会被视为asset/resource模块类型。可以通过在webpack配置的module.rules层级中，设置Rule.parser.dataUrlCondition.maxSize选项来修改此条件
+    `type: 'asset'` **在导出一个Data URI和发送一个单独的文件之间自动选择**
+    备注：webpack将按照默认条件，自动的在`asset/resource`和`asset/inline`之间进行选择：小于8KB的文件，将会视为`asset/inline`模块类型，否则会被视为`asset/resource`模块类型。可以通过在webpack配置的`module.rules`层级中，设置`Rule.parser.dataUrlCondition.maxSize`选项来修改此条件
 - 代码示例
     ```js
     module.exports = {
@@ -737,8 +743,7 @@ webpack-bundle-analyzer
 
 ### postcss与css模块
 
-postcss 是一个用 JavaScript 工具和插件转换 CSS 代码的工具。比如可以使用 autoprefixer 插件自动获取浏览器的流行度和能够支持的属性，并根据这些数据帮
-我们自动的为 CSS 规则添加前缀，将最新的 CSS 语法转换成大多数浏览器都能理解的语法
+postcss 是一个用 JavaScript 工具和插件转换 CSS 代码的工具。比如可以使用 autoprefixer 插件自动获取浏览器的流行度和能够支持的属性，并根据这些数据帮我们自动的为 CSS 规则添加前缀，将最新的 CSS 语法转换成大多数浏览器都能理解的语法
 
 CSS 模块能让你永远不用担心命名太大众化而造成冲突，只要用最有意义的名字就行了
 
