@@ -18,7 +18,7 @@
 
 为了最大程度的节约时间，邓哥希望这些任务同时进行，最终汇总结果统一处理
 
-<img src="http://mdrs.yuanjin.tech/img/20210621142519.png" alt="image-20210621142519937" style="zoom:50%;" />
+<img src="img/20210621142519.png" alt="" style="zoom:50%;" />
 
 每个任务可以看做是一个返回Promise的函数
 

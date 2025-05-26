@@ -1,4 +1,4 @@
-![image-20210618161125894](http://mdrs.yuanjin.tech/img/20210618161125.png)
+![](img/20210618161125.png)
 
 # catch方法
 
@@ -6,7 +6,7 @@
 
 # 链式调用
 
-![image-20210621103501094](http://mdrs.yuanjin.tech/img/20210621103501.png)
+![](img/20210621103501.png)
 
 1. then（或者catch）方法必定会返回一个新的Promise
 
