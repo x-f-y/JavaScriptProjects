@@ -8,7 +8,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'js/app-[contenthash:5].js',
+    // output.assetModuleFilename 与 output.filename 相同，不过应用于 Asset Modules
     assetModuleFilename: 'assets/[hash:5][ext]',
+    // output.chunkFilename 与 output.filename 类似，不过应用于非入口 chunk，
+    // 用于指定通过代码分割（如 import() 动态导入语法或 SplitChunksPlugin 插件）生成的 chunk 的文件名
     chunkFilename: 'js/chunk-[contenthash:5].js',
     // publicPath: './',
     clean: true,

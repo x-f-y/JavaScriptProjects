@@ -25,5 +25,5 @@
  *  2. 在utils/index.js文件中书写具体的代码
  */
 
-const util = require('./utils');
+const util = require('./utils'); // ./utils 是目录，webpack 默认会去寻找该目录下的 index.js 文件，相当于 require('./utils/index.js')
 console.log(util);
