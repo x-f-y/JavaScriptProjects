@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>俄罗斯方块</title>
+  <style>
+    #root {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    #panel {
+      position: relative;
+      background: #000;
+    }
+    #msg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 0.3);
+      z-index: 99;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #msg p {
+      border: 2px solid #fff;
+      padding: 1em;
+      background-color: #bf4040;
+      color: #fff;
+    }
+    .tip {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    #next {
+      position: relative;
+    }
+    #nextTip {
+      position: absolute;
+      left: 50%;
+      bottom: 20%;
+      transform: translateX(-50%);
+      color: #333;
+    }
+    #score {
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      color: #bf4040;
+    }
+    .rule {
+      color: #333;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div id="panel">
+      <div id="msg">
+      </div>
+    </div>
+    <div class="tip">
+      <div id="next">
+        <div id="nextTip"></div>
+      </div>
+      <div id="score"></div>
+      <div class="rule">
+        <p>使用键盘进行游戏：</p>
+        <p>⬆️：旋转</p>
+        <p>⬇️：直接移动至底部</p>
+        <p>⬅️：左移</p>
+        <p>➡️：右移</p>
+        <p>Space：开始/暂停/继续</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

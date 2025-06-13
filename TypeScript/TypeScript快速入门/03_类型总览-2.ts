@@ -77,7 +77,7 @@ if(phone.color === Color.Blue){
 }
 
 /* 9. 扩展 */
-// 可以使用&设置同时满足多个类型限制
+// 可以使用&设置同时满足多个类型限制（“&”称为交叉类型）
 let d: {name: string} & {age: number};
 d = {name: 'zs', age: 18};
 

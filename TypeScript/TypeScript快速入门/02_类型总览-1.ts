@@ -2,7 +2,7 @@
 let a: 'hello'; // a的值只能为字符串“hello”
 let b: 100; // b的值只能是数字100
 let c: true; // c的值只能是布尔值true
-let d: 'male' | 'female'; // d的值只能是字符串“male”或“female”
+let d: 'male' | 'female'; // d的值只能是字符串“male”或“female”（“|”称为联合类型）
 
 // a = "hi"; // 警告：不能将类型“"hi"”分配给类型“"hello"”
 // b = 200; // 警告：不能将类型“200”分配给类型“100”
@@ -50,7 +50,7 @@ let test4: string;
 // test4 = g; // 警告：不能将类型“unknown”分配给类型“string”
 
 // 若就是想把g赋值给test4，可以用以下三种写法：
-// 写法一：加类型判断
+// 写法一：加类型判断（类型保护）
 if(typeof g === 'string'){
     test4 = g;
 }
