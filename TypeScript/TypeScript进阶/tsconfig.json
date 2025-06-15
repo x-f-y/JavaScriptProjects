@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "lib": ["ES2016"],
+    "outDir": "./dist",
+    "removeComments": true,
+    "noEmitOnError": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true, // 开启对隐式any的类型检查，对所有的隐式any类型，ts会将其推断为错误
+    "noImplicitThis": true, // 不允许this指向隐式的any
+    "experimentalDecorators": true, // 启用实验性的装饰器特性
+    "emitDecoratorMetadata": true, // 启用装饰器元数据的生成功能
+    "typeRoots": [ // 指定TS查找声明文件的目录
+      "./node_modules/@types",
+      "./src/types"
+    ],
+    "declaration": true, // 编译时，为每个ts文件生成对应的.d.ts声明文件
+    "sourceMap": true // 开启源码地图，为每个编译后的js文件生成相应的.map文件
+  },
+  "include": ["./src"]
+}
